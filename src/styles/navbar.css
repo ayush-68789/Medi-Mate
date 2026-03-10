@@ -1,0 +1,29 @@
+.navbar-custom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 25px;
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.search-box{
+width:300px;
+}
+
+.nav-icons{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.nav-icons i{
+font-size:20px;
+cursor:pointer;
+}
+
+.profile img{
+width:35px;
+height:35px;
+border-radius:50%;
+}

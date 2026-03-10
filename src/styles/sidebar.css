@@ -1,0 +1,20 @@
+.sidebar{
+width:240px;
+height:100vh;
+background:white;
+border-right:1px solid #eee;
+padding:25px;
+position:sticky;
+top:0;
+}
+
+.menu a{
+display:block;
+padding:10px;
+border-radius:8px;
+}
+
+.menu a:hover{
+background:#eaf7f4;
+color:#0fa47f;
+}
