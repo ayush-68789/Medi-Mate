@@ -1,0 +1,40 @@
+.form-container{
+padding:40px;
+}
+
+.form-card{
+background:white;
+padding:35px;
+border-radius:15px;
+border:1px solid #eee;
+max-width:600px;
+box-shadow:0 10px 20px rgba(0,0,0,0.05);
+}
+
+.cycle-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+}
+
+.calendar-box{
+background:white;
+padding:20px;
+border-radius:15px;
+border:1px solid #eee;
+}
+.result-card{
+margin-top:25px;
+background:#f0faf7;
+padding:20px;
+border-radius:12px;
+border:1px solid #d6f1e8;
+}
+
+.report-preview{
+margin-top:25px;
+background:#f9fafb;
+padding:20px;
+border-radius:12px;
+border:1px solid #eee;
+}
