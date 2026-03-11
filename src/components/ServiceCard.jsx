@@ -1,23 +1,25 @@
-function ServiceCard({ icon, title, desc }) {
+import { Link } from "react-router-dom";
+
+function ServiceCard({ icon, title, desc, path }) {
   return (
-    <div className="col-md-4">
-
+    <div className="col-md-4 mb-4">
       <div className="service-card">
-
-        <div className="icon-box">
-          <i className={`bi ${icon}`}></i>
+        <div className="card-content">
+          <div className="icon-box">
+            <i className={`bi ${icon}`}></i>
+          </div>
+          <h5 className="service-title">{title}</h5>
+          <p className="service-desc">{desc}</p>
         </div>
-
-        <h5>{title}</h5>
-
-        <p className="text-muted">{desc}</p>
-
-        <a href="#">Launch Tool →</a>
-
+        <div className="card-footer-action">
+          {/* This Link uses the 'path' sent from Dashboard.jsx */}
+          <Link to={path} className="tool-link">
+            Launch Tool <i className="bi bi-arrow-right-short"></i>
+          </Link>
+        </div>
       </div>
-
     </div>
   );
 }
 
-export default ServiceCard;
+export default ServiceCard; // This line fixes your error!w

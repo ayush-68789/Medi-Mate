@@ -12,52 +12,187 @@ gap:30px;
 
 /* HERO */
 
-.hero-card{
-background:linear-gradient(135deg,#dff6f1,#e8f6f2);
-padding:50px;
-border-radius:20px;
+/* HERO SECTION OVERHAUL */
+.hero-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0faf7 100%);
+  padding: 60px;
+  border-radius: 32px;
+  border: 1px solid rgba(15, 164, 127, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.hero-title{
-font-size:42px;
-font-weight:700;
+.badge-new {
+  background: #eaf7f4;
+  color: #0fa47f;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
-.green{
-color:#0fa47f;
+.hero-title {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1e293b;
 }
 
-.hero-text{
-margin-top:15px;
-color:#555;
-max-width:500px;
+.green-gradient-text {
+  background: linear-gradient(90deg, #0fa47f, #2ecc71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.hero-buttons{
-margin-top:20px;
+.hero-text {
+  margin-top: 20px;
+  color: #64748b;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 520px;
 }
 
+/* BUTTON CUSTOMIZATION */
+.btn-primary-custom {
+  background: #0fa47f;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 10px 20px rgba(15, 164, 127, 0.2);
+}
+
+.btn-primary-custom:hover {
+  background: #0d8c6d;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(15, 164, 127, 0.3);
+}
+
+.btn-outline-custom {
+  background: white;
+  color: #1e293b;
+  border: 1px solid #e2e8f0;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-outline-custom:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* HERO VISUAL DECORATION */
+.hero-visual {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.hero-icon-bg {
+  font-size: 180px;
+  color: rgba(15, 164, 127, 0.05);
+  position: absolute;
+  top: -50px;
+  right: -20px;
+  transform: rotate(15deg);
+}
+
+.abstract-shape {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(15, 164, 127, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 10%;
+  right: 10%;
+}
 /* SERVICES */
 
-.service-card{
-background:white;
-padding:30px;
-border-radius:18px;
-border:1px solid #eee;
-transition:0.3s;
+/* Refined Services Section */
+.service-card {
+  background: #ffffff;
+  padding: 32px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smooth ease-out */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 }
 
-.service-card:hover{
-transform:translateY(-8px);
-box-shadow:0 15px 30px rgba(0,0,0,0.08);
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  border-color: rgba(15, 164, 127, 0.2);
 }
 
-.service-icon{
-font-size:32px;
-color:#0fa47f;
-margin-bottom:15px;
+.icon-box {
+  width: 56px;
+  height: 56px;
+  background: #f0faf7;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: 0.3s ease;
 }
 
+.icon-box i {
+  font-size: 26px;
+  color: #0fa47f;
+}
+
+.service-card:hover .icon-box {
+  background: #0fa47f;
+}
+
+.service-card:hover .icon-box i {
+  color: #ffffff;
+}
+
+.service-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.service-desc {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.tool-link {
+  text-decoration: none;
+  color: #0fa47f;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: gap 0.2s ease;
+}
+
+.service-card:hover .tool-link {
+  gap: 10px; /* Animate the arrow on hover */
+}
 /* RIGHT PANEL */
 
 .dashboard-side{
@@ -125,4 +260,40 @@ margin-top:15px;
 .tips-card li{
 margin-bottom:10px;
 color:#555;
+}
+
+
+
+/* Update in dashboard.css */
+@media (max-width: 991px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr; /* Stack the right panel under the main content */
+    gap: 20px;
+  }
+
+  .hero-card {
+    padding: 30px 20px;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .hero-title {
+    font-size: 32px; /* Scale down text for smaller screens */
+  }
+
+  .hero-text {
+    font-size: 1rem;
+    margin: 15px auto;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-buttons button {
+    width: 100%;
+    margin-right: 0 !important;
+  }
 }

@@ -1,45 +1,41 @@
 import "../styles/sidebar.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
     <div className="sidebar">
-
       <h4 className="logo">💚 Medi-Mate</h4>
 
       <ul className="menu">
-
         <li>
-          <Link to="/">
+          <NavLink to="/" end>
             <i className="bi bi-house"></i> Dashboard
-          </Link>
+          </NavLink>
         </li>
 
         <li>
-          <Link to="/symptoms">
+          <NavLink to="/symptoms">
             <i className="bi bi-activity"></i> Symptom Checker
-          </Link>
+          </NavLink>
         </li>
 
         <li>
-          <Link to="/reports">
+          <NavLink to="/reports">
             <i className="bi bi-file-earmark-text"></i> Report Analyzer
-          </Link>
+          </NavLink>
         </li>
 
         <li>
-          <Link to="/cycle">
+          <NavLink to="/cycle">
             <i className="bi bi-heart"></i> Cycle Tracker
-          </Link>
+          </NavLink>
         </li>
-
       </ul>
 
-      <div className="help-box">
+      <div className="help-box mt-auto">
         <p><b>Need help?</b></p>
         <small>Our AI is here to explain things simply.</small>
       </div>
-
     </div>
   );
 }

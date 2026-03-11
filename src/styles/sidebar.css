@@ -1,20 +1,90 @@
-.sidebar{
-width:240px;
-height:100vh;
-background:white;
-border-right:1px solid #eee;
-padding:25px;
-position:sticky;
-top:0;
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #f0f0f0;
+  padding: 30px 20px;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.menu a{
-display:block;
-padding:10px;
-border-radius:8px;
+.logo {
+  font-weight: 800;
+  color: #0fa47f;
+  margin-bottom: 40px;
+  padding-left: 10px;
 }
 
-.menu a:hover{
-background:#eaf7f4;
-color:#0fa47f;
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin-bottom: 8px;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #64748b;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menu a i {
+  font-size: 1.2rem;
+}
+
+/* The magic "Active" state */
+.menu a.active {
+  background: #eaf7f4;
+  color: #0fa47f;
+}
+
+.menu a:hover:not(.active) {
+  background: #f8fafc;
+  color: #0fa47f;
+}
+
+.help-box {
+  margin-top: auto;
+  background: #f0faf7;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid #d6f1e8;
+}
+
+
+@media (max-width: 991px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .menu {
+    display: flex;
+    overflow-x: auto; /* Allow horizontal scrolling for menu items */
+    gap: 10px;
+    padding-bottom: 5px;
+  }
+
+  .menu li {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .help-box {
+    display: none; /* Hide non-essential boxes on mobile to save space */
+  }
 }

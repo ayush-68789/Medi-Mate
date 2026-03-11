@@ -38,3 +38,55 @@ padding:20px;
 border-radius:12px;
 border:1px solid #eee;
 }
+
+.form-control:focus {
+  border-color: #0fa47f;
+  box-shadow: 0 0 0 4px rgba(15, 164, 127, 0.1);
+}
+
+.btn-success {
+  background: #0fa47f;
+  border: none;
+  padding: 12px 25px;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.btn-success:hover {
+  background: #0d8c6d;
+  transform: translateY(-2px);
+}
+
+
+.react-calendar {
+  border: none !important;
+  font-family: inherit;
+  width: 100% !important;
+}
+
+.react-calendar__tile--active {
+  background: #0fa47f !important;
+  border-radius: 8px;
+}
+
+.react-calendar__navigation button:enabled:hover {
+  background-color: #eaf7f4;
+  border-radius: 8px;
+}
+
+/* Update in form.css */
+@media (max-width: 768px) {
+  .cycle-grid {
+    grid-template-columns: 1fr; /* Stack form and calendar */
+  }
+
+  .form-card {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .form-container {
+    padding: 20px 10px;
+  }
+}
