@@ -62,11 +62,11 @@ function Login() {
           </div>
 
           <footer className="auth-footer">
-            <p>By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy</a></p>
+            <p>By continuing, you agree to our <a href="/terms">Terms</a> & <a href="/privacy">Privacy</a></p>
             <div className="footer-links">
-              <a href="#">Help Center</a>
+              <a href="/help">Help Center</a>
               <span className="dot"></span>
-              <a href="#">Security Standards</a>
+              <a href="/security">Security Standards</a>
             </div>
           </footer>
         </div>
