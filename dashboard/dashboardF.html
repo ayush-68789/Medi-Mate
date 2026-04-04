@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medi-Mate Dashboard</title>
+  <link rel="stylesheet" href="dashboardF.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div id="heading">
+    <div class="logo-brand">
+      <img src="logo.jpeg" alt="logo" class="logo-icon">
+      <span class="brand-name">Medi-Mate</span>
+    </div>
+    <!-- username -->
+    <div class="profile">
+      <img src="user.jpg" alt="user" class="avatar">
+      <span class="profile-name" id="username">Rahul K.</span>
+    </div>
+  </div>
+
+  <!-- LOGO CHAIN -->
+  <div class="wave-bar">
+    <div class="logo-chain" id="chain"></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <h1 id="greeting">Good morning, Rahul 👋</h1>
+      <p id="date-line">Here's your health summary for today</p>
+    </div>
+    <div class="health-score">
+      <div class="score-ring">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <circle class="track" cx="18" cy="18" r="14"/>
+          <circle class="fill" cx="18" cy="18" r="14" id="ring"/>
+        </svg>
+        <span class="score-label">82</span>
+      </div>
+      <div class="score-text">
+        <strong>Health Score</strong>
+        Good shape ✓
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-chip green" onclick="showTip('steps')">
+      <div class="stat-num" id="steps-count">0</div>
+      <div class="stat-lbl">Steps today</div>
+      <div class="stat-trend up">↑ 12% vs yesterday</div>
+    </div>
+    <div class="stat-chip blue" onclick="showTip('water')">
+      <div class="stat-num">6/8</div>
+      <div class="stat-lbl">Glasses of water</div>
+      <div class="stat-trend up">↑ On track</div>
+    </div>
+    <div class="stat-chip amber" onclick="showTip('meds')">
+      <div class="stat-num">2/3</div>
+      <div class="stat-lbl">Medications taken</div>
+      <div class="stat-trend neutral">⏳ 1 pending</div>
+    </div>
+    <div class="stat-chip rose" onclick="showTip('cycle')">
+      <div class="stat-num">Day 14</div>
+      <div class="stat-lbl">Cycle phase</div>
+      <div class="stat-trend up">Ovulation window</div>
+    </div>
+  </div>
+
+  <!-- TIP AREA -->
+  <div id="tip-area"></div>
+
+  <!-- FEATURE CARDS -->
+  <div class="cards-section">
+    <h2>What would you like to do?</h2>
+    <div class="cards-grid">
+
+      <div class="card">
+        <span class="card-badge badge-ai">AI-powered</span>
+        <div class="card-icon-bg mint">🩺</div>
+        <div class="card-title">Symptom Checker</div>
+        <p class="card-desc">Analyze your health concerns and get instant AI-powered insights tailored to you.</p>
+        <button class="card-btn">Check Now →</button>
+      </div>
+
+      <div class="card">
+        <div class="notification-dot"></div>
+        <span class="card-badge badge-new">New report ready</span>
+        <div class="card-icon-bg sky">📋</div>
+        <div class="card-title">Report Analyzer</div>
+        <p class="card-desc">Upload your medical documents for a simplified, easy-to-read AI summary.</p>
+        <button class="card-btn">Upload Report →</button>
+      </div>
+
+      <div class="card">
+        <span class="card-badge badge-track">Cycle tracking</span>
+        <div class="card-icon-bg rose">🩸</div>
+        <div class="card-title">Cycle Tracker</div>
+        <p class="card-desc">Monitor and predict your menstrual health cycles with precision and care.</p>
+        <button class="card-btn">View Tracker →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ── GREETING based on time ── */
+    const hour = new Date().getHours();
+    const greetWord = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    document.getElementById('greeting').textContent = greetWord + ', Rahul 👋';
+    const dateOpts = { weekday: 'long', month: 'long', day: 'numeric' };
+    document.getElementById('date-line').textContent =
+      "Here's your health summary for " + new Date().toLocaleDateString('en-IN', dateOpts);
+
+    /* ── LOGO CHAIN ── */
+    const icons  = ['🩺','📋','🩸','💊','🧬','❤️','🫀','🧪','💉','🌡️','🩹'];
+    const labels = ['Symptoms','Reports','Cycle','Meds','Genetics','Heart','Vitals','Lab','X-Ray','Vaccine','Temp','Wounds'];
+    const chain  = document.getElementById('chain');
+
+    const pages = {
+        '🩺': 'sthescope.html',
+        '📋': 'reports.html',
+        '🩸': 'blood.html',
+        '💊': 'med.html',
+        '🧬': 'dna.html',
+        '❤️': 'heart.html',
+        '🫀': 'heart.html',   // same page (you said both hearts same)
+        '🧪': 'chemical.html',
+        '💉': 'injection.html',
+        '🌡️': 'temperature.html',
+        '🩹': 'bandaid.html'
+    };
+    for (let i = 0; i < 25; i++) {
+        const idx = i % icons.length;
+        const icon = icons[idx];
+
+        const el = document.createElement('div');
+        el.className = 'logo-bubble';
+
+        el.style.animationDelay = (i * 0.14) + 's';
+
+        el.innerHTML = icon + '<span class="tooltip">' + labels[idx] + '</span>';
+
+        el.addEventListener("click", () => {
+            el.style.transform = "scale(1.3)";
+            setTimeout(() => {
+            if (pages[icon]) {
+                window.location.href = pages[icon];
+            }
+            }, 150);
+        });
+
+        chain.appendChild(el);   // ✅ only once
+}
+
+
+
+    /* ── STEP COUNTER roll-up ── */
+    const target = 7842;
+    let count = 0;
+    const stepEl = document.getElementById('steps-count');
+    const timer = setInterval(() => {
+      count = Math.min(count + 280, target);
+      stepEl.textContent = count.toLocaleString('en-IN');
+      if (count >= target) clearInterval(timer);
+    }, 35);
+
+    /* ── HEALTH SCORE ring animate ── */
+    const ring = document.getElementById('ring');
+    const circ = 2 * Math.PI * 14;
+    setTimeout(() => {
+      ring.style.strokeDasharray = (circ * 0.82).toFixed(1) + ' ' + circ.toFixed(1);
+    }, 400);
+
+    /* ── STAT CHIP TIPS ── */
+    const tips = {
+      steps: { icon: '👟', msg: '<strong>7,842 steps</strong> — you\'re 78% to your 10,000 step goal. A brisk 12-min walk will get you there!' },
+      water: { icon: '💧', msg: '<strong>6/8 glasses done.</strong> Try to drink 2 more glasses before 8 PM for optimal hydration.' },
+      meds:  { icon: '💊', msg: '<strong>Vitamin D</strong> is still pending. Best taken with your evening meal for better absorption.' },
+      cycle: { icon: '🌙', msg: '<strong>Day 14 — Ovulation window.</strong> Energy peaks now. Great day for exercise and high-focus tasks!' }
+    };
+
+    let tipTimeout;
+    function showTip(key) {
+      clearTimeout(tipTimeout);
+      const t   = tips[key];
+      const area = document.getElementById('tip-area');
+      area.innerHTML =
+        '<div class="quick-tip">'
+        + '<span class="tip-icon">' + t.icon + '</span>'
+        + '<span class="tip-text">'  + t.msg  + '</span>'
+        + '</div>';
+      tipTimeout = setTimeout(() => { area.innerHTML = ''; }, 5000);
+    }
+  </script>
+
+</body>
+</html>
