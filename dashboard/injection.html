@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccines | MediMate</title>
+    <link rel="stylesheet" href="commoncss.css">
+</head>
+<body>
+
+    <!-- 🔥 NAVBAR -->
+    <div class="navbar">
+        <div class="head">
+            <img src="logo.jpeg" alt="logo" class="logoimg">
+            <span class="logoheading">MediMate - Vaccines</span>
+        </div>
+    </div>
+
+    <!-- 🔥 MAIN CONTENT -->
+    <div class="container">
+        <div class="icon">💉</div>
+        <h1>Vaccination</h1>
+        <p>Vaccines protect you from harmful and potentially life-threatening diseases.</p>
+        <p>They train your immune system to recognize and fight infections safely.</p>
+
+        <button id="back-btn">← Go Back</button>
+    </div>
+
+    <!-- 🔥 SCRIPT -->
+    <script>
+        document.getElementById("back-btn").addEventListener("click", () => {
+            window.history.back();   // ✅ smoother navigation
+        });
+    </script>
+
+</body>
+</html>
