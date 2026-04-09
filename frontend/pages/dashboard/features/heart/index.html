@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart | MediMate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🔥 NAVBAR -->
+    <div class="navbar">
+        <div class="head">
+            <img src="assets/logo.jpeg" alt="logo" class="logoimg">
+            <span class="logoheading">MediMate - Heart</span>
+        </div>
+    </div>
+
+    <!-- 🔥 MAIN CONTENT -->
+    <div class="container">
+        <div class="icon">❤️</div>
+        <h1>Heart Health</h1>
+        <p>Your heart pumps blood throughout your body and keeps all organs functioning.</p>
+        <p>Regular exercise, a balanced diet, and stress management help maintain a healthy heart.</p>
+
+        <button id="back-btn">← Go Back</button>
+    </div>
+
+    <!-- 🔥 SCRIPT -->
+    <script>
+        document.getElementById("back-btn").addEventListener("click", () => {
+            window.history.back();   // ✅ better than fixed redirect
+        });
+    </script>
+
+</body>
+</html>
