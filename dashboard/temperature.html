@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature | MediMate</title>
+    <link rel="stylesheet" href="commoncss.css">
+</head>
+<body>
+
+    <!-- 🔥 NAVBAR -->
+    <div class="navbar">
+        <div class="head">
+            <img src="logo.jpeg" alt="logo" class="logoimg">
+            <span class="logoheading">MediMate - Temperature</span>
+        </div>
+    </div>
+
+    <!-- 🔥 MAIN CONTENT -->
+    <div class="container">
+        <div class="icon">🌡️</div>
+        <h1>Body Temperature</h1>
+        <p>Normal temperature is around 98.6°F (37°C).</p>
+        <p>Fever indicates that your body is fighting infection or illness.</p>
+
+        <button id="back-btn">← Go Back</button>
+    </div>
+
+    <!-- 🔥 SCRIPT -->
+    <script>
+        const backbtn = document.getElementById("back-btn");
+
+        backbtn.addEventListener("click", () => {
+            window.location.href = "dashboardF.html";
+        });
+    </script>
+
+</body>
+</html>

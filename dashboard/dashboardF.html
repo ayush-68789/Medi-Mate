@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medi-Mate Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="dashboardF.css">
+  <style>
+    /* MODAL STYLES (Added to ensure it works) */
+    .modal {
+      display: none; 
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-box {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .emoji-row {
+      display: flex;
+      justify-content: space-around;
+      font-size: 2rem;
+      margin: 20px 0;
+    }
+    .emoji-row span {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .emoji-row span:hover { transform: scale(1.2); }
+    
+    /* Quick fix for the tip area to prevent layout jump */
+    #tip-area { min-height: 50px; margin: 10px 40px; }
+    .quick-tip { background: #f0fdf4; padding: 15px; border-radius: 12px; border-left: 4px solid #4CAF50; }
+  </style>
+</head>
+<body>
+
+  <div id="heading">
+    <div class="logo-brand">
+      <img src="logo.jpeg" alt="logo" class="logo-icon">
+      <span class="brand-name">Medi-Mate</span>
+    </div>
+    <div class="profile">
+      <img src="user.jpg" alt="user" class="avatar">
+      <span class="profile-name" id="username">Rahul K.</span>
+    </div>
+  </div>
+
+  <div class="wave-bar">
+    <div class="logo-chain" id="chain"></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-text">
+      <h1 id="greeting">Good morning, Rahul 👋</h1>
+      <p id="date-line">Here's your health summary for today</p>
+    </div>
+    <div class="health-score">
+      <div class="score-ring">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <circle class="track" cx="18" cy="18" r="14"/>
+          <circle class="fill" cx="18" cy="18" r="14" id="ring"/>
+        </svg>
+        <span class="score-label">82</span>
+      </div>
+      <div class="score-text">
+        <strong>Health Score</strong>
+        Good shape ✓
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-chip green" onclick="openMoodModal()" style="cursor: pointer;">
+      <div class="stat-num" id="mood-emoji">😄</div>
+      <div class="stat-lbl">Mood today</div>
+      <div class="stat-trend up" id="mood-text">Feeling happy</div>
+    </div>
+    <div class="stat-chip blue" onclick="showTip('water')">
+      <div class="stat-num">6/8</div>
+      <div class="stat-lbl">Glasses of water</div>
+      <div class="stat-trend up">↑ On track</div>
+    </div>
+    <div class="stat-chip amber" onclick="showTip('meds')">
+      <div class="stat-num">2/3</div>
+      <div class="stat-lbl">Medications taken</div>
+      <div class="stat-trend neutral">⏳ 1 pending</div>
+    </div>
+    <div class="stat-chip rose" onclick="showTip('cycle')">
+      <div class="stat-num">Day 14</div>
+      <div class="stat-lbl">Cycle phase</div>
+      <div class="stat-trend up">Ovulation window</div>
+    </div>
+  </div>
+
+  <div id="tip-area"></div>
+
+  <div class="cards-section">
+    <h2>What would you like to do?</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <span class="card-badge badge-ai">AI-powered</span>
+        <div class="card-icon-bg mint">🩺</div>
+        <div class="card-title">Symptom Checker</div>
+        <p class="card-desc">Analyze your health concerns and get instant AI-powered insights.</p>
+        <button class="card-btn">Check Now →</button>
+      </div>
+
+      <div class="card">
+        <div class="notification-dot"></div>
+        <span class="card-badge badge-new">New report ready</span>
+        <div class="card-icon-bg sky">📋</div>
+        <div class="card-title">Report Analyzer</div>
+        <p class="card-desc">Upload medical documents for a simplified AI summary.</p>
+        <button class="card-btn" id = "Uploadbtn">Upload Report →</button>
+      </div>
+
+      <div class="card">
+        <span class="card-badge badge-track">Cycle tracking</span>
+        <div class="card-icon-bg rose">🩸</div>
+        <div class="card-title">Cycle Tracker</div>
+        <p class="card-desc">Monitor and predict your menstrual health cycles.</p>
+        <button class="card-btn">View Tracker →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mood-modal" class="modal">
+  <div class="modal-box">
+    <h3 style="font-family: 'DM Serif Display', serif;">How are you feeling today?</h3>
+    
+    <div class="emoji-row">
+      <span onclick="selectMood('happy', this)">😄</span>
+      <span onclick="selectMood('calm', this)">🙂</span>
+      <span onclick="selectMood('neutral', this)">😐</span>
+      <span onclick="selectMood('sad', this)">😔</span>
+      <span onclick="selectMood('angry', this)">😡</span>
+    </div>
+
+    <div id="tag-area" style="display: none; margin-top: 20px; animation: fadeIn 0.5s;">
+      <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">What's making you feel <span id="selected-mood-name"></span>?</p>
+      <div class="mood-tags">
+        <span class="mood-tag" onclick="toggleTag(this)">Work</span>
+        <span class="mood-tag" onclick="toggleTag(this)">Sleep</span>
+        <span class="mood-tag" onclick="toggleTag(this)">Exercise</span>
+        <span class="mood-tag" onclick="toggleTag(this)">Food</span>
+        <span class="mood-tag" onclick="toggleTag(this)">Social</span>
+        <span class="mood-tag" onclick="toggleTag(this)">Health</span>
+      </div>
+      
+      <div style="margin-top: 25px;">
+        <button onclick="saveMood()" style="padding: 10px 25px; margin-right: 10px; border: none; border-radius: 8px; background: #2e7d32; color: white; cursor: pointer; font-weight: 600;">Save Entry</button>
+        <button onclick="closeMoodModal()" style="padding: 10px 25px; border: none; border-radius: 8px; background: #f0f0f0; cursor: pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="dashboardF.js"></script>
+</body>
+</html>
