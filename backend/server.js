@@ -60,5 +60,5 @@ app.post('/api/analyze', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Medi-Mate Backend listening at http://localhost:${port}`);
+  console.log(`Medi-Mate Backend listening at ${port}`);
 });
