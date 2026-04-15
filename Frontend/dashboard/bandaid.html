@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wounds | MediMate</title>
+    <link rel="stylesheet" href="commoncss.css">
+</head>
+<body>
+
+    <!-- 🔥 NAVBAR -->
+    <div class="navbar">
+        <div class="head">
+            <img src="logo.jpeg" alt="logo" class="logoimg">
+            <span class="logoheading">MediMate - Wounds</span>
+        </div>
+    </div>
+
+    <!-- 🔥 MAIN CONTENT -->
+    <div class="container">
+        <div class="icon">🩹</div>
+        <h1>Wound Care</h1>
+        <p>Clean wounds properly to avoid infection.</p>
+        <p>Use antiseptic and bandages for faster healing.</p>
+
+        <button id="back-btn">← Go Back</button>
+    </div>
+
+    <!-- 🔥 SCRIPT -->
+    <script>
+        const backbtn = document.getElementById("back-btn");
+
+        backbtn.addEventListener("click", () => {
+            window.history.back();   // ✅ better than fixed redirect
+        });
+    </script>
+
+</body>
+</html>
