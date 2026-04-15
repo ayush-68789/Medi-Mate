@@ -31,10 +31,10 @@ IMPORTANT: Respond ONLY with the JSON object. Do not include any conversational 
 app.post('/api/analyze', async (req, res) => {
   const { symptoms, severity, duration } = req.body;
 
-  if (!symptoms) {
+  if (!symptoms) 
+  {
     return res.status(400).json({ error: 'Symptoms are required' });
   }
-
   try {
     const userContext = `Symptoms: ${symptoms}, Severity (1-10): ${severity || 'Not specified'}, Duration: ${duration || 'Not specified'}`;
 
