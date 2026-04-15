@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker | MediMate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../dashboard/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div id="heading" style="border-bottom:none;">
+        <div class="logo-brand" id="logo-home" style="cursor:pointer;" title="Back to Dashboard">
+            <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
+            <span class="brand-name">Medi-Mate</span>
+        </div>
+        <div class="profile">
+            <img src="../dashboard/assets/user.jpg" alt="user" class="avatar">
+            <span class="profile-name" id="username">Rahul K.</span>
+        </div>
+    </div>
+
+
+
+    <!-- MAIN SPLIT LAYOUT -->
+    <div class="split-layout">
+
+        <!-- Ambient Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <!-- LEFT PANEL -->
+        <div class="info-panel">
+            <div class="floating-icon">🩺</div>
+            <h1 class="hero-title">How are you<br>feeling today?</h1>
+            <p class="hero-subtitle" id="left-subtitle">Select all the symptoms you're currently experiencing. Our AI will analyze them and provide tailored health guidance.</p>
+            <button id="back-btn" class="modern-back-btn">← Back to Dashboard</button>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="input-panel glass-panel">
+
+            <!-- ── STEP 1: CHIP SELECTOR ── -->
+            <div id="chip-section">
+                <p class="chip-label">Select your symptoms</p>
+                <div class="chip-grid" id="chip-grid">
+                    <button class="chip" data-symptom="Headache">🤕 Headache</button>
+                    <button class="chip" data-symptom="Fever">🌡️ Fever</button>
+                    <button class="chip" data-symptom="Cough">😮‍💨 Cough</button>
+                    <button class="chip" data-symptom="Sore Throat">🗣️ Sore Throat</button>
+                    <button class="chip" data-symptom="Fatigue">😴 Fatigue</button>
+                    <button class="chip" data-symptom="Nausea">🤢 Nausea</button>
+                    <button class="chip" data-symptom="Chest Pain">💔 Chest Pain</button>
+                    <button class="chip" data-symptom="Shortness of Breath">🫁 Shortness of Breath</button>
+                    <button class="chip" data-symptom="Back Pain">🦾 Back Pain</button>
+                    <button class="chip" data-symptom="Stomach Ache">🤧 Stomach Ache</button>
+                    <button class="chip" data-symptom="Dizziness">😵 Dizziness</button>
+                    <button class="chip" data-symptom="Runny Nose">🤧 Runny Nose</button>
+                    <button class="chip" data-symptom="Joint Pain">🦴 Joint Pain</button>
+                    <button class="chip" data-symptom="Vomiting">🤮 Vomiting</button>
+                    <button class="chip" data-symptom="Skin Rash">🌿 Skin Rash</button>
+                    <button class="chip" data-symptom="Eye Irritation">👁️ Eye Irritation</button>
+                    <button class="chip chip-other" data-symptom="Other" id="other-chip">✏️ Other</button>
+                </div>
+
+                <div class="chip-actions">
+                    <span class="selected-count" id="selected-count">0 selected</span>
+                    <button class="analyze-btn" id="analyze-btn-chips" disabled>Analyze Symptoms ✨</button>
+                </div>
+            </div>
+
+            <!-- ── STEP 2: OTHER TEXTAREA (hidden by default) ── -->
+            <div id="text-section" class="hidden">
+                <button class="back-to-chips-btn" id="back-to-chips">← Back to options</button>
+                <div class="section-header">
+                    <p class="chip-label">Describe your symptoms</p>
+                </div>
+                <div class="input-glow-wrapper">
+                    <textarea id="symptom-input" class="modern-textarea" placeholder="E.g., I've had a persistent headache for two days with a slight fever and fatigue..."></textarea>
+                </div>
+                <button class="analyze-btn" id="to-details-btn-text">Continue to Details →</button>
+            </div>
+
+            <!-- ── STEP 2.5: QUICK DETAILS (NEW) ── -->
+            <div id="details-section" class="hidden">
+                <button class="back-to-chips-btn" id="back-to-symptoms-btn">← Back to symptoms</button>
+                <div class="section-header">
+                    <p class="chip-label">Final Details</p>
+                    <h2 class="sub-step-title">How intense is the discomfort?</h2>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="slider-header">
+                        <span>Intensity: <strong id="severity-val">5</strong>/10</span>
+                        <span id="severity-label" class="severity-label label-moderate">Moderate</span>
+                    </div>
+                    <input type="range" id="severity-slider" min="1" max="10" value="5" class="modern-slider">
+                </div>
+
+                <div class="detail-group" style="margin-top: 30px;">
+                    <p class="chip-label">How long have you felt this way?</p>
+                    <div class="duration-grid">
+                        <button class="duration-chip" data-val="1-6 hours">1-6h</button>
+                        <button class="duration-chip" data-val="6-24 hours">6-24h</button>
+                        <button class="duration-chip duration-active" data-val="1-3 days">1-3d</button>
+                        <button class="duration-chip" data-val="3-7 days">3-7d</button>
+                        <button class="duration-chip" data-val="1 week+">1w+</button>
+                    </div>
+                </div>
+
+                <button class="analyze-btn" id="analyze-final-btn" style="margin-top: 35px;">Complete Analysis ✨</button>
+            </div>
+
+            <!-- ── STEP 3: RESULTS SECTION (hidden by default) ── -->
+            <div id="results-section" class="hidden">
+                <div class="results-header">
+                    <div class="risk-badge" id="risk-badge">Low Risk</div>
+                    <h2 class="results-step-title">Health Analysis Report</h2>
+                </div>
+
+                <div class="result-cards">
+                    <div class="result-card">
+                        <div class="card-icon">💡</div>
+                        <h3>Advisory</h3>
+                        <ul id="advisory-list" class="result-list"></ul>
+                        <div class="shimmer"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="card-icon">⚠️</div>
+                        <h3>Precautions</h3>
+                        <ul id="precautions-list" class="result-list"></ul>
+                        <div class="shimmer"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="card-icon">🩺</div>
+                        <h3>Next Steps</h3>
+                        <p id="next-steps-text" class="result-text"></p>
+                        <div class="shimmer"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="card-icon">🧪</div>
+                        <h3>Suggested Tests</h3>
+                        <ul id="tests-list" class="result-list"></ul>
+                        <div class="shimmer"></div>
+                    </div>
+                </div>
+
+                <div class="medical-panel-footer">
+                    <div class="disclaimer-title">Medical Advisory Notice</div>
+                    <p id="disclaimer-text"></p>
+                </div>
+
+                <div class="results-footer-actions" style="margin-top: 25px; display: flex; gap: 12px;">
+                    <button class="secondary-btn" id="download-report" style="flex: 1;">Download Report 📥</button>
+                    <button class="analyze-btn" id="new-analysis-btn" style="flex: 1.5;">New Analysis 🔄</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('logo-home').addEventListener('click', () => {
+            window.location.href = '../dashboard/index.html';
+        });
+
+        // ── Back btn → Dashboard ──
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.location.href = '../dashboard/index.html';
+        });
+
+
+
+        // ── Chip Selection Logic ──
+        const chips = document.querySelectorAll('.chip:not(#other-chip)');
+        const otherChip = document.getElementById('other-chip');
+        const selectedCountEl = document.getElementById('selected-count');
+        const analyzeChipsBtn = document.getElementById('analyze-btn-chips');
+        const chipSection = document.getElementById('chip-section');
+        const textSection = document.getElementById('text-section');
+        const backToChipsBtn = document.getElementById('back-to-chips');
+        const leftSubtitle = document.getElementById('left-subtitle');
+
+        let selected = new Set();
+
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const sym = chip.dataset.symptom;
+                if (selected.has(sym)) {
+                    selected.delete(sym);
+                    chip.classList.remove('chip-active');
+                } else {
+                    selected.add(sym);
+                    chip.classList.add('chip-active');
+                }
+                updateCount();
+            });
+        });
+
+        function updateCount() {
+            const n = selected.size;
+            selectedCountEl.textContent = n === 0 ? '0 selected' : `${n} symptom${n > 1 ? 's' : ''} selected`;
+            analyzeChipsBtn.disabled = n === 0;
+            analyzeChipsBtn.style.opacity = n === 0 ? '0.5' : '1';
+        }
+
+        // ── Other chip → show textarea, hide chips ──
+        otherChip.addEventListener('click', () => {
+            chipSection.classList.add('section-exit');
+            setTimeout(() => {
+                chipSection.classList.add('hidden');
+                chipSection.classList.remove('section-exit');
+                textSection.classList.remove('hidden');
+                textSection.classList.add('section-enter');
+                leftSubtitle.textContent = "Describe your symptoms in detail so our AI can accurately analyze your health situation and provide tailored guidance.";
+                setTimeout(() => textSection.classList.remove('section-enter'), 500);
+            }, 350);
+        });
+
+        // ── Back to chips from textarea ──
+        backToChipsBtn.addEventListener('click', () => {
+            textSection.classList.add('section-exit');
+            setTimeout(() => {
+                textSection.classList.add('hidden');
+                textSection.classList.remove('section-exit');
+                chipSection.classList.remove('hidden');
+                chipSection.classList.add('section-enter');
+                leftSubtitle.textContent = "Select all the symptoms you're currently experiencing. Our AI will analyze them and provide tailored health guidance.";
+                setTimeout(() => chipSection.classList.remove('section-enter'), 500);
+            }, 350);
+        });
+
+        // ── Step Transitions ──
+        const detailsSection = document.getElementById('details-section');
+        const toDetailsBtnText = document.getElementById('to-details-btn-text');
+        const backToSymptomsBtn = document.getElementById('back-to-symptoms-btn');
+        const analyzeFinalBtn = document.getElementById('analyze-final-btn');
+
+        // From Chips to Details
+        analyzeChipsBtn.addEventListener('click', () => {
+            if (selected.size === 0) return;
+            transitionSection(chipSection, detailsSection, "Almost there! Tell us a bit more about how you're feeling to improve accuracy.");
+        });
+
+        // From Text to Details
+        toDetailsBtnText.addEventListener('click', () => {
+            const input = document.getElementById('symptom-input').value.trim();
+            if (!input) {
+                document.getElementById('symptom-input').focus();
+                return;
+            }
+            transitionSection(textSection, detailsSection, "Almost there! Tell us a bit more about how you're feeling to improve accuracy.");
+        });
+
+        // Back to symptoms from details
+        backToSymptomsBtn.addEventListener('click', () => {
+            const isFromText = document.getElementById('symptom-input').value.trim() !== "";
+            transitionSection(detailsSection, isFromText ? textSection : chipSection, "Select all the symptoms you're currently experiencing.");
+        });
+
+        function transitionSection(from, to, subtitle) {
+            from.classList.add('section-exit');
+            setTimeout(() => {
+                from.classList.add('hidden');
+                from.classList.remove('section-exit');
+                to.classList.remove('hidden');
+                to.classList.add('section-enter');
+                leftSubtitle.textContent = subtitle;
+                setTimeout(() => to.classList.remove('section-enter'), 500);
+            }, 350);
+        }
+
+        // ── Details Handling ──
+        const severitySlider = document.getElementById('severity-slider');
+        const severityVal = document.getElementById('severity-val');
+        const severityLabel = document.getElementById('severity-label');
+
+        severitySlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            severityVal.textContent = val;
+            if (val <= 3) {
+                severityLabel.textContent = "Low";
+                severityLabel.className = "severity-label label-low";
+            } else if (val <= 7) {
+                severityLabel.textContent = "Moderate";
+                severityLabel.className = "severity-label label-moderate";
+            } else {
+                severityLabel.textContent = "High";
+                severityLabel.className = "severity-label label-high";
+            }
+        });
+
+        let selectedDuration = "1-3 days";
+        document.querySelectorAll('.duration-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.duration-chip').forEach(c => c.classList.remove('duration-active'));
+                chip.classList.add('duration-active');
+                selectedDuration = chip.dataset.val;
+            });
+        });
+
+        // ── Final Analysis ──
+        analyzeFinalBtn.addEventListener('click', () => {
+            const symptoms = selected.size > 0 ? [...selected].join(', ') : document.getElementById('symptom-input').value;
+            runAnalysis(symptoms, severitySlider.value, selectedDuration);
+        });
+
+        const resultsSection = document.getElementById('results-section');
+        const newAnalysisBtn = document.getElementById('new-analysis-btn');
+
+        async function runAnalysis(symptoms, severity, duration) {
+            analyzeFinalBtn.innerHTML = 'Analyzing... ⏳';
+            analyzeFinalBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symptoms, severity, duration })
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch analysis');
+
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Connection error. Please ensure the backend is running.');
+                analyzeFinalBtn.innerHTML = 'Complete Analysis ✨';
+                analyzeFinalBtn.disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            // Populate data
+            document.getElementById('risk-badge').textContent = `${data.risk_level} Risk`;
+            document.getElementById('risk-badge').className = `risk-badge risk-${data.risk_level.toLowerCase()}`;
+            
+            fillList('advisory-list', data.advisory);
+            fillList('precautions-list', data.precautions);
+            document.getElementById('next-steps-text').textContent = data.next_steps;
+            fillList('tests-list', data.suggested_tests);
+            document.getElementById('disclaimer-text').textContent = data.disclaimer;
+
+            // Transition
+            const splitLayout = document.querySelector('.split-layout');
+            const infoPanel = document.querySelector('.info-panel');
+            
+            detailsSection.classList.add('section-exit');
+            infoPanel.classList.add('panel-exit');
+            splitLayout.classList.add('results-view-active');
+            
+            setTimeout(() => {
+                detailsSection.classList.add('hidden');
+                detailsSection.classList.remove('section-exit');
+                resultsSection.classList.remove('hidden');
+                resultsSection.classList.add('section-enter');
+                leftSubtitle.textContent = "Review your AI-generated health analysis. Remember, this is for guidance only.";
+                setTimeout(() => resultsSection.classList.remove('section-enter'), 500);
+            }, 350);
+        }
+
+        function fillList(id, items) {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                el.appendChild(li);
+            });
+        }
+
+        // ── Download Report ──
+        document.getElementById('download-report').addEventListener('click', () => {
+            const risk = document.getElementById('risk-badge').textContent;
+            const advisory = Array.from(document.getElementById('advisory-list').children).map(li => "• " + li.textContent).join('\n');
+            const precautions = Array.from(document.getElementById('precautions-list').children).map(li => "• " + li.textContent).join('\n');
+            const nextSteps = document.getElementById('next-steps-text').textContent;
+            const tests = Array.from(document.getElementById('tests-list').children).map(li => "• " + li.textContent).join('\n');
+            const disclaimer = document.getElementById('disclaimer-text').textContent;
+
+            const content = `MEDI-MATE HEALTH ANALYSIS REPORT\n================================\n\nRISK LEVEL: ${risk}\n\nADVISORY:\n${advisory}\n\nPRECAUTIONS:\n${precautions}\n\nNEXT STEPS:\n${nextSteps}\n\nSUGGESTED TESTS:\n${tests}\n\n---\n${disclaimer}`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'MediMate_Analysis_Report.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        newAnalysisBtn.addEventListener('click', () => {
+            const splitLayout = document.querySelector('.split-layout');
+            const infoPanel = document.querySelector('.info-panel');
+            
+            resultsSection.classList.add('section-exit');
+            setTimeout(() => {
+                resultsSection.classList.add('hidden');
+                resultsSection.classList.remove('section-exit');
+                
+                // Reset states
+                selected.clear();
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('chip-active'));
+                updateCount();
+                document.getElementById('symptom-input').value = '';
+                severitySlider.value = 5;
+                severitySlider.dispatchEvent(new Event('input'));
+                
+                infoPanel.classList.remove('panel-exit');
+                splitLayout.classList.remove('results-view-active');
+                
+                chipSection.classList.remove('hidden');
+                chipSection.classList.add('section-enter');
+                leftSubtitle.textContent = "Select all the symptoms you're currently experiencing. Our AI will analyze them and provide tailored health guidance.";
+                
+                // Reset buttons
+                analyzeFinalBtn.innerHTML = 'Complete Analysis ✨';
+                analyzeFinalBtn.disabled = false;
+                
+                setTimeout(() => chipSection.classList.remove('section-enter'), 500);
+            }, 350);
+        });
+    </script>
+</body>
+</html>
