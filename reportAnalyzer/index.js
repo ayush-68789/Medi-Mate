@@ -113,13 +113,13 @@
       }
     }, 40);
 
-    // show scan animation after short delay
+    
     setTimeout(() => {
       document.getElementById('scan-anim').classList.add('active');
     }, 400);
   }
 
-  /* ── RENDER RESULTS ── */
+  
   function showResults(filename) {
     document.getElementById('results-meta').textContent =
       'Analysed just now · ' + filename;
@@ -285,3 +285,5 @@ const logoclick = document.querySelector(".logo-brand");
 logoclick.addEventListener("click", () => {
   window.location.href = "../dashboard/dashboardF.html";
 });
+
+
