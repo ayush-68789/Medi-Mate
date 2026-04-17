@@ -108,50 +108,7 @@
                 <button class="analyze-btn" id="analyze-final-btn" style="margin-top: 35px;">Complete Analysis ✨</button>
             </div>
 
-            <!-- ── STEP 3: RESULTS SECTION (hidden by default) ── -->
-            <div id="results-section" class="hidden">
-                <div class="results-header">
-                    <div class="risk-badge" id="risk-badge">Low Risk</div>
-                    <h2 class="results-step-title">Health Analysis Report</h2>
-                </div>
-
-                <div class="result-cards">
-                    <div class="result-card">
-                        <div class="card-icon">💡</div>
-                        <h3>Advisory</h3>
-                        <ul id="advisory-list" class="result-list"></ul>
-                        <div class="shimmer"></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="card-icon">⚠️</div>
-                        <h3>Precautions</h3>
-                        <ul id="precautions-list" class="result-list"></ul>
-                        <div class="shimmer"></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="card-icon">🩺</div>
-                        <h3>Next Steps</h3>
-                        <p id="next-steps-text" class="result-text"></p>
-                        <div class="shimmer"></div>
-                    </div>
-                    <div class="result-card">
-                        <div class="card-icon">🧪</div>
-                        <h3>Suggested Tests</h3>
-                        <ul id="tests-list" class="result-list"></ul>
-                        <div class="shimmer"></div>
-                    </div>
-                </div>
-
-                <div class="medical-panel-footer">
-                    <div class="disclaimer-title">Medical Advisory Notice</div>
-                    <p id="disclaimer-text"></p>
-                </div>
-
-                <div class="results-footer-actions" style="margin-top: 25px; display: flex; gap: 12px;">
-                    <button class="secondary-btn" id="download-report" style="flex: 1;">Download Report 📥</button>
-                    <button class="analyze-btn" id="new-analysis-btn" style="flex: 1.5;">New Analysis 🔄</button>
-                </div>
-            </div>
+            <!-- Results will now be displayed on a separate page -->
 
         </div>
     </div>
@@ -315,7 +272,18 @@
                 if (!response.ok) throw new Error('Failed to fetch analysis');
 
                 const data = await response.json();
-                displayResults(data);
+                
+                // Store data including inputs for the results page
+                sessionStorage.setItem('latestAnalysis', JSON.stringify({
+                    ...data,
+                    input_symptoms: symptoms,
+                    input_severity: severity,
+                    input_duration: duration
+                }));
+
+                // Redirect to results page
+                window.location.href = '../symptom_result/index.html';
+
             } catch (error) {
                 console.error('Error:', error);
                 alert('Connection error. Please ensure the backend is running.');
@@ -324,96 +292,7 @@
             }
         }
 
-        function displayResults(data) {
-            // Populate data
-            document.getElementById('risk-badge').textContent = `${data.risk_level} Risk`;
-            document.getElementById('risk-badge').className = `risk-badge risk-${data.risk_level.toLowerCase()}`;
-            
-            fillList('advisory-list', data.advisory);
-            fillList('precautions-list', data.precautions);
-            document.getElementById('next-steps-text').textContent = data.next_steps;
-            fillList('tests-list', data.suggested_tests);
-            document.getElementById('disclaimer-text').textContent = data.disclaimer;
-
-            // Transition
-            const splitLayout = document.querySelector('.split-layout');
-            const infoPanel = document.querySelector('.info-panel');
-            
-            detailsSection.classList.add('section-exit');
-            infoPanel.classList.add('panel-exit');
-            splitLayout.classList.add('results-view-active');
-            
-            setTimeout(() => {
-                detailsSection.classList.add('hidden');
-                detailsSection.classList.remove('section-exit');
-                resultsSection.classList.remove('hidden');
-                resultsSection.classList.add('section-enter');
-                leftSubtitle.textContent = "Review your AI-generated health analysis. Remember, this is for guidance only.";
-                setTimeout(() => resultsSection.classList.remove('section-enter'), 500);
-            }, 350);
-        }
-
-        function fillList(id, items) {
-            const el = document.getElementById(id);
-            el.innerHTML = '';
-            items.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item;
-                el.appendChild(li);
-            });
-        }
-
-        // ── Download Report ──
-        document.getElementById('download-report').addEventListener('click', () => {
-            const risk = document.getElementById('risk-badge').textContent;
-            const advisory = Array.from(document.getElementById('advisory-list').children).map(li => "• " + li.textContent).join('\n');
-            const precautions = Array.from(document.getElementById('precautions-list').children).map(li => "• " + li.textContent).join('\n');
-            const nextSteps = document.getElementById('next-steps-text').textContent;
-            const tests = Array.from(document.getElementById('tests-list').children).map(li => "• " + li.textContent).join('\n');
-            const disclaimer = document.getElementById('disclaimer-text').textContent;
-
-            const content = `MEDI-MATE HEALTH ANALYSIS REPORT\n================================\n\nRISK LEVEL: ${risk}\n\nADVISORY:\n${advisory}\n\nPRECAUTIONS:\n${precautions}\n\nNEXT STEPS:\n${nextSteps}\n\nSUGGESTED TESTS:\n${tests}\n\n---\n${disclaimer}`;
-            
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'MediMate_Analysis_Report.txt';
-            a.click();
-            URL.revokeObjectURL(url);
-        });
-
-        newAnalysisBtn.addEventListener('click', () => {
-            const splitLayout = document.querySelector('.split-layout');
-            const infoPanel = document.querySelector('.info-panel');
-            
-            resultsSection.classList.add('section-exit');
-            setTimeout(() => {
-                resultsSection.classList.add('hidden');
-                resultsSection.classList.remove('section-exit');
-                
-                // Reset states
-                selected.clear();
-                document.querySelectorAll('.chip').forEach(c => c.classList.remove('chip-active'));
-                updateCount();
-                document.getElementById('symptom-input').value = '';
-                severitySlider.value = 5;
-                severitySlider.dispatchEvent(new Event('input'));
-                
-                infoPanel.classList.remove('panel-exit');
-                splitLayout.classList.remove('results-view-active');
-                
-                chipSection.classList.remove('hidden');
-                chipSection.classList.add('section-enter');
-                leftSubtitle.textContent = "Select all the symptoms you're currently experiencing. Our AI will analyze them and provide tailored health guidance.";
-                
-                // Reset buttons
-                analyzeFinalBtn.innerHTML = 'Complete Analysis ✨';
-                analyzeFinalBtn.disabled = false;
-                
-                setTimeout(() => chipSection.classList.remove('section-enter'), 500);
-            }, 350);
-        });
+        // Results display and population logic removed - moved to symptom_result/index.html
     </script>
 </body>
 </html>
