@@ -13,7 +13,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <div id="heading" style="border-bottom:none;">
         <div class="logo-brand" id="logo-home" style="cursor:pointer;" title="Back to Dashboard">
             <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
@@ -25,17 +24,12 @@
         </div>
     </div>
 
-
-
-    <!-- MAIN SPLIT LAYOUT -->
     <div class="split-layout">
 
-        <!-- Ambient Orbs -->
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
 
-        <!-- LEFT PANEL -->
         <div class="info-panel">
             <div class="floating-icon">🩺</div>
             <h1 class="hero-title">How are you<br>feeling today?</h1>
@@ -43,10 +37,8 @@
             <button id="back-btn" class="modern-back-btn">← Back to Dashboard</button>
         </div>
 
-        <!-- RIGHT PANEL -->
         <div class="input-panel glass-panel">
 
-            <!-- ── STEP 1: CHIP SELECTOR ── -->
             <div id="chip-section">
                 <p class="chip-label">Select your symptoms</p>
                 <div class="chip-grid" id="chip-grid">
@@ -75,7 +67,7 @@
                 </div>
             </div>
 
-            <!-- ── STEP 2: OTHER TEXTAREA (hidden by default) ── -->
+        
             <div id="text-section" class="hidden">
                 <button class="back-to-chips-btn" id="back-to-chips">← Back to options</button>
                 <div class="section-header">
@@ -87,7 +79,6 @@
                 <button class="analyze-btn" id="to-details-btn-text">Continue to Details →</button>
             </div>
 
-            <!-- ── STEP 2.5: QUICK DETAILS (NEW) ── -->
             <div id="details-section" class="hidden">
                 <button class="back-to-chips-btn" id="back-to-symptoms-btn">← Back to symptoms</button>
                 <div class="section-header">
@@ -170,14 +161,10 @@
             window.location.href = '../dashboard/index.html';
         });
 
-        // ── Back btn → Dashboard ──
         document.getElementById('back-btn').addEventListener('click', () => {
             window.location.href = '../dashboard/index.html';
         });
 
-
-
-        // ── Chip Selection Logic ──
         const chips = document.querySelectorAll('.chip:not(#other-chip)');
         const otherChip = document.getElementById('other-chip');
         const selectedCountEl = document.getElementById('selected-count');
