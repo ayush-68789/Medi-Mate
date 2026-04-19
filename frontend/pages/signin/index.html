@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="modal-overlay" id="modalOverlay">
+    <div class="signin-card">
+        <a href="../home_page/index.html" class="logo-brand">
+            <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
+            <span class="brand-name">Medi-Mate</span>
+        </a>
+        <button class="close-btn" id="closeBtn">&times;</button>
+        
+        <h1 class="signin-title">Sign in</h1>
+        <p class="account-prompt">or <a href="../signup/index.html">create an account</a></p>
+        
+        <form id="signInForm">
+            <div class="input-container">
+                <input type="email" placeholder="Email" required>
+            </div>
+            <div class="input-container">
+                <input type="password" placeholder="Password" required>
+            </div>
+            
+            <div class="options-row">
+                <input type="checkbox" id="remember" checked>
+                <label for="remember">Remember me</label>
+            </div>
+            
+            <button type="submit" class="btn-primary">Sign in</button>
+            
+            <button type="button" class="btn-google">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+                Sign in with Google
+            </button>
+            <a href="#" class="forgot-password">Forgotten your password?</a>
+        </form>
+    </div>
+</div>
+    <script src="app.js"></script>
+</body>
+</html>

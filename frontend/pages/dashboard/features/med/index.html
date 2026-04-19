@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicines | MediMate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🔥 NAVBAR -->
+    <div class="navbar">
+        <div class="head">
+            <img src="assets/logo.jpeg" alt="logo" class="logoimg">
+            <span class="logoheading">MediMate - Medicines</span>
+        </div>
+    </div>
+
+    <!-- 🔥 MAIN CONTENT -->
+    <div class="container">
+        <div class="icon">💊</div>
+        <h1>Medicines</h1>
+        <p>Always take medicines as prescribed by your doctor to ensure safe and effective treatment.</p>
+        <p>Incorrect dosage or self-medication can lead to serious health risks.</p>
+
+        <button id="back-btn">← Go Back</button>
+    </div>
+
+    <!-- 🔥 SCRIPT -->
+    <script>
+        document.getElementById("back-btn").addEventListener("click", () => {
+            window.history.back();   // ✅ clean navigation
+        });
+    </script>
+
+</body>
+</html>
