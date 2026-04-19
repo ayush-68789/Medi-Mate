@@ -2,8 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const Groq = require('groq-sdk');
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/auth');
 
 dotenv.config();
+connectDB();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,9 +14,14 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/auth',authRoutes);
+
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
+
+
+
 
 const SYSTEM_PROMPT = `
 You are a professional medical assistant AI. Analyze the provided symptoms along with their severity and duration.
