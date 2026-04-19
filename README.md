@@ -321,7 +321,7 @@ This project is licensed under the **Unspecified License** (as no `LICENSE` file
 If you have any questions, encounter issues, or want to suggest improvements:
 
 -   🐛 **Issues**: Report bugs or suggest features via [GitHub Issues](https://github.com/ayush-68789/Medi-Mate/issues).
--   <!-- 📧 Email: [contact@example.com] TODO: Add a contact email -->
+-   📧 Email: [ayush.chaurasia@gmail.com] T
 -   <!-- 💬 Discussions: [GitHub Discussions](https://github.com/ayush-68789/Medi-Mate/discussions) -->
 
 ---
