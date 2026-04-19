@@ -85,7 +85,11 @@ body {
 }
 
 .input-container input {
+<<<<<<< HEAD
     width: 92%;
+=======
+    width: 100%;
+>>>>>>> de9ae684eb6a90327231c7ab537abdc9c9297107
     padding: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
