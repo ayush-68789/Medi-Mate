@@ -229,7 +229,7 @@
   }
 
   function copyResults() {
-    const text = 'MediMate Report Summary\n\nOverall: Mostly Normal — Minor Attention Needed\nHealth Score: 78/100\n\nKey Flags:\n- Low Vitamin D (18 ng/mL)\n- Low Serum Iron (55 µg/dL)\n\nRecommendations:\n- Take Vitamin D 2000 IU daily\n- Eat iron-rich foods\n- Retest in 3 months';
+    const text = 'Medi-Mate Report Summary\n\nOverall: Mostly Normal — Minor Attention Needed\nHealth Score: 78/100\n\nKey Flags:\n- Low Vitamin D (18 ng/mL)\n- Low Serum Iron (55 µg/dL)\n\nRecommendations:\n- Take Vitamin D 2000 IU daily\n- Eat iron-rich foods\n- Retest in 3 months';
     navigator.clipboard.writeText(text).catch(() => {});
     showToast('📋 Summary copied to clipboard!');
   }
