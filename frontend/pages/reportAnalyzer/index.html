@@ -10,16 +10,16 @@
 <body>
 
 <!-- BACKGROUND PARTICLES -->
-<div id="particles"><div class="particle" style="width: 90.2693px; height: 90.2693px; left: 68.4141%; animation-duration: 8.62749s; animation-delay: 9.98756s;"></div><div class="particle" style="width: 81.7724px; height: 81.7724px; left: 54.4448%; animation-duration: 15.02s; animation-delay: 2.30492s;"></div><div class="particle" style="width: 123.947px; height: 123.947px; left: 38.6534%; animation-duration: 15.829s; animation-delay: 5.25783s;"></div><div class="particle" style="width: 138.626px; height: 138.626px; left: 29.2745%; animation-duration: 14.6989s; animation-delay: 7.80932s;"></div><div class="particle" style="width: 95.2896px; height: 95.2896px; left: 96.7323%; animation-duration: 10.7306s; animation-delay: 0.0588605s;"></div><div class="particle" style="width: 71.7261px; height: 71.7261px; left: 86.2287%; animation-duration: 15.9356s; animation-delay: 0.410726s;"></div><div class="particle" style="width: 150.488px; height: 150.488px; left: 98.5924%; animation-duration: 9.87874s; animation-delay: 9.99695s;"></div><div class="particle" style="width: 105.045px; height: 105.045px; left: 18.9017%; animation-duration: 14.1797s; animation-delay: 0.17213s;"></div><div class="particle" style="width: 83.1784px; height: 83.1784px; left: 43.6644%; animation-duration: 11.5945s; animation-delay: 5.7571s;"></div><div class="particle" style="width: 130.72px; height: 130.72px; left: 64.74%; animation-duration: 16.5872s; animation-delay: 6.59236s;"></div><div class="particle" style="width: 158.939px; height: 158.939px; left: 34.9356%; animation-duration: 21.4727s; animation-delay: 9.19184s;"></div><div class="particle" style="width: 84.299px; height: 84.299px; left: 7.82671%; animation-duration: 13.1141s; animation-delay: 8.35769s;"></div><div class="particle" style="width: 174.328px; height: 174.328px; left: 33.293%; animation-duration: 14.2183s; animation-delay: 0.676928s;"></div><div class="particle" style="width: 125.616px; height: 125.616px; left: 77.2467%; animation-duration: 17.4364s; animation-delay: 6.21863s;"></div><div class="particle" style="width: 80.0235px; height: 80.0235px; left: 25.42%; animation-duration: 18.8012s; animation-delay: 2.28817s;"></div><div class="particle" style="width: 152.714px; height: 152.714px; left: 72.5046%; animation-duration: 15.8721s; animation-delay: 2.49862s;"></div><div class="particle" style="width: 113.332px; height: 113.332px; left: 73.2481%; animation-duration: 17.3303s; animation-delay: 9.9231s;"></div><div class="particle" style="width: 139.549px; height: 139.549px; left: 15.4066%; animation-duration: 21.5256s; animation-delay: 7.19978s;"></div></div>
+<div id="particles"></div>
 
 <!-- HEADER -->
 <div id="heading">
-  <a href="../dashboard/index.html" class="logo-brand" style="text-decoration:none; color:inherit;">
-      <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
+  <a href="/frontend/pages/dashboard/index.html" class="logo-brand" style="text-decoration:none; color:inherit;">
+      <img src="/frontend/assets/logo.jpeg" alt="logo" class="logo-icon">
       <span class="brand-name">Medi-Mate</span>
   </a>
   <div class="profile">
-      <img src="../dashboard/assets/user.jpg" alt="user" class="avatar">
+      <img src="/frontend/pages/dashboard/assets/user.jpg" alt="user" class="avatar">
       <span class="profile-name" id="username">Rahul K.</span>
   </div>
 </div>
@@ -51,7 +51,7 @@
     <button class="upload-btn" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
       📂 Choose File
     </button>
-    <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.docx" onchange="handleFileSelect(event)">
+    <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.docx" style="display:none;">
   </div>
 
   <!-- PROGRESS BAR -->
@@ -134,14 +134,14 @@
     <!-- METRICS GRID -->
     <div class="section-title-row">
       <h3>Key Values</h3>
-      <span class="section-badge" style="background:#e8f5e9;color:#2e7d32;">8 parameters</span>
+      <span class="section-badge" id="metric-count-badge" style="background:#e8f5e9;color:#2e7d32;">0 parameters</span>
     </div>
     <div class="metrics-grid" id="metrics-grid"></div>
 
     <!-- FINDINGS -->
     <div class="section-title-row">
       <h3>Findings</h3>
-      <span class="section-badge" style="background:#fff3e0;color:#e65100;">3 flagged</span>
+      <span class="section-badge" id="finding-count-badge" style="background:#fff3e0;color:#e65100;">0 flagged</span>
     </div>
     <div class="findings-list" id="findings-list"></div>
 

@@ -27,10 +27,6 @@
     const file = e.dataTransfer.files[0];
     if (file) startAnalysis(file);
   }
-  function handleFileSelect(e) {
-    const file = e.target.files[0];
-    if (file) startAnalysis(file);
-  }
 
   /* ── ANALYSIS FLOW ── */
   async function startAnalysis(file) {
@@ -146,6 +142,7 @@
     const mg = document.getElementById('metrics-grid');
     mg.innerHTML = '';
     const metrics = data.metrics || [];
+    document.getElementById('metric-count-badge').textContent = `${metrics.length} parameter${metrics.length !== 1 ? 's' : ''}`;
     metrics.forEach((m, i) => {
       const card = document.createElement('div');
       card.className = 'metric-card';
@@ -164,6 +161,7 @@
     const fl = document.getElementById('findings-list');
     fl.innerHTML = '';
     const findings = data.findings || [];
+    document.getElementById('finding-count-badge').textContent = `${findings.length} flagged`;
     findings.forEach((f, i) => {
       const item = document.createElement('div');
       item.className = 'finding-item';
@@ -307,7 +305,6 @@ const logoclick = document.querySelector(".logo-brand");
 console.log(logoclick); // should NOT be null
 
 logoclick.addEventListener("click", () => {
-  console.log("clicked"); // check this in console
   window.location.href = "/frontend/pages/dashboard/index.html";
 });
 
