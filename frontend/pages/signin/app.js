@@ -72,3 +72,4 @@ if (googleBtn) {
         alert('Google login coming soon!');
     });
 }
+
