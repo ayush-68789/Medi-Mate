@@ -4,49 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-overlay">
     <div class="signin-card">
+
+        <!-- LOGO -->
         <a href="../home_page/index.html" class="logo-brand">
-            <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
+            <div class="logo-icon">
+                <img src="../../assets/logo.jpeg" alt="logo">
+            </div>
             <span class="brand-name">Medi-Mate</span>
         </a>
-        <button class="close-btn" id="closeBtn">&times;</button>
-        
+
         <h1 class="signin-title">Sign up</h1>
         <p class="account-prompt">
             or <a href="../signin/index.html">sign in to your account</a>
         </p>
-        
+
+        <!-- FORM -->
         <form id="signUpForm">
 
             <div class="input-container">
-                <input type="text" placeholder="Full Name" required>
+                <input id="username" type="text" placeholder="Full Name" required>
             </div>
 
             <div class="input-container">
-                <input type="email" placeholder="Email" required>
+                <input id="email" type="email" placeholder="Email" required>
             </div>
 
             <div class="input-container">
-                <input type="password" id="password" placeholder="Password" required>
+                <input id="password" type="password" placeholder="Password" required>
             </div>
 
             <div class="input-container">
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <input id="confirmPassword" type="password" placeholder="Confirm Password" required>
             </div>
 
-            <button type="submit" class="btn-primary">Create Account</button>
-            <div style="margin-top: 15px;">
-                <button type="button" class="btn-google">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
-                    Sign up with Google
-                </button>
-            </div>
+            <!-- FIXED BUTTON -->
+            <button type="submit" class="btn-primary">Register</button>
+
+            <!-- MESSAGE -->
+            <p id="msg"></p>
+
         </form>
     </div>
 </div>
