@@ -50,24 +50,21 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── AMBIENT ORBS ── */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  background: #50C878;
-  filter: blur(80px);
-  z-index: -1;
-  opacity: 0.15;
-  animation: orbDrift 15s infinite alternate ease-in-out;
+/* ── FLOATING GLOWING ORBS ── */
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(80, 200, 120, 0.4) 0%, rgba(80, 200, 120, 0.1) 40%, transparent 70%);
+  filter: blur(8px);
+  box-shadow: 0 0 20px rgba(80, 200, 120, 0.2);
+  animation: drift linear infinite;
 }
-
-.orb-1 { width: 300px; height: 300px; top: -50px; left: -100px; animation-delay: 0s; }
-.orb-2 { width: 400px; height: 400px; bottom: -100px; right: -50px; opacity: 0.12; animation-delay: -5s; }
-.orb-3 { width: 200px; height: 200px; top: 40%; left: 40%; opacity: 0.08; animation-delay: -10s; }
-
-@keyframes orbDrift {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(40px, -50px) scale(1.1); }
+@keyframes drift {
+  0%   { transform: translateY(110vh) translateX(0) scale(0.6); opacity: 0; }
+  20%  { opacity: 0.6; }
+  50%  { transform: translateY(50vh) translateX(30px) scale(1); opacity: 0.8; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateY(-20vh) translateX(-20px) scale(1.4); opacity: 0; }
 }
 
 /* ── LEFT PANEL ── */

@@ -22,28 +22,32 @@
       overflow-x: hidden;
     }
 
-    /* ── FLOATING PARTICLES ── */
+    /* ── FLOATING GLOWING ORBS ── */
     #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .particle {
       position: absolute; border-radius: 50%;
-      background: radial-gradient(circle, rgba(80,200,120,0.18), transparent 70%);
+      background: radial-gradient(circle, rgba(80, 200, 120, 0.4) 0%, rgba(80, 200, 120, 0.1) 40%, transparent 70%);
+      filter: blur(8px);
+      box-shadow: 0 0 20px rgba(80, 200, 120, 0.2);
       animation: drift linear infinite;
     }
     @keyframes drift {
-      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 0.6; }
-      100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
+      0%   { transform: translateY(110vh) translateX(0) scale(0.6); opacity: 0; }
+      20%  { opacity: 0.6; }
+      50%  { transform: translateY(50vh) translateX(30px) scale(1); opacity: 0.8; }
+      80%  { opacity: 0.6; }
+      100% { transform: translateY(-20vh) translateX(-20px) scale(1.4); opacity: 0; }
     }
 
     /* ── HEADER ── */
-    header {
+    #heading {
       display: flex; justify-content: space-between; align-items: center;
       padding: 14px 40px;
-      background: rgba(236,255,220,0.82);
+      background: rgba(236,255,220,0.85);
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       position: sticky; top: 0; z-index: 200;
-      border-bottom: 1px solid var(--g-border);
+      border-bottom: 0.5px solid rgba(46, 125, 50, 0.15);
     }
     .logo-brand {
       display: flex;
@@ -52,7 +56,7 @@
     }
 
     .logo-icon {
-      width: 30px; height: 30px;
+      width: 38px; height: 38px;
       border-radius: 10px;
       background: linear-gradient(135deg, #50C878, #2e7d32);
       display: flex; align-items: center; justify-content: center;
@@ -68,7 +72,10 @@
 
     .brand-name {
       font-family: 'DM Serif Display', serif;
-      font-size: 22px; color: var(--green-dark); letter-spacing: -0.2px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #2e7d32;
+      letter-spacing: -0.3px;
     }
     .profile {
       display: flex;
