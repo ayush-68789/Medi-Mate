@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const symptomRoutes = require('./routes/symptomRoutes');
@@ -6,8 +7,6 @@ const reportRoutes = require('./routes/reportRoutes');
 
 dotenv.config();
 
-const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -16,6 +15,7 @@ app.use(express.json());
 app.use('/api', symptomRoutes);
 app.use('/api/report', reportRoutes);
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Medi-Mate Backend listening at ${port}`);
 });

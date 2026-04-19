@@ -36,7 +36,7 @@ exports.analyzeSymptoms = async (req, res) => {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `My health situation is: ${userContext}. Please analyze this and provide guidance.` },
       ],
-      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+      model: 'llama-3.3-70b-versatile',
       temperature: 0.5,
       max_tokens: 1024,
       response_format: { type: 'json_object' },
