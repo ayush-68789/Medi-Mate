@@ -50,13 +50,8 @@ Based on the project's purpose and typical full-stack web application patterns, 
 This project is structured as a full-stack application with distinct frontend and backend components.
 
 **Frontend:**
--   **JavaScript/TypeScript** (Assumed based on common web development)
--   **React** (Assumed as a popular choice for SPAs)
-    [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
--   **Vite** (Assumed for fast development build tooling)
-    [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
--   **Tailwind CSS** (Assumed for utility-first styling)
-    [![TailwindCSS](https://img.shields.io/badge/tailwind_css-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+-   **JavaScript** (Assumed based on common web development)
+-   **HTML/CSS**
 
 **Backend:**
 -   **Node.js** (Assumed for server-side JavaScript runtime)
@@ -67,10 +62,6 @@ This project is structured as a full-stack application with distinct frontend an
     [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 -   **Mongoose** (Assumed for MongoDB object data modeling)
     [![Mongoose](https://img.shields.io/badge/Mongoose-800000?style=for-the-badge&logo=mongoose&logoColor=white)](https://mongoosejs.com/)
-
-**DevOps (Assumed for modern deployment):**
--   **Docker** (For containerization)
-    [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 _Note: Specific technologies listed above are based on common full-stack development patterns and directory names. For precise versions and additional dependencies, please refer to the `package.json` files within the `frontend` and `backend` directories._
 
@@ -121,30 +112,10 @@ Follow these steps to set up and run Medi-Mate locally.
 
 3.  **Frontend Setup**
 
-    Open a new terminal, navigate back to the project root, then into the `frontend` directory:
-    ```bash
-    cd ..
-    cd frontend
-    ```
+    Open home page then Open with live server
+    
 
-    Install frontend dependencies:
-    ```bash
-    npm install # or yarn install
-    ```
-
-    Create an environment file:
-    ```bash
-    cp .env.example .env
-    ```
-    Open `.env` and configure your environment variables. You'll likely need:
-    -   `VITE_APP_BACKEND_URL=http://localhost:5000/api` (or the URL where your backend API is running)
-
-    Start the frontend development server:
-    ```bash
-    npm run dev # or yarn dev
-    ```
-
-4.  **Open your browser**
+5.  **Open your browser**
     Visit `http://localhost:3000` (or the port indicated by your frontend server) to access the Medi-Mate application.
 
 ## 📁 Project Structure
@@ -197,17 +168,9 @@ Each part of the application (frontend and backend) uses `.env` files for enviro
 | `NODE_ENV`           | Application environment (`development`, `production`) | `development`           | No       |
 <!-- TODO: Add any other backend-specific environment variables detected in code -->
 
-#### Frontend (`frontend/.env`)
-
-| Variable                 | Description                                    | Default                 | Required |
-|--------------------------|------------------------------------------------|-------------------------|----------|
-| `VITE_APP_BACKEND_URL`   | Base URL for the backend API                   | `http://localhost:5000/api` | Yes      |
-<!-- TODO: Add any other frontend-specific environment variables detected in code -->
-
 ### Configuration Files
 -   `backend/package.json`: Manages backend dependencies and scripts.
 -   `frontend/package.json`: Manages frontend dependencies and scripts.
--   `tailwind.config.js` (Assumed in `frontend`): Tailwind CSS configuration.
 <!-- TODO: List any other significant configuration files (e.g., `vite.config.js`, database config) -->
 
 ## 🔧 Development
@@ -236,7 +199,7 @@ Each `package.json` file contains scripts to manage its respective part of the a
 <!-- TODO: Verify and add actual frontend scripts from `frontend/package.json` -->
 
 ### Development Workflow
-1.  Ensure both `backend` and `frontend` have their dependencies installed and `.env` files configured.
+1.  Ensure `backend` has it's dependencies installed and `.env` files configured.
 2.  Start the backend server in development mode.
 3.  Start the frontend development server.
 4.  Develop features, making changes in either the frontend or backend as needed. Changes in development mode will typically hot-reload or auto-restart.
@@ -350,9 +313,7 @@ This project is licensed under the **Unspecified License** (as no `LICENSE` file
 ## 🙏 Acknowledgments
 
 -   **Node.js & Express.js**: For powering the backend.
--   **React & Vite**: For the dynamic and efficient frontend.
 -   **MongoDB & Mongoose**: For flexible data storage.
--   **Tailwind CSS**: For streamlined styling.
 <!-- TODO: Add any other significant libraries, tools, or individuals/communities that inspired or contributed to the project. -->
 
 ## 📞 Support & Contact
