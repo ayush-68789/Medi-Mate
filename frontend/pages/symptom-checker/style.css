@@ -455,6 +455,8 @@ html, body {
 /* Custom Slider */
 .modern-slider {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 100%;
   height: 8px;
   border-radius: 10px;
@@ -464,6 +466,8 @@ html, body {
 
 .modern-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -499,4 +503,3 @@ html, body {
   box-shadow: 0 4px 12px rgba(80, 200, 120, 0.3);
 }
 
-/* ── RESULTS POLISH ── */
