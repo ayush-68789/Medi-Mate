@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cycle Tracker — Medi-Mate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div id="heading">
+    <a href="../dashboard/index.html" class="logo-brand" style="text-decoration:none; color:inherit;">
+      <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
+      <span class="brand-name">Medi-Mate</span>
+    </a>
+    <!-- username -->
+    <div class="profile">
+      <img src="../dashboard/assets/user.jpg" alt="user" class="avatar">
+      <span class="profile-name" id="username">Rahul K.</span>
+    </div>
+  </div>
+
+  <main class="page">
+
+    <!-- Page Header -->
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Cycle Tracker</p>
+        <h1>Your <em>cycle</em>, understood.</h1>
+      </div>
+      <button class="btn-primary" id="logBtn">+ Log Period</button>
+    </header>
+
+    <!-- Summary Cards Row -->
+    <div class="summary-row">
+      <div class="summary-card accent" id="currentPhaseCard">
+        <p class="card-label">Current Phase</p>
+        <p class="card-val" id="currentPhase">—</p>
+        <p class="card-sub" id="dayOfCycle">Day — of cycle</p>
+      </div>
+      <div class="summary-card">
+        <p class="card-label">Cycle Length</p>
+        <p class="card-val" id="cycleLength">28 <span>days</span></p>
+        <p class="card-sub">Average</p>
+      </div>
+      <div class="summary-card">
+        <p class="card-label">Next Period</p>
+        <p class="card-val" id="nextPeriodVal">—</p>
+        <p class="card-sub" id="nextPeriodDays">— days away</p>
+      </div>
+      <div class="summary-card">
+        <p class="card-label">Period Duration</p>
+        <p class="card-val" id="periodDuration">5 <span>days</span></p>
+        <p class="card-sub">Average</p>
+      </div>
+    </div>
+
+    <div class="main-grid">
+
+      <!-- Calendar -->
+      <section class="card calendar-card">
+        <div class="card-top">
+          <h2 id="calMonthLabel">Month Year</h2>
+          <div class="cal-nav">
+            <button class="nav-btn" id="prevMonth">&#8249;</button>
+            <button class="nav-btn" id="nextMonth">&#8250;</button>
+          </div>
+        </div>
+        <div class="cal-weekdays">
+          <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+          <span>Th</span><span>Fr</span><span>Sa</span>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <span class="legend-dot period"></span> Period
+          <span class="legend-dot predicted"></span> Predicted
+          <span class="legend-dot fertile"></span> Fertile window
+          <span class="legend-dot today"></span> Today
+        </div>
+      </section>
+
+      <!-- Right column -->
+      <div class="right-col">
+
+        <!-- Log form -->
+        <section class="card log-card" id="logCard">
+          <h2>Log Period</h2>
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" />
+          </div>
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input type="date" id="endDate" />
+          </div>
+          <div class="form-row">
+            <button class="btn-primary full" id="savePeriod">Save</button>
+            <button class="btn-ghost full" id="cancelLog">Cancel</button>
+          </div>
+        </section>
+
+        <!-- Prediction card -->
+        <section class="card prediction-card">
+          <h2>Upcoming</h2>
+          <div class="prediction-list" id="predictionList">
+            <!-- filled by JS -->
+          </div>
+        </section>
+
+        <!-- History -->
+        <section class="card history-card">
+          <h2>Period History</h2>
+          <ul class="history-list" id="historyList">
+            <!-- filled by JS -->
+          </ul>
+          <p class="empty-state" id="historyEmpty">No periods logged yet.</p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

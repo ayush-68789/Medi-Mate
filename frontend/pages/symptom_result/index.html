@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Analysis Report | MediMate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../dashboard/style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="heading" style="border-bottom:none;">
+        <div class="logo-brand" id="logo-home" style="cursor:pointer;" title="Back to Dashboard">
+            <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
+            <span class="brand-name">Medi-Mate</span>
+        </div>
+        <div class="profile">
+            <img src="../dashboard/assets/user.jpg" alt="user" class="avatar">
+            <span class="profile-name" id="username">Rahul K.</span>
+        </div>
+    </div>
+
+    <main class="report-container">
+        <!-- Ambient Background Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <header class="report-header">
+            <div class="header-content">
+                <span class="eyebrow reveal">Analysis Complete</span>
+                <h1 class="report-title reveal">Your Health Analysis <em>Report</em></h1>
+                <p class="report-subtitle reveal">Based on the symptoms and details you provided, our AI has generated this comprehensive health guidance.</p>
+            </div>
+            <div class="risk-meter-wrap reveal">
+                <div class="risk-meter" id="risk-meter">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="meter-track" cx="50" cy="50" r="45"></circle>
+                        <circle class="meter-fill" id="meter-fill" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="risk-content">
+                        <span class="risk-label">Risk Level</span>
+                        <span class="risk-value" id="risk-value">Calculating...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="report-grid">
+            <!-- Advisory Card -->
+            <div class="report-card advisory-card reveal">
+                <div class="card-header">
+                    <div class="card-icon">💡</div>
+                    <h3>Medical Advisory</h3>
+                </div>
+                <ul id="advisory-list" class="report-list"></ul>
+                <div class="card-shimmer"></div>
+            </div>
+
+            <!-- Precautions Card -->
+            <div class="report-card precautions-card reveal">
+                <div class="card-header">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Immediate Precautions</h3>
+                </div>
+                <ul id="precautions-list" class="report-list"></ul>
+                <div class="card-shimmer"></div>
+            </div>
+
+            <!-- Next Steps Card -->
+            <div class="report-card next-steps-card reveal">
+                <div class="card-header">
+                    <div class="card-icon">🩺</div>
+                    <h3>Recommended Next Steps</h3>
+                </div>
+                <p id="next-steps-text" class="report-text"></p>
+                <div class="card-shimmer"></div>
+            </div>
+
+            <!-- Suggested Tests Card -->
+            <div class="report-card tests-card reveal">
+                <div class="card-header">
+                    <div class="card-icon">🧪</div>
+                    <h3>Suggested Diagnostic Tests</h3>
+                </div>
+                <ul id="tests-list" class="report-list"></ul>
+                <div class="card-shimmer"></div>
+            </div>
+        </div>
+
+        <section class="analysis-details reveal">
+            <div class="details-header">
+                <h3>Analysis Context</h3>
+                <p>The information below summaries the inputs used for this diagnostic assessment.</p>
+            </div>
+            <div class="details-stats">
+                <div class="detail-item">
+                    <span class="detail-label">Reported Symptoms</span>
+                    <span class="detail-value" id="summary-symptoms">--</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Symptom Intensity</span>
+                    <span class="detail-val-wrap">
+                        <span class="detail-value" id="summary-severity">0/10</span>
+                        <span id="severity-indicator" class="severity-pill">Low</span>
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Duration</span>
+                    <span class="detail-value" id="summary-duration">--</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="report-footer reveal">
+            <div class="disclaimer-panel">
+                <div class="disclaimer-header">
+                    <span class="disclaimer-icon">⚖️</span>
+                    <h4>Medical Advisory Notice</h4>
+                </div>
+                <p id="disclaimer-text"></p>
+            </div>
+
+            <div class="report-actions">
+                <button class="action-btn secondary" id="back-to-dashboard">← Dashboard</button>
+                <button class="action-btn primary" id="new-analysis-btn">New Analysis 🔄</button>
+            </div>
+        </footer>
+    </main>
+
+    <script src="app.js" defer></script>
+
+</body>
+</html>

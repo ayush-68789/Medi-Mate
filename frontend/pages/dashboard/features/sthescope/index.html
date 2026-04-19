@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptoms | MediMate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🔥 NAVBAR -->
+    <div class="navbar">
+        <div class="head">
+            <img src="assets/logo.jpeg" alt="logo" class="logoimg">
+            <span class="logoheading">MediMate - Symptoms</span>
+        </div>
+    </div>
+
+    <!-- 🔥 MAIN CONTENT -->
+    <div class="container">
+        <div class="icon">🩺</div>
+        <h1>Symptom Awareness</h1>
+        <p>Listening to your body is important. Symptoms like fever, fatigue, or pain can signal underlying health issues.</p>
+        <p>Early detection helps in faster recovery and more effective treatment.</p>
+
+        <button id="back-btn">← Go Back</button>
+    </div>
+
+    <!-- 🔥 SCRIPT -->
+    <script>
+        document.getElementById("back-btn").addEventListener("click", () => {
+            window.history.back();   // ✅ single clean method
+        });
+    </script>
+
+</body>
+</html>
