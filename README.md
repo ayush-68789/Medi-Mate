@@ -1,9 +1,9 @@
-# ![Logo](frontend/assets/logo.jpeg) Medi-Mate
-
+# Medi-Mate
 
 <div align="center">
 
 <!-- TODO: Add project logo (e.g., `assets/logo.png`) -->
+![Logo](frontend/assets/logo.jpeg)
 
 [![GitHub stars](https://img.shields.io/github/stars/ayush-68789/Medi-Mate?style=for-the-badge)](https://github.com/ayush-68789/Medi-Mate/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/ayush-68789/Medi-Mate?style=for-the-badge)](https://github.com/ayush-68789/Medi-Mate/network)
