@@ -138,6 +138,17 @@
         <!-- JS will populate this -->
       </div>
 
+      <div class="med-form" style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed #ddd;">
+        <h4 style="font-size: 14px; margin-bottom: 12px; color: #1b5e20;">Add New Medication</h4>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <input type="text" id="new-med-name" placeholder="Medication Name (e.g. Iron)" class="custom-input">
+          <div style="display: flex; gap: 10px;">
+            <input type="time" id="new-med-time" class="custom-input" style="flex: 1;">
+            <button onclick="addNewMedication()" class="card-btn" style="margin-top: 0; width: auto; padding: 0 20px;">Add</button>
+          </div>
+        </div>
+      </div>
+
       <div style="margin-top: 30px; text-align: center;">
         <button onclick="closeModal('meds-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Close</button>
       </div>
@@ -161,6 +172,19 @@
       <div style="margin-top: 30px;">
         <button onclick="closeModal('cycle-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Close</button>
       </div>
+    </div>
+  </div>
+
+  <!-- REMINDER POPUP (Hidden by default) -->
+  <div id="reminder-overlay" class="reminder-overlay">
+    <div class="reminder-card">
+      <div class="reminder-icon">🔔</div>
+      <div class="reminder-content">
+        <h4>Medication Reminder</h4>
+        <p id="reminder-text">It's time for your [Med Name]!</p>
+      </div>
+      <button class="reminder-btn" onclick="markAsTakenFromReminder()">Take Now</button>
+      <button class="reminder-close" onclick="closeReminder()">×</button>
     </div>
   </div>
 

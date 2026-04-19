@@ -97,7 +97,7 @@
     }
 
     /* ── WATER TRACKER LOGIC ── */
-    let waterGlasses = 6;
+    let waterGlasses = 0;
     const waterTarget = 8;
 
     function openWaterModal() {
@@ -128,32 +128,69 @@
     }
 
     /* ── MEDICATION TRACKER LOGIC ── */
-    let medications = [
-      { id: 1, name: "Vitamin D", taken: true },
-      { id: 2, name: "Iron Tablet", taken: true },
-      { id: 3, name: "Omega 3", taken: false }
-    ];
+    let medications = [];
+    let activeReminder = null;
 
     function openMedsModal() {
       const list = document.getElementById('meds-list');
-      list.innerHTML = "";
+      list.innerHTML = medications.length === 0 ? '<p style="text-align:center; color:#999; padding:20px;">No medications added yet.</p>' : "";
+      
       medications.forEach(med => {
         const item = document.createElement('div');
         item.className = `med-item ${med.taken ? 'checked' : ''}`;
         item.innerHTML = `
-          <input type="checkbox" ${med.taken ? 'checked' : ''} onchange="toggleMed(${med.id})">
-          <span>${med.name}</span>
+          <div class="med-info">
+            <input type="checkbox" ${med.taken ? 'checked' : ''} onchange="toggleMed(${med.id})">
+            <div>
+                <span>${med.name}</span>
+                <span class="med-time">⏰ ${formatTime(med.time)}</span>
+            </div>
+          </div>
+          <button class="btn-delete" onclick="deleteMedication(${med.id})">×</button>
         `;
         list.appendChild(item);
       });
       openModal('meds-modal');
     }
 
+    function addNewMedication() {
+        const nameInput = document.getElementById('new-med-name');
+        const timeInput = document.getElementById('new-med-time');
+        
+        if (!nameInput.value || !timeInput.value) {
+            alert("Please provide both name and time.");
+            return;
+        }
+
+        const newMed = {
+            id: Date.now(),
+            name: nameInput.value,
+            time: timeInput.value,
+            taken: false,
+            lastNotified: "" // To prevent multiple notifications in the same minute
+        };
+
+        medications.push(newMed);
+        nameInput.value = "";
+        timeInput.value = "";
+        
+        openMedsModal();
+        updateMedsChip();
+        saveDashboardData();
+    }
+
+    function deleteMedication(id) {
+        medications = medications.filter(m => m.id !== id);
+        openMedsModal();
+        updateMedsChip();
+        saveDashboardData();
+    }
+
     function toggleMed(id) {
       const med = medications.find(m => m.id === id);
       if (med) {
         med.taken = !med.taken;
-        openMedsModal(); // refresh list
+        openMedsModal(); 
         updateMedsChip();
         saveDashboardData();
       }
@@ -165,6 +202,12 @@
       document.getElementById('meds-count').innerText = `${takenCount}/${totalCount}`;
       
       const trend = document.getElementById('meds-trend');
+      if (totalCount === 0) {
+        trend.innerText = "No meds scheduled";
+        trend.className = "stat-trend neutral";
+        return;
+      }
+
       const pending = totalCount - takenCount;
       if (pending === 0) {
         trend.innerText = "✓ All taken";
@@ -173,6 +216,51 @@
         trend.innerText = `⏳ ${pending} pending`;
         trend.className = "stat-trend neutral";
       }
+    }
+
+    function formatTime(time24) {
+        const [h, m] = time24.split(':');
+        const hour = parseInt(h);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const h12 = hour % 12 || 12;
+        return `${h12}:${m} ${ampm}`;
+    }
+
+    /* ── REMINDER ENGINE ── */
+    function startReminderEngine() {
+        setInterval(() => {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const today = now.toISOString().split('T')[0];
+
+            medications.forEach(med => {
+                if (!med.taken && med.time === currentTime && med.lastNotified !== today) {
+                    showReminder(med);
+                    med.lastNotified = today;
+                    saveDashboardData();
+                }
+            });
+        }, 30000); // Check every 30 seconds
+    }
+
+    function showReminder(med) {
+        activeReminder = med;
+        document.getElementById('reminder-text').innerText = `It's time for your ${med.name}!`;
+        document.getElementById('reminder-overlay').style.display = "block";
+        
+        // Play subtle sound if possible or just visual
+    }
+
+    function closeReminder() {
+        document.getElementById('reminder-overlay').style.display = "none";
+        activeReminder = null;
+    }
+
+    function markAsTakenFromReminder() {
+        if (activeReminder) {
+            toggleMed(activeReminder.id);
+            closeReminder();
+        }
     }
 
     /* ── CYCLE TRACKER LOGIC ── */
@@ -253,18 +341,27 @@
       const dashboardData = {
         water: waterGlasses,
         meds: medications,
-        cycleDate: lastPeriodStart
+        cycleDate: lastPeriodStart,
+        lastSavedDate: today
       };
-      localStorage.setItem("dashboard-" + today, JSON.stringify(dashboardData));
+      localStorage.setItem("dashboard_v2", JSON.stringify(dashboardData));
     }
 
     function loadDashboardData() {
       const today = new Date().toISOString().split("T")[0];
-      const saved = localStorage.getItem("dashboard-" + today);
+      const saved = localStorage.getItem("dashboard_v2");
       if (saved) {
         const data = JSON.parse(saved);
-        waterGlasses = data.water || 6;
-        medications = data.meds || medications;
+        
+        // Reset "taken" status if it's a new day
+        if (data.lastSavedDate !== today) {
+            data.meds.forEach(m => m.taken = false);
+            waterGlasses = 0; // Reset water too for new day
+        } else {
+            waterGlasses = data.water || 0;
+        }
+
+        medications = data.meds || [];
         lastPeriodStart = data.cycleDate || "";
         
         // Update UIs
@@ -272,7 +369,8 @@
         updateMedsChip();
         updateCycleChip();
         if (lastPeriodStart) {
-            document.getElementById('cycle-date-input').value = lastPeriodStart;
+            const input = document.getElementById('cycle-date-input');
+            if (input) input.value = lastPeriodStart;
         }
       }
     }
@@ -317,6 +415,7 @@
     // Load saved mood & other data
     window.addEventListener('load', () => {
       loadDashboardData();
+      startReminderEngine();
       
       const today = new Date().toISOString().split("T")[0];
       const savedMood = localStorage.getItem("mood-" + today);
