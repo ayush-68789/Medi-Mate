@@ -12,7 +12,7 @@
     const chain  = document.getElementById('chain');
 
     const pages = {
-        '🩺': '../symptom-checker/index.html',
+        '🩺': 'features/stethoscope/index.html',
         '📋': 'features/reports/index.html',
         '🩸': 'features/blood/index.html',
         '💊': 'features/med/index.html',
