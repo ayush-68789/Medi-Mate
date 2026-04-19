@@ -502,3 +502,86 @@
     .hero.reveal { transition-delay: 0.2s; }
     .stats-row.reveal { transition-delay: 0.3s; }
     .cards-section.reveal { transition-delay: 0.4s; }
+    /* ── INTERACTIVE MODAL ELEMENTS ── */
+    .counter-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin: 20px 0;
+    }
+    .counter-display span {
+      font-size: 48px;
+      font-weight: 700;
+      color: #1b5e20;
+      min-width: 60px;
+    }
+    .btn-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid #50C878;
+      background: white;
+      color: #50C878;
+      font-size: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .btn-circle:hover {
+      background: #50C878;
+      color: white;
+    }
+
+    .meds-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .med-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f8fdf9;
+      border-radius: 12px;
+      border: 1px solid rgba(80, 200, 120, 0.1);
+      transition: background 0.2s;
+    }
+    .med-item:hover { background: #f0f7f1; }
+    .med-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #50C878;
+      cursor: pointer;
+    }
+    .med-item span {
+      font-size: 15px;
+      color: #2e7d32;
+      font-weight: 500;
+    }
+    .med-item.checked span {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .date-input-container {
+      margin: 20px 0;
+    }
+    .custom-date-picker {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(80, 200, 120, 0.3);
+      font-family: inherit;
+      font-size: 15px;
+      color: #1b5e20;
+      outline: none;
+    }
+    .custom-date-picker:focus {
+      border-color: #50C878;
+      box-shadow: 0 0 0 3px rgba(80, 200, 120, 0.1);
+    }

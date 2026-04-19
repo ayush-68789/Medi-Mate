@@ -55,20 +55,20 @@
       <div class="stat-lbl">Mood today</div>
       <div class="stat-trend up" id="mood-text">Feeling happy</div>
     </div>
-    <div class="stat-chip blue" onclick="showTip('water')">
-      <div class="stat-num">6/8</div>
+    <div class="stat-chip blue" onclick="openWaterModal()">
+      <div class="stat-num" id="water-count">6/8</div>
       <div class="stat-lbl">Glasses of water</div>
-      <div class="stat-trend up">↑ On track</div>
+      <div class="stat-trend up" id="water-trend">↑ On track</div>
     </div>
-    <div class="stat-chip amber" onclick="showTip('meds')">
-      <div class="stat-num">2/3</div>
+    <div class="stat-chip amber" onclick="openMedsModal()">
+      <div class="stat-num" id="meds-count">2/3</div>
       <div class="stat-lbl">Medications taken</div>
-      <div class="stat-trend neutral">⏳ 1 pending</div>
+      <div class="stat-trend neutral" id="meds-trend">⏳ 1 pending</div>
     </div>
-    <div class="stat-chip rose" onclick="showTip('cycle')">
-      <div class="stat-num">Day 14</div>
+    <div class="stat-chip rose" onclick="openCycleModal()">
+      <div class="stat-num" id="cycle-count">Day 14</div>
       <div class="stat-lbl">Cycle phase</div>
-      <div class="stat-trend up">Ovulation window</div>
+      <div class="stat-trend up" id="cycle-trend">Ovulation window</div>
     </div>
   </div>
 
@@ -109,22 +109,57 @@
   </div>
 
 
-  <!-- MOOD MODAL -->
-  <div id="mood-modal" class="modal">
+  <!-- WATER MODAL -->
+  <div id="water-modal" class="modal">
     <div class="modal-box">
-      <h3>How are you feeling today?</h3>
-      <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Your mood helps us personalize your health journey.</p>
+      <h3>Hydration Tracker</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Stay hydrated! Aim for 8 glasses a day.</p>
       
-      <div class="emoji-row">
-        <span onclick="selectMood('happy', this)" title="Happy">😄</span>
-        <span onclick="selectMood('calm', this)" title="Calm">🙂</span>
-        <span onclick="selectMood('neutral', this)" title="Neutral">😐</span>
-        <span onclick="selectMood('sad', this)" title="Sad">😔</span>
-        <span onclick="selectMood('angry', this)" title="Angry">😡</span>
+      <div class="counter-display">
+        <button class="btn-circle" onclick="updateWater(-1)">−</button>
+        <span id="modal-water-count">6</span>
+        <button class="btn-circle" onclick="updateWater(1)">+</button>
+      </div>
+      <p style="font-size: 14px; color: #2e7d32; margin-top: 10px;">Glasses of water today</p>
+
+      <div style="margin-top: 30px;">
+        <button onclick="closeModal('water-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDS MODAL -->
+  <div id="meds-modal" class="modal">
+    <div class="modal-box" style="text-align: left;">
+      <h3 style="text-align: center;">Medication List</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px; text-align: center;">Mark your medications as taken.</p>
+      
+      <div id="meds-list" class="meds-checklist">
+        <!-- JS will populate this -->
       </div>
 
-      <div style="margin-top: 20px;">
-        <button onclick="closeMoodModal()" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Cancel</button>
+      <div style="margin-top: 30px; text-align: center;">
+        <button onclick="closeModal('meds-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CYCLE MODAL -->
+  <div id="cycle-modal" class="modal">
+    <div class="modal-box">
+      <h3>Cycle Tracking</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">When did your last period start?</p>
+      
+      <div class="date-input-container">
+        <input type="date" id="cycle-date-input" onchange="setCycleDate(this.value)" class="custom-date-picker">
+      </div>
+
+      <div id="cycle-info-details" style="margin-top: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 12px; font-size: 14px; color: #4a7c59;">
+        <!-- JS will populate this -->
+      </div>
+
+      <div style="margin-top: 30px;">
+        <button onclick="closeModal('cycle-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Close</button>
       </div>
     </div>
   </div>

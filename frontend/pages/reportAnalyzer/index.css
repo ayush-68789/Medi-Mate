@@ -37,13 +37,14 @@
     }
 
     /* ── HEADER ── */
-    header {
+    #heading {
       display: flex; justify-content: space-between; align-items: center;
       padding: 14px 40px;
-      background: rgba(236,255,220,0.82);
+      background: rgba(236,255,220,0.85);
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       position: sticky; top: 0; z-index: 200;
-      border-bottom: 1px solid var(--g-border);
+      border-bottom: 0.5px solid rgba(46, 125, 50, 0.15);
     }
     .logo-brand {
       display: flex;
@@ -52,7 +53,7 @@
     }
 
     .logo-icon {
-      width: 30px; height: 30px;
+      width: 38px; height: 38px;
       border-radius: 10px;
       background: linear-gradient(135deg, #50C878, #2e7d32);
       display: flex; align-items: center; justify-content: center;
@@ -68,7 +69,10 @@
 
     .brand-name {
       font-family: 'DM Serif Display', serif;
-      font-size: 22px; color: var(--green-dark); letter-spacing: -0.2px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #2e7d32;
+      letter-spacing: -0.3px;
     }
     .profile {
       display: flex;

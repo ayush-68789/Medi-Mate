@@ -87,6 +87,196 @@
       tipTimeout = setTimeout(() => { area.innerHTML = ''; }, 5000);
     }
 
+    /* ── GENERAL MODAL LOGIC ── */
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+    }
+
+    /* ── WATER TRACKER LOGIC ── */
+    let waterGlasses = 6;
+    const waterTarget = 8;
+
+    function openWaterModal() {
+      document.getElementById('modal-water-count').innerText = waterGlasses;
+      openModal('water-modal');
+    }
+
+    function updateWater(change) {
+      waterGlasses = Math.max(0, waterGlasses + change);
+      document.getElementById('modal-water-count').innerText = waterGlasses;
+      
+      // Update Chip UI
+      document.getElementById('water-count').innerText = `${waterGlasses}/${waterTarget}`;
+      
+      const trend = document.getElementById('water-trend');
+      if (waterGlasses >= waterTarget) {
+        trend.innerText = "✓ Goal reached";
+        trend.className = "stat-trend up";
+      } else if (waterGlasses >= 5) {
+        trend.innerText = "↑ On track";
+        trend.className = "stat-trend up";
+      } else {
+        trend.innerText = "⏳ Keep drinking";
+        trend.className = "stat-trend neutral";
+      }
+
+      saveDashboardData();
+    }
+
+    /* ── MEDICATION TRACKER LOGIC ── */
+    let medications = [
+      { id: 1, name: "Vitamin D", taken: true },
+      { id: 2, name: "Iron Tablet", taken: true },
+      { id: 3, name: "Omega 3", taken: false }
+    ];
+
+    function openMedsModal() {
+      const list = document.getElementById('meds-list');
+      list.innerHTML = "";
+      medications.forEach(med => {
+        const item = document.createElement('div');
+        item.className = `med-item ${med.taken ? 'checked' : ''}`;
+        item.innerHTML = `
+          <input type="checkbox" ${med.taken ? 'checked' : ''} onchange="toggleMed(${med.id})">
+          <span>${med.name}</span>
+        `;
+        list.appendChild(item);
+      });
+      openModal('meds-modal');
+    }
+
+    function toggleMed(id) {
+      const med = medications.find(m => m.id === id);
+      if (med) {
+        med.taken = !med.taken;
+        openMedsModal(); // refresh list
+        updateMedsChip();
+        saveDashboardData();
+      }
+    }
+
+    function updateMedsChip() {
+      const takenCount = medications.filter(m => m.taken).length;
+      const totalCount = medications.length;
+      document.getElementById('meds-count').innerText = `${takenCount}/${totalCount}`;
+      
+      const trend = document.getElementById('meds-trend');
+      const pending = totalCount - takenCount;
+      if (pending === 0) {
+        trend.innerText = "✓ All taken";
+        trend.className = "stat-trend up";
+      } else {
+        trend.innerText = `⏳ ${pending} pending`;
+        trend.className = "stat-trend neutral";
+      }
+    }
+
+    /* ── CYCLE TRACKER LOGIC ── */
+    let lastPeriodStart = "";
+
+    function openCycleModal() {
+      if (lastPeriodStart) {
+        document.getElementById('cycle-date-input').value = lastPeriodStart;
+        updateCycleDetails();
+      }
+      openModal('cycle-modal');
+    }
+
+    function setCycleDate(date) {
+      lastPeriodStart = date;
+      updateCycleDetails();
+      updateCycleChip();
+      saveDashboardData();
+    }
+
+    function updateCycleDetails() {
+      const details = document.getElementById('cycle-info-details');
+      if (!lastPeriodStart) {
+        details.innerHTML = "Select a start date to see cycle insights.";
+        return;
+      }
+
+      const start = new Date(lastPeriodStart);
+      const today = new Date();
+      const diffTime = Math.abs(today - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      const cycleDay = (diffDays % 28) || 28;
+      let phase = "";
+      let advice = "";
+
+      if (cycleDay <= 5) {
+        phase = "Menstrual Phase";
+        advice = "Focus on rest and warm, iron-rich foods. Gentle stretching is recommended.";
+      } else if (cycleDay <= 13) {
+        phase = "Follicular Phase";
+        advice = "Energy levels are rising. Great time for high-intensity workouts and social planning.";
+      } else if (cycleDay <= 16) {
+        phase = "Ovulation Window";
+        advice = "Highest fertility window. You might feel more social and vibrant today!";
+      } else {
+        phase = "Luteal Phase";
+        advice = "Self-care is key. Focus on magnesium-rich foods and getting enough sleep.";
+      }
+
+      details.innerHTML = `
+        <p><strong>Day ${cycleDay}</strong> — ${phase}</p>
+        <p style="margin-top: 8px; font-style: italic;">"${advice}"</p>
+      `;
+    }
+
+    function updateCycleChip() {
+      if (!lastPeriodStart) return;
+      
+      const start = new Date(lastPeriodStart);
+      const today = new Date();
+      const diffTime = Math.abs(today - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const cycleDay = (diffDays % 28) || 28;
+
+      document.getElementById('cycle-count').innerText = `Day ${cycleDay}`;
+      const trend = document.getElementById('cycle-trend');
+      
+      if (cycleDay <= 5) trend.innerText = "Menstrual phase";
+      else if (cycleDay <= 13) trend.innerText = "Follicular phase";
+      else if (cycleDay <= 16) trend.innerText = "Ovulation window";
+      else trend.innerText = "Luteal phase";
+    }
+
+    /* ── PERSISTENCE ── */
+    function saveDashboardData() {
+      const today = new Date().toISOString().split("T")[0];
+      const dashboardData = {
+        water: waterGlasses,
+        meds: medications,
+        cycleDate: lastPeriodStart
+      };
+      localStorage.setItem("dashboard-" + today, JSON.stringify(dashboardData));
+    }
+
+    function loadDashboardData() {
+      const today = new Date().toISOString().split("T")[0];
+      const saved = localStorage.getItem("dashboard-" + today);
+      if (saved) {
+        const data = JSON.parse(saved);
+        waterGlasses = data.water || 6;
+        medications = data.meds || medications;
+        lastPeriodStart = data.cycleDate || "";
+        
+        // Update UIs
+        document.getElementById('water-count').innerText = `${waterGlasses}/${waterTarget}`;
+        updateMedsChip();
+        updateCycleChip();
+        if (lastPeriodStart) {
+            document.getElementById('cycle-date-input').value = lastPeriodStart;
+        }
+      }
+    }
+
     /* ── MOOD TRACKER LOGIC ── */
     let selectedMood = "";
 
@@ -99,7 +289,7 @@
     };
 
     function openMoodModal() {
-      document.getElementById("mood-modal").style.display = "flex";
+      openModal('mood-modal');
     }
 
     function selectMood(mood, el) {
@@ -121,23 +311,17 @@
       document.getElementById("mood-emoji").innerText = moodMap[selectedMood].emoji;
       document.getElementById("mood-text").innerText = moodMap[selectedMood].text;
 
-      setTimeout(closeMoodModal, 300);
+      setTimeout(() => closeModal('mood-modal'), 300);
     }
 
-    function closeMoodModal() {
-      document.getElementById("mood-modal").style.display = "none";
-      document.querySelectorAll(".emoji-row span").forEach(e => {
-        e.style.transform = "scale(1)";
-        e.style.opacity = "1";
-      });
-    }
-
-    // Load saved mood
+    // Load saved mood & other data
     window.addEventListener('load', () => {
+      loadDashboardData();
+      
       const today = new Date().toISOString().split("T")[0];
-      const saved = localStorage.getItem("mood-" + today);
-      if (saved) {
-        const data = JSON.parse(saved);
+      const savedMood = localStorage.getItem("mood-" + today);
+      if (savedMood) {
+        const data = JSON.parse(savedMood);
         if (moodMap[data.mood]) {
           document.getElementById("mood-emoji").innerText = moodMap[data.mood].emoji;
           document.getElementById("mood-text").innerText = moodMap[data.mood].text;

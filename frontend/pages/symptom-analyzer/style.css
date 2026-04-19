@@ -50,24 +50,18 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── AMBIENT ORBS ── */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  background: #50C878;
-  filter: blur(80px);
-  z-index: -1;
-  opacity: 0.15;
-  animation: orbDrift 15s infinite alternate ease-in-out;
+/* ── FLOATING PARTICLES ── */
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.particle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(80,200,120,0.18), transparent 70%);
+  animation: drift linear infinite;
 }
-
-.orb-1 { width: 300px; height: 300px; top: -50px; left: -100px; animation-delay: 0s; }
-.orb-2 { width: 400px; height: 400px; bottom: -100px; right: -50px; opacity: 0.12; animation-delay: -5s; }
-.orb-3 { width: 200px; height: 200px; top: 40%; left: 40%; opacity: 0.08; animation-delay: -10s; }
-
-@keyframes orbDrift {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(40px, -50px) scale(1.1); }
+@keyframes drift {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
 }
 
 /* ── LEFT PANEL ── */
