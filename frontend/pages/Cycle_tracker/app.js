@@ -1,6 +1,7 @@
-
-const AVG_CYCLE  = 28;
-const AVG_PERIOD = 5;
+const AVG_CYCLE   = 28;   // days
+const AVG_PERIOD  = 5;    // days
+const FERTILE_BEFORE_OVULATION = 5;
+const OVULATION_DAY = 14; // days before next period
 
 let viewDate = new Date();
 let cycles   = [];
@@ -208,8 +209,8 @@ function updatePredictions() {
   today.setHours(0, 0, 0, 0);
   const daysAway = diffDays(today, nextDate);
 
-  const ovulation    = addDays(nextDate, -14);
-  const fertileStart = addDays(ovulation, -5);
+  const ovulation    = addDays(nextDate, -OVULATION_DAY);
+  const fertileStart = addDays(ovulation, -FERTILE_BEFORE_OVULATION);
   const fertileEnd   = addDays(ovulation, 1);
 
   const items = [
