@@ -42,6 +42,7 @@ em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; }
       position: sticky;
       top: 0;
       z-index: 100;
+      position: relative; /* Added for stacking context */
       border-bottom: 0.5px solid rgba(46, 125, 50, 0.15);
     }
 
@@ -98,11 +99,77 @@ em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; }
       color: #1b5e20;
     }
 
+    /* ── LOGOUT DROPDOWN (Refined) ── */
+    .profile {
+      position: relative;
+    }
+
+    .logout-dropdown {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(80, 200, 120, 0.2);
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 15px 35px rgba(27, 94, 32, 0.15);
+      display: none;
+      z-index: 1000;
+      min-width: 150px;
+      animation: dropdownSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: top right;
+    }
+
+    .logout-dropdown.show {
+      display: block;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      color: #c62828;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .logout-btn:hover {
+      background: rgba(198, 40, 40, 0.08);
+      transform: translateX(-2px);
+    }
+
+    .logout-btn span:first-child {
+        letter-spacing: 0.3px;
+    }
+
+    .logout-btn .icon {
+        font-size: 16px;
+        opacity: 0.8;
+    }
+
+    @keyframes dropdownSlide {
+      from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
 /* ─── Page ─── */
 .page {
   max-width: 1100px;
   margin: 0 auto;
   padding: 48px 32px 80px;
+  position: relative;
+  z-index: 10;
 }
 
 /* ─── Page Header ─── */
@@ -391,6 +458,23 @@ em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; }
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FLOATING GLOWING ORBS ── */
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.particle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(80, 200, 120, 0.4) 0%, rgba(80, 200, 120, 0.1) 40%, transparent 70%);
+  filter: blur(8px);
+  box-shadow: 0 0 20px rgba(80, 200, 120, 0.2);
+  animation: drift linear infinite;
+}
+@keyframes drift {
+  0%   { transform: translateY(110vh) translateX(0) scale(0.6); opacity: 0; }
+  20%  { opacity: 0.6; }
+  50%  { transform: translateY(50vh) translateX(30px) scale(1); opacity: 0.8; }
+  80%  { opacity: 0.6; }
+  100% { transform: translateY(-20vh) translateX(-20px) scale(1.4); opacity: 0; }
 }
 
 .form-group {

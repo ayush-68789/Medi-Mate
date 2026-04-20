@@ -1,10 +1,28 @@
 /* ── GREETING based on time ── */
+    const userStr = localStorage.getItem('user');
+    let firstName = 'User';
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            firstName = user.username.split(' ')[0];
+            const usernameEl = document.getElementById('username');
+            if (usernameEl) usernameEl.textContent = firstName;
+        } catch (e) {
+            console.error("Error parsing user from localStorage", e);
+        }
+    }
+
     const hour = new Date().getHours();
     const greetWord = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-    document.getElementById('greeting').textContent = greetWord + ', Rahul 👋';
+    const greetingEl = document.getElementById('greeting');
+    if (greetingEl) greetingEl.textContent = greetWord + ', ' + firstName + ' 👋';
+
     const dateOpts = { weekday: 'long', month: 'long', day: 'numeric' };
-    document.getElementById('date-line').textContent =
-      "Here's your health summary for " + new Date().toLocaleDateString('en-IN', dateOpts);
+    const dateLineEl = document.getElementById('date-line');
+    if (dateLineEl) {
+        dateLineEl.textContent =
+          "Here's your health summary for " + new Date().toLocaleDateString('en-IN', dateOpts);
+    }
 
     /* ── LOGO CHAIN ── */
     const icons  = ['🩺','📋','🩸','💊','🧬','❤️','🫀','🧪','💉','🌡️','🩹'];
@@ -59,12 +77,6 @@
       if (count >= target) clearInterval(timer);
     }, 35);
 
-    /* ── HEALTH SCORE ring animate ── */
-    const ring = document.getElementById('ring');
-    const circ = 2 * Math.PI * 14;
-    setTimeout(() => {
-      ring.style.strokeDasharray = (circ * 0.82).toFixed(1) + ' ' + circ.toFixed(1);
-    }, 400);
 
     /* ── STAT CHIP TIPS ── */
     const tips = {
@@ -96,283 +108,123 @@
       document.getElementById(id).style.display = "none";
     }
 
-    /* ── WATER TRACKER LOGIC ── */
-    let waterGlasses = 0;
-    const waterTarget = 8;
+    /* ── NUTRIENT GUIDE LOGIC ── */
+    const nutrients = [
+      { name: "Vitamin A", icon: "🥕", benefit: "Essential for good vision, immunity, and healthy skin.", sources: ["Carrots", "Sweet Potatoes", "Spinach", "Kale", "Beef Liver"] },
+      { name: "Vitamin C", icon: "🍊", benefit: "Strong antioxidant, boosts immunity and helps collagen production.", sources: ["Oranges", "Bell Peppers", "Strawberries", "Broccoli", "Kiwi"] },
+      { name: "Iron", icon: "🥩", benefit: "Vital for oxygen transport in blood and maintaining energy levels.", sources: ["Red Meat", "Spinach", "Lentils", "Pumpkin Seeds", "Quinoa"] },
+      { name: "Calcium", icon: "🥛", benefit: "Critical for strong bones, healthy teeth, and muscle function.", sources: ["Milk", "Yogurt", "Fortified Tofu", "Sardines", "Almonds"] },
+      { name: "Magnesium", icon: "🥜", benefit: "Supports muscle and nerve function, and improves sleep quality.", sources: ["Almonds", "Bananas", "Dark Chocolate", "Avocado", "Cashews"] },
+      { name: "Vitamin D", icon: "☀️", benefit: "Helps calcium absorption and supports immune and bone health.", sources: ["Salmon", "Egg Yolks", "Mushrooms", "Fortified Milk", "Sunshine"] },
+      { name: "Fiber", icon: "🌾", benefit: "Essential for digestive health and maintaining steady blood sugar.", sources: ["Oats", "Beans", "Apples", "Chia Seeds", "Whole Grains"] }
+    ];
 
-    function openWaterModal() {
-      document.getElementById('modal-water-count').innerText = waterGlasses;
-      openModal('water-modal');
+    let selectedNutrient = nutrients[0];
+
+    function updateNutrientChip() {
+      // Pick a nutrient based on the day of the year (consistent daily)
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+      selectedNutrient = nutrients[dayOfYear % nutrients.length];
+      
+      const iconEl = document.getElementById('nutrient-icon');
+      const nameEl = document.getElementById('nutrient-name');
+      
+      if (iconEl) iconEl.innerText = selectedNutrient.icon;
+      if (nameEl) nameEl.innerText = selectedNutrient.name;
     }
 
-    function updateWater(change) {
-      waterGlasses = Math.max(0, waterGlasses + change);
-      document.getElementById('modal-water-count').innerText = waterGlasses;
+    function openNutrientModal() {
+      document.getElementById('modal-nutrient-icon').innerText = selectedNutrient.icon;
+      document.getElementById('modal-nutrient-name').innerText = selectedNutrient.name;
+      document.getElementById('modal-nutrient-benefit').innerText = selectedNutrient.benefit;
       
-      // Update Chip UI
-      document.getElementById('water-count').innerText = `${waterGlasses}/${waterTarget}`;
-      
-      const trend = document.getElementById('water-trend');
-      if (waterGlasses >= waterTarget) {
-        trend.innerText = "✓ Goal reached";
-        trend.className = "stat-trend up";
-      } else if (waterGlasses >= 5) {
-        trend.innerText = "↑ On track";
-        trend.className = "stat-trend up";
-      } else {
-        trend.innerText = "⏳ Keep drinking";
-        trend.className = "stat-trend neutral";
-      }
-
-      saveDashboardData();
-    }
-
-    /* ── MEDICATION TRACKER LOGIC ── */
-    let medications = [];
-    let activeReminder = null;
-
-    function openMedsModal() {
-      const list = document.getElementById('meds-list');
-      list.innerHTML = medications.length === 0 ? '<p style="text-align:center; color:#999; padding:20px;">No medications added yet.</p>' : "";
-      
-      medications.forEach(med => {
-        const item = document.createElement('div');
-        item.className = `med-item ${med.taken ? 'checked' : ''}`;
-        item.innerHTML = `
-          <div class="med-info">
-            <input type="checkbox" ${med.taken ? 'checked' : ''} onchange="toggleMed(${med.id})">
-            <div>
-                <span>${med.name}</span>
-                <span class="med-time">⏰ ${formatTime(med.time)}</span>
-            </div>
-          </div>
-          <button class="btn-delete" onclick="deleteMedication(${med.id})">×</button>
-        `;
-        list.appendChild(item);
+      const sourcesList = document.getElementById('modal-nutrient-sources');
+      sourcesList.innerHTML = '';
+      selectedNutrient.sources.forEach(source => {
+        const span = document.createElement('span');
+        span.className = 'mood-tag';
+        span.style.cursor = 'default';
+        span.innerText = source;
+        sourcesList.appendChild(span);
       });
-      openModal('meds-modal');
-    }
-
-    function addNewMedication() {
-        const nameInput = document.getElementById('new-med-name');
-        const timeInput = document.getElementById('new-med-time');
-        
-        if (!nameInput.value || !timeInput.value) {
-            alert("Please provide both name and time.");
-            return;
-        }
-
-        const newMed = {
-            id: Date.now(),
-            name: nameInput.value,
-            time: timeInput.value,
-            taken: false,
-            lastNotified: "" // To prevent multiple notifications in the same minute
-        };
-
-        medications.push(newMed);
-        nameInput.value = "";
-        timeInput.value = "";
-        
-        openMedsModal();
-        updateMedsChip();
-        saveDashboardData();
-    }
-
-    function deleteMedication(id) {
-        medications = medications.filter(m => m.id !== id);
-        openMedsModal();
-        updateMedsChip();
-        saveDashboardData();
-    }
-
-    function toggleMed(id) {
-      const med = medications.find(m => m.id === id);
-      if (med) {
-        med.taken = !med.taken;
-        openMedsModal(); 
-        updateMedsChip();
-        saveDashboardData();
-      }
-    }
-
-    function updateMedsChip() {
-      const takenCount = medications.filter(m => m.taken).length;
-      const totalCount = medications.length;
-      document.getElementById('meds-count').innerText = `${takenCount}/${totalCount}`;
       
-      const trend = document.getElementById('meds-trend');
-      if (totalCount === 0) {
-        trend.innerText = "No meds scheduled";
-        trend.className = "stat-trend neutral";
-        return;
-      }
+      openModal('nutrient-modal');
+    }
+    
 
-      const pending = totalCount - takenCount;
-      if (pending === 0) {
-        trend.innerText = "✓ All taken";
-        trend.className = "stat-trend up";
-      } else {
-        trend.innerText = `⏳ ${pending} pending`;
-        trend.className = "stat-trend neutral";
-      }
+    /* ── AI HEALTH QUOTE LOGIC ── */
+    const healthQuotes = [
+      "Health is a state of complete harmony of the body, mind and spirit.",
+      "A healthy outside starts from the inside.",
+      "Your body is your most priceless possession. Take care of it.",
+      "Early to bed and early to rise makes a man healthy, wealthy and wise.",
+      "Good health is not something we can buy. However, it can be an valuable savings account.",
+      "To keep the body in good health is a duty... otherwise we shall not be able to keep our mind strong and clear.",
+      "Happiness is the highest form of health.",
+      "The first wealth is health. - Ralph Waldo Emerson",
+      "He who has health has hope; and he who has hope, has everything."
+    ];
+
+    function updateHealthQuote() {
+      const quoteEl = document.getElementById('health-quote');
+      if (!quoteEl) return;
+
+      // Start fade out
+      quoteEl.style.opacity = 0;
+
+      setTimeout(() => {
+        // Pick a truly random quote
+        const quoteIdx = Math.floor(Math.random() * healthQuotes.length);
+        quoteEl.innerText = `"${healthQuotes[quoteIdx]}"`;
+        // Start fade in
+        quoteEl.style.opacity = 1;
+      }, 500); // Wait for fade out (0.5s) to complete
     }
 
-    function formatTime(time24) {
-        const [h, m] = time24.split(':');
-        const hour = parseInt(h);
-        const ampm = hour >= 12 ? 'PM' : 'AM';
-        const h12 = hour % 12 || 12;
-        return `${h12}:${m} ${ampm}`;
-    }
+    /* ── DAILY WELLNESS GOAL LOGIC ── */
+    const dailyGoals = [
+      { title: "Brisk Walk", icon: "👟", description: "Take a 15-minute brisk walk today. It boosts cardiovascular health and clears your mind." },
+      { title: "Deep Breathing", icon: "🧘", description: "Practice 5 minutes of deep breathing to lower stress and improve lung capacity." },
+      { title: "Hydration Focus", icon: "💧", description: "Drink a glass of water every 2 hours today to maintain peak cellular function." },
+      { title: "Fruit Portion", icon: "🍎", description: "Eat at least two different fruits today to get a variety of vitamins and fiber." },
+      { title: "Postural Break", icon: "🪑", description: "Every hour, stand up and stretch for 1 minute to reverse the effects of sitting." },
+      { title: "Mindful Eating", icon: "🥗", description: "Eat one meal today without any screens. Focus entirely on the flavor and texture of your food." },
+      { title: "No Sugar", icon: "🚫", description: "Try to avoid all added sugars today. Your energy levels will be more stable!" }
+    ];
 
-    /* ── REMINDER ENGINE ── */
-    function startReminderEngine() {
-        setInterval(() => {
-            const now = new Date();
-            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-            const today = now.toISOString().split('T')[0];
+    let selectedGoal = dailyGoals[0];
 
-            medications.forEach(med => {
-                if (!med.taken && med.time === currentTime && med.lastNotified !== today) {
-                    showReminder(med);
-                    med.lastNotified = today;
-                    saveDashboardData();
-                }
-            });
-        }, 30000); // Check every 30 seconds
-    }
-
-    function showReminder(med) {
-        activeReminder = med;
-        document.getElementById('reminder-text').innerText = `It's time for your ${med.name}!`;
-        document.getElementById('reminder-overlay').style.display = "block";
-        
-        // Play subtle sound if possible or just visual
-    }
-
-    function closeReminder() {
-        document.getElementById('reminder-overlay').style.display = "none";
-        activeReminder = null;
-    }
-
-    function markAsTakenFromReminder() {
-        if (activeReminder) {
-            toggleMed(activeReminder.id);
-            closeReminder();
-        }
-    }
-
-    /* ── CYCLE TRACKER LOGIC ── */
-    let lastPeriodStart = "";
-
-    function openCycleModal() {
-      if (lastPeriodStart) {
-        document.getElementById('cycle-date-input').value = lastPeriodStart;
-        updateCycleDetails();
-      }
-      openModal('cycle-modal');
-    }
-
-    function setCycleDate(date) {
-      lastPeriodStart = date;
-      updateCycleDetails();
-      updateCycleChip();
-      saveDashboardData();
-    }
-
-    function updateCycleDetails() {
-      const details = document.getElementById('cycle-info-details');
-      if (!lastPeriodStart) {
-        details.innerHTML = "Select a start date to see cycle insights.";
-        return;
-      }
-
-      const start = new Date(lastPeriodStart);
-      const today = new Date();
-      const diffTime = Math.abs(today - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    function updateDailyGoal() {
+      // Pick a goal based on the day of the year
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+      selectedGoal = dailyGoals[dayOfYear % dailyGoals.length];
       
-      const cycleDay = (diffDays % 28) || 28;
-      let phase = "";
-      let advice = "";
-
-      if (cycleDay <= 5) {
-        phase = "Menstrual Phase";
-        advice = "Focus on rest and warm, iron-rich foods. Gentle stretching is recommended.";
-      } else if (cycleDay <= 13) {
-        phase = "Follicular Phase";
-        advice = "Energy levels are rising. Great time for high-intensity workouts and social planning.";
-      } else if (cycleDay <= 16) {
-        phase = "Ovulation Window";
-        advice = "Highest fertility window. You might feel more social and vibrant today!";
-      } else {
-        phase = "Luteal Phase";
-        advice = "Self-care is key. Focus on magnesium-rich foods and getting enough sleep.";
-      }
-
-      details.innerHTML = `
-        <p><strong>Day ${cycleDay}</strong> — ${phase}</p>
-        <p style="margin-top: 8px; font-style: italic;">"${advice}"</p>
-      `;
+      const iconEl = document.getElementById('goal-icon');
+      const textEl = document.getElementById('goal-text');
+      
+      if (iconEl) iconEl.innerText = selectedGoal.icon;
+      if (textEl) textEl.innerText = selectedGoal.title;
     }
 
-    function updateCycleChip() {
-      if (!lastPeriodStart) return;
+    function openGoalModal() {
+      document.getElementById('modal-goal-icon').innerText = selectedGoal.icon;
+      document.getElementById('modal-goal-title').innerText = selectedGoal.title;
+      document.getElementById('modal-goal-description').innerText = selectedGoal.description;
       
-      const start = new Date(lastPeriodStart);
-      const today = new Date();
-      const diffTime = Math.abs(today - start);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      const cycleDay = (diffDays % 28) || 28;
-
-      document.getElementById('cycle-count').innerText = `Day ${cycleDay}`;
-      const trend = document.getElementById('cycle-trend');
-      
-      if (cycleDay <= 5) trend.innerText = "Menstrual phase";
-      else if (cycleDay <= 13) trend.innerText = "Follicular phase";
-      else if (cycleDay <= 16) trend.innerText = "Ovulation window";
-      else trend.innerText = "Luteal phase";
+      openModal('goal-modal');
     }
 
     /* ── PERSISTENCE ── */
     function saveDashboardData() {
       const today = new Date().toISOString().split("T")[0];
       const dashboardData = {
-        water: waterGlasses,
-        meds: medications,
-        cycleDate: lastPeriodStart,
         lastSavedDate: today
       };
       localStorage.setItem("dashboard_v2", JSON.stringify(dashboardData));
     }
 
     function loadDashboardData() {
-      const today = new Date().toISOString().split("T")[0];
-      const saved = localStorage.getItem("dashboard_v2");
-      if (saved) {
-        const data = JSON.parse(saved);
-        
-        // Reset "taken" status if it's a new day
-        if (data.lastSavedDate !== today) {
-            data.meds.forEach(m => m.taken = false);
-            waterGlasses = 0; // Reset water too for new day
-        } else {
-            waterGlasses = data.water || 0;
-        }
-
-        medications = data.meds || [];
-        lastPeriodStart = data.cycleDate || "";
-        
-        // Update UIs
-        document.getElementById('water-count').innerText = `${waterGlasses}/${waterTarget}`;
-        updateMedsChip();
-        updateCycleChip();
-        if (lastPeriodStart) {
-            const input = document.getElementById('cycle-date-input');
-            if (input) input.value = lastPeriodStart;
-        }
-      }
+      // Nothing specific to load for the new passive features currently
     }
 
     /* ── MOOD TRACKER LOGIC ── */
@@ -415,7 +267,10 @@
     // Load saved mood & other data
     window.addEventListener('load', () => {
       loadDashboardData();
-      startReminderEngine();
+      updateHealthQuote(); // Initial random quote
+      updateNutrientChip(); // Initial nutrient
+      updateDailyGoal(); // Initial goal
+      setInterval(updateHealthQuote, 10000); // Rotate every 10 seconds
       
       const today = new Date().toISOString().split("T")[0];
       const savedMood = localStorage.getItem("mood-" + today);
@@ -441,4 +296,29 @@
         // Redirect to report analyzer (placeholder for now as the page doesn't exist)
         window.location.href = "/frontend/pages/reportAnalyzer/index.html";
       });
+    }
+
+    // ── LOGOUT LOGIC ──
+    const profileTrigger = document.getElementById('profile-trigger');
+    const logoutMenu = document.getElementById('logout-menu');
+    const logoutLink = document.getElementById('logout-link');
+
+    if (profileTrigger && logoutMenu) {
+        profileTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            logoutMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+            logoutMenu.classList.remove('show');
+        });
+    }
+
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (e) => {
+            e.stopPropagation();
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = '../landing/index.html';
+        });
     }
