@@ -123,31 +123,35 @@ Follow these steps to set up and run Medi-Mate locally.
 The repository is organized into two main sub-projects:
 
 ```
-Medi-Mate/
-├── backend/                  # Contains the Node.js Express API
-│   ├── src/                  # Backend source code
-│   │   ├── models/           # Mongoose schemas for data models (e.g., User, MedicalInfo)
-│   │   ├── controllers/      # Logic for handling API requests
-│   │   ├── routes/           # API endpoint definitions
-│   │   ├── middleware/       # Custom Express middleware (e.g., authentication)
-│   │   └── server.js         # Main backend application entry point
-│   ├── config/               # Configuration files
-│   ├── tests/                # Backend test files
-│   ├── .env.example          # Example environment variables
-│   └── package.json          # Backend dependencies and scripts
-├── frontend/                 # Contains the React application
-│   ├── public/               # Static assets (HTML, images)
-│   ├── src/                  # Frontend source code
-│   │   ├── components/       # Reusable React components
-│   │   ├── pages/            # Application pages/views
-│   │   ├── contexts/         # React Context API for global state
-│   │   ├── hooks/            # Custom React hooks
-│   │   ├── services/         # API interaction logic
-│   │   ├── styles/           # Global styles or Tailwind CSS configuration
-│   │   └── main.jsx          # Frontend application entry point
-│   ├── tests/                # Frontend test files
-│   ├── .env.example          # Example environment variables
-│   └── package.json          # Frontend dependencies and scripts
+MEDI-MATE/
+│
+├── backend/
+│   ├── config/             # Database connection, environment setup, API configs
+│   ├── controller/         # (Possibly unused/duplicate) contains request-handling logic
+│   ├── controllers/        # Main business logic (handles requests, processes data, sends responses)
+│   ├── middleware/         # Custom middleware (auth, error handling, request validation, etc.)
+│   ├── models/             # Database schemas/models (e.g., User, Reports, Symptoms)
+│   ├── node_modules/       # Installed npm packages (auto-generated, don’t modify manually)
+│   ├── routes/             # API route definitions (connect endpoints to controllers)
+│   ├── .env                # Secret environment variables (DB URL, API keys, etc.)
+│   ├── .env.example        # Template showing required environment variables (no secrets)       
+│   ├── package-lock.json   # Exact dependency versions (auto-generated)
+│   ├── package.json        # Project metadata, dependencies, scripts
+│   └── server.js           # Entry point of backend (Express app setup, routes, server start)
+│
+├── frontend/
+│   ├── assets/             # Static files (images, icons, CSS, fonts)
+│   └── pages/              
+│       ├── contact/        # Contact page (UI + scripts related to contact form/info)
+│       ├── Cycle_tracker/  # Cycle tracking feature (UI + logic for tracking cycles)
+│       ├── dashboard/      # User dashboard (overview, stats, main user interface)
+│       ├── home_page/      # Main home page after login or entry point UI
+│       ├── landing/        # Landing page (first page users see, marketing/info)
+│       ├── reportAnalyzer/ # Feature to analyze reports (upload/process/display results)
+│       ├── signin/         # Login page (user authentication UI)
+│       ├── signup/         # Registration page (create new account)
+│       ├── symptom_result/ # Displays results after symptom analysis
+│       └── symptom-analyzer/# Input page where user enters symptoms for analysis
 ├── .gitignore                # Specifies intentionally untracked files
 └── README.md                 # Project documentation (this file)
 ```
