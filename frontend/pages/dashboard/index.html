@@ -8,17 +8,24 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="particles"></div>
 
   <!-- HEADER -->
   <div id="heading">
-    <a href="../home_page/index.html" class="logo-brand" style="text-decoration:none; color:inherit;">
+    <a class="logo-brand" style="text-decoration:none; color:inherit;">
       <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
       <span class="brand-name">Medi-Mate</span>
     </a>
     <!-- username -->
-    <div class="profile">
+    <div class="profile" id="profile-trigger">
       <img src="assets/user.jpg" alt="user" class="avatar">
-      <span class="profile-name" id="username">Rahul K.</span>
+      <span class="profile-name" id="username">User</span>
+      <div class="logout-dropdown" id="logout-menu">
+        <button class="logout-btn" id="logout-link">
+          <span>Log Out</span>
+          <span class="icon">🚪</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -30,21 +37,8 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-text">
-      <h1 id="greeting">Good morning, Rahul 👋</h1>
+      <h1 id="greeting">Good morning, User 👋</h1>
       <p id="date-line">Here's your health summary for today</p>
-    </div>
-    <div class="health-score">
-      <div class="score-ring">
-        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-          <circle class="track" cx="18" cy="18" r="14"/>
-          <circle class="fill" cx="18" cy="18" r="14" id="ring"/>
-        </svg>
-        <span class="score-label">82</span>
-      </div>
-      <div class="score-text">
-        <strong>Health Score</strong>
-        Good shape ✓
-      </div>
     </div>
   </div>
 
@@ -55,20 +49,22 @@
       <div class="stat-lbl">Mood today</div>
       <div class="stat-trend up" id="mood-text">Feeling happy</div>
     </div>
-    <div class="stat-chip blue" onclick="openWaterModal()">
-      <div class="stat-num" id="water-count">6/8</div>
-      <div class="stat-lbl">Glasses of water</div>
-      <div class="stat-trend up" id="water-trend">↑ On track</div>
+    <div class="stat-chip blue" onclick="openNutrientModal()">
+      <div class="stat-num" id="nutrient-icon">🥗</div>
+      <div class="stat-lbl">Daily Nutrient</div>
+      <div class="stat-trend up" id="nutrient-name" style="font-size: 13px; font-weight: 700;">Vitamin A</div>
     </div>
-    <div class="stat-chip amber" onclick="openMedsModal()">
-      <div class="stat-num" id="meds-count">2/3</div>
-      <div class="stat-lbl">Medications taken</div>
-      <div class="stat-trend neutral" id="meds-trend">⏳ 1 pending</div>
+    <div class="stat-chip amber">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="stat-num" id="quote-icon" style="margin: 0;">💡</div>
+        <div class="stat-lbl" style="margin: 0;">AI Health Tip</div>
+      </div>
+      <div class="stat-trend neutral" id="health-quote">"Your health is your greatest wealth."</div>
     </div>
-    <div class="stat-chip rose" onclick="openCycleModal()">
-      <div class="stat-num" id="cycle-count">Day 14</div>
-      <div class="stat-lbl">Cycle phase</div>
-      <div class="stat-trend up" id="cycle-trend">Ovulation window</div>
+    <div class="stat-chip rose" onclick="openGoalModal()">
+      <div class="stat-num" id="goal-icon">🎯</div>
+      <div class="stat-lbl">Daily Goal</div>
+      <div class="stat-trend up" id="goal-text" style="font-size: 13px; font-weight: 700;">Walk 15 Mins</div>
     </div>
   </div>
 
@@ -109,82 +105,67 @@
   </div>
 
 
-  <!-- WATER MODAL -->
-  <div id="water-modal" class="modal">
-    <div class="modal-box">
-      <h3>Hydration Tracker</h3>
-      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Stay hydrated! Aim for 8 glasses a day.</p>
+  <!-- NUTRIENT MODAL -->
+  <div id="nutrient-modal" class="modal">
+    <div class="modal-box" style="text-align: left; max-width: 480px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div id="modal-nutrient-icon" style="font-size: 48px; margin-bottom: 10px;">🥗</div>
+        <h3 id="modal-nutrient-name" style="font-size: 24px; color: #1b5e20;">Vitamin A</h3>
+      </div>
       
-      <div class="counter-display">
-        <button class="btn-circle" onclick="updateWater(-1)">−</button>
-        <span id="modal-water-count">6</span>
-        <button class="btn-circle" onclick="updateWater(1)">+</button>
-      </div>
-      <p style="font-size: 14px; color: #2e7d32; margin-top: 10px;">Glasses of water today</p>
-
-      <div style="margin-top: 30px;">
-        <button onclick="closeModal('water-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Done</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MEDS MODAL -->
-  <div id="meds-modal" class="modal">
-    <div class="modal-box" style="text-align: left;">
-      <h3 style="text-align: center;">Medication List</h3>
-      <p style="font-size: 13px; color: #666; margin-bottom: 20px; text-align: center;">Mark your medications as taken.</p>
-      
-      <div id="meds-list" class="meds-checklist">
-        <!-- JS will populate this -->
+      <div style="background: #f1f8e9; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+        <h4 style="font-size: 14px; color: #2e7d32; margin-bottom: 5px;">Why you need it:</h4>
+        <p id="modal-nutrient-benefit" style="font-size: 14px; color: #4a7c59; line-height: 1.4;">Essential for good vision, a healthy immune system, and cell growth.</p>
       </div>
 
-      <div class="med-form" style="margin-top: 24px; padding-top: 20px; border-top: 1px dashed #ddd;">
-        <h4 style="font-size: 14px; margin-bottom: 12px; color: #1b5e20;">Add New Medication</h4>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <input type="text" id="new-med-name" placeholder="Medication Name (e.g. Iron)" class="custom-input">
-          <div style="display: flex; gap: 10px;">
-            <input type="time" id="new-med-time" class="custom-input" style="flex: 1;">
-            <button onclick="addNewMedication()" class="card-btn" style="margin-top: 0; width: auto; padding: 0 20px;">Add</button>
-          </div>
-        </div>
+      <h4 style="font-size: 14px; color: #1b5e20; margin-bottom: 12px;">Rich Food Sources:</h4>
+      <div id="modal-nutrient-sources" class="mood-tags" style="justify-content: flex-start;">
+        <!-- Sources will be injected here -->
       </div>
 
       <div style="margin-top: 30px; text-align: center;">
-        <button onclick="closeModal('meds-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Close</button>
+        <button onclick="closeModal('nutrient-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Great, thanks!</button>
       </div>
     </div>
   </div>
 
-  <!-- CYCLE MODAL -->
-  <div id="cycle-modal" class="modal">
-    <div class="modal-box">
-      <h3>Cycle Tracking</h3>
-      <p style="font-size: 13px; color: #666; margin-bottom: 20px;">When did your last period start?</p>
+
+  <!-- GOAL MODAL -->
+  <div id="goal-modal" class="modal">
+    <div class="modal-box" style="text-align: left; max-width: 480px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div id="modal-goal-icon" style="font-size: 48px; margin-bottom: 10px;">🎯</div>
+        <h3 id="modal-goal-title" style="font-size: 24px; color: #b0003a;">Daily Milestone</h3>
+      </div>
       
-      <div class="date-input-container">
-        <input type="date" id="cycle-date-input" onchange="setCycleDate(this.value)" class="custom-date-picker">
+      <div style="background: #fff1f2; padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid #e91e63;">
+        <p id="modal-goal-description" style="font-size: 15px; color: #880e4f; line-height: 1.5;">Small consistent steps lead to significant health improvements. Focus on completing this milestone today!</p>
       </div>
 
-      <div id="cycle-info-details" style="margin-top: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 12px; font-size: 14px; color: #4a7c59;">
-        <!-- JS will populate this -->
-      </div>
-
-      <div style="margin-top: 30px;">
-        <button onclick="closeModal('cycle-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Close</button>
+      <div style="margin-top: 30px; text-align: center;">
+        <button onclick="closeModal('goal-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">I'm on it!</button>
       </div>
     </div>
   </div>
 
-  <!-- REMINDER POPUP (Hidden by default) -->
-  <div id="reminder-overlay" class="reminder-overlay">
-    <div class="reminder-card">
-      <div class="reminder-icon">🔔</div>
-      <div class="reminder-content">
-        <h4>Medication Reminder</h4>
-        <p id="reminder-text">It's time for your [Med Name]!</p>
+
+  <!-- MOOD MODAL -->
+  <div id="mood-modal" class="modal">
+    <div class="modal-box">
+      <h3>How are you feeling?</h3>
+      <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Select your current mood</p>
+      
+      <div class="emoji-row">
+        <span onclick="selectMood('happy', this)">😄</span>
+        <span onclick="selectMood('calm', this)">🙂</span>
+        <span onclick="selectMood('neutral', this)">😐</span>
+        <span onclick="selectMood('sad', this)">😔</span>
+        <span onclick="selectMood('angry', this)">😡</span>
       </div>
-      <button class="reminder-btn" onclick="markAsTakenFromReminder()">Take Now</button>
-      <button class="reminder-close" onclick="closeReminder()">×</button>
+
+      <div style="margin-top: 20px;">
+        <button onclick="closeModal('mood-modal')" class="card-btn" style="background: #f0f0f0; color: #666; width: auto; padding: 10px 30px;">Cancel</button>
+      </div>
     </div>
   </div>
 

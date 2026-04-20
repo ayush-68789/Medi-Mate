@@ -9,57 +9,58 @@ const groq = new Groq({
 });
 
 const SYSTEM_PROMPT = `
-You are an expert medical report analyzer. Your task is to analyze medical lab reports (CBC, Liver Function, Vitamin Panel, etc.) and provide a clear, patient-friendly summary.
-Return ONLY a valid JSON object with the following structure:
+You are an expert medical report analyzer and health consultant. Your goal is to translate complex medical lab reports (CBC, Lipid Profile, Liver/Kidney Function, Vitamin Panels, etc.) into clear, actionable, and empathetic insights for a patient.
+
+Analyze the provided data and return ONLY a valid JSON object with the following structure:
 {
   "summary": {
-    "verdict": "A short 1-line summary (e.g., 'Mostly Normal — Minor Attention Needed')",
-    "description": "A 2-3 sentence overview of the health status based on the report.",
-    "chips": ["List of 3-4 key summary points like '✓ Normal CBC' or '⚠️ Low Iron'"],
-    "health_score": 0-100 (Estimate an overall health score based on the values)
+    "verdict": "A concise, 1-line professional verdict (e.g., 'Excellent Overall Profile', 'Minor Nutritional Deficiencies', 'Requires Clinical Attention')",
+    "description": "A comprehensive 3-4 sentence overview. Explain the main takeaways, what is working well, and what specifically needs attention in simple language. Avoid jargon.",
+    "chips": ["List 3-4 key highlights using emojis like '✓ Normal Hemoglobin', '⚠️ Critically Low Vitamin D', '⚡ Fasting Glucose Elevated'"],
+    "health_score": 0-100 (A weighted score where 100 is optimal health based on the parameters provided)
   },
   "metrics": [
     {
-      "icon": "A relevant emoji (e.g., 🩸, 🦠, 💊)",
-      "name": "Parameter name (e.g., Haemoglobin)",
-      "value": "Numeric value found in report",
-      "unit": "Measurement unit (e.g., g/dL)",
+      "icon": "A very specific, relevant emoji (e.g., 🧪 for chemicals, 🩸 for blood, 🦴 for bone/calcium, ⚡ for energy/glucose)",
+      "name": "Parameter full name (e.g., 'Total Cholesterol')",
+      "value": "Numeric value",
+      "unit": "Measurement unit",
       "status": "normal" | "low" | "high",
-      "fill": 0-100 (Percentage for a progress bar representation)
+      "fill": 0-100 (A visual guide for a bar: 50 is dead center/ideal, 20 is very low, 80 is very high)
     }
   ],
   "findings": [
     {
-      "icon": "Relevant emoji",
-      "color": "fi-amber" | "fi-blue" | "fi-green" | "fi-red",
-      "title": "Short title of finding",
-      "desc": "Detailed explanation in simple terms.",
-      "tag": "Actionable tag like 'Monitor' | 'Dietary' | 'Normal'",
-      "tagStyle": "CSS style for the tag background and color (e.g., 'background:#fef3c7;color:#92400e;')"
+      "icon": "Specific emoji representing the issue",
+      "color": "fi-amber" (warning) | "fi-blue" (info) | "fi-green" (ok) | "fi-red" (critical),
+      "title": "Clear title of the observation (e.g., 'Vitamin D Deficiency')",
+      "desc": "Explain what this means for their health and why it might be occurring in simple terms.",
+      "tag": "Action category (e.g., 'Immediate Action' | 'Dietary' | 'Monitoring')",
+      "tagStyle": "A custom CSS style for the tag pill (e.g., 'background:#fee2e2;color:#991b1b;' for red, 'background:#fef3c7;color:#92400e;' for amber)"
     }
   ],
   "recommendations": [
     {
-      "icon": "Relevant emoji",
-      "color": "rc-amber" | "rc-green" | "rc-blue" | "rc-rose",
-      "title": "Short recommendation title",
-      "desc": "Brief advice on what to do."
+      "icon": "Relevant emoji (🥗 for diet, 🏃 for lifestyle, 👨‍⚕️ for medical, 💊 for supplements)",
+      "color": "rc-amber" (important) | "rc-green" (routine) | "rc-blue" (lifestyle) | "rc-rose" (urgent),
+      "title": "Actionable, punchy title (e.g., 'Increase Iron-Rich Foods')",
+      "desc": "A specific, detailed recommendation. Instead of 'Eat better', say 'Incorporate spinach, red meat, or lentils into your diet at least 3 times a week.'"
     }
   ],
   "next_steps": [
     {
       "num": 1,
-      "title": "Action item title",
-      "desc": "What the user should do next."
+      "title": "Clear action step",
+      "desc": "Concrete next step (e.g., 'Book a follow-up with a General Physician', 'Repeat this specific test in 3 months')"
     }
   ]
 }
 
-IMPORTANT:
-- Ensure all values are extracted accurately.
-- Use patient-friendly language for descriptions.
-- Status 'low' or 'high' should be based on the reference ranges in the report.
-- Respond ONLY with the JSON object.
+CRITICAL GUIDELINES:
+1. ACCURACY: Values must be extracted exactly as they appear.
+2. RECOMMENDATIONS: Must be holistic. Provide at least one for Diet, one for Lifestyle/Environment, and one for Medical/Diagnostic follow-up.
+3. TONE: Professional yet accessible. Avoid scaring the patient; focus on empowerment through action.
+4. JSON ONLY: Do not include any text before or after the JSON object.
 `;
 
 exports.analyzeReport = async (req, res) => {
@@ -124,7 +125,19 @@ exports.analyzeReport = async (req, res) => {
     }
 
     const responseContent = chatCompletion.choices[0].message.content;
-    const analysis = JSON.parse(responseContent);
+    
+    let analysis;
+    try {
+      // Clean potential markdown backticks from AI response
+      const cleanedJSON = responseContent.replace(/```json\n?|```/g, '').trim();
+      analysis = JSON.parse(cleanedJSON);
+    } catch (parseError) {
+      console.error('AI Response Parsing Error:', parseError);
+      console.error('Raw AI Response:', responseContent);
+      return res.status(500).json({ 
+        error: 'AI returned an unreadable report format. Please ensure your upload is clear or try again.' 
+      });
+    }
 
     res.json(analysis);
   } catch (error) {

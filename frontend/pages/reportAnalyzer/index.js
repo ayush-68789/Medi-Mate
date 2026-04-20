@@ -27,10 +27,6 @@
     const file = e.dataTransfer.files[0];
     if (file) startAnalysis(file);
   }
-  function handleFileSelect(e) {
-    const file = e.target.files[0];
-    if (file) startAnalysis(file);
-  }
 
   /* ── ANALYSIS FLOW ── */
   async function startAnalysis(file) {
@@ -146,6 +142,7 @@
     const mg = document.getElementById('metrics-grid');
     mg.innerHTML = '';
     const metrics = data.metrics || [];
+    document.getElementById('metric-count-badge').textContent = `${metrics.length} parameter${metrics.length !== 1 ? 's' : ''}`;
     metrics.forEach((m, i) => {
       const card = document.createElement('div');
       card.className = 'metric-card';
@@ -164,6 +161,7 @@
     const fl = document.getElementById('findings-list');
     fl.innerHTML = '';
     const findings = data.findings || [];
+    document.getElementById('finding-count-badge').textContent = `${findings.length} flagged`;
     findings.forEach((f, i) => {
       const item = document.createElement('div');
       item.className = 'finding-item';
@@ -307,8 +305,47 @@ const logoclick = document.querySelector(".logo-brand");
 console.log(logoclick); // should NOT be null
 
 logoclick.addEventListener("click", () => {
-  console.log("clicked"); // check this in console
   window.location.href = "/frontend/pages/dashboard/index.html";
 });
+
+// Update Profile Name
+(function initProfile() {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            const firstName = user.username.split(' ')[0];
+            const usernameEl = document.getElementById('username');
+            if (usernameEl) usernameEl.textContent = firstName;
+        } catch (e) {
+            console.error("Error parsing user from localStorage", e);
+        }
+    }
+})();
+
+// ── LOGOUT LOGIC ──
+const profileTrigger = document.getElementById('profile-trigger');
+const logoutMenu = document.getElementById('logout-menu');
+const logoutLink = document.getElementById('logout-link');
+
+if (profileTrigger && logoutMenu) {
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        logoutMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', () => {
+        logoutMenu.classList.remove('show');
+    });
+}
+
+if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = '../landing/index.html';
+    });
+}
 
 
