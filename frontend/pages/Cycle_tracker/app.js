@@ -6,19 +6,66 @@ const OVULATION_DAY = 14; // days before next period
 let viewDate = new Date();
 let cycles   = [];
 
-const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-document.getElementById('username').textContent = storedUser.name || 'User';
+/* ── BACKGROUND PARTICLES ── */
+(function initParticles() {
+  const pContainer = document.getElementById('particles');
+  if (!pContainer) return;
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 60 + Math.random() * 120;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${10 + Math.random()*15}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    pContainer.appendChild(p);
+  }
+})();
 
+/* ── PROFILE & NAV ── */
+(function initProfile() {
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    try {
+      const user = JSON.parse(userStr);
+      // Use username if available, fallback to 'User'
+      const fullName = user.username || 'User';
+      const firstName = fullName.split(' ')[0];
+      const usernameEl = document.getElementById('username');
+      if (usernameEl) usernameEl.textContent = firstName;
+    } catch (e) {
+      console.error("Error parsing user from localStorage", e);
+    }
+  }
+})();
 
-document.getElementById('profile-trigger').addEventListener('click', function() {
-  document.getElementById('logout-menu').classList.toggle('show');
-});
+// Logout Logic
+const profileTrigger = document.getElementById('profile-trigger');
+const logoutMenu = document.getElementById('logout-menu');
+const logoutLink = document.getElementById('logout-link');
 
-document.getElementById('logout-link').addEventListener('click', function() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  window.location.href = '../login/index.html';
-});
+if (profileTrigger && logoutMenu) {
+  profileTrigger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    logoutMenu.classList.toggle('show');
+  });
+
+  // Click anywhere else to close
+  document.addEventListener('click', function() {
+    logoutMenu.classList.remove('show');
+  });
+}
+
+if (logoutLink) {
+  logoutLink.addEventListener('click', function(e) {
+    e.stopPropagation();
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = '../landing/index.html';
+  });
+}
 
 
 function getToken() {
