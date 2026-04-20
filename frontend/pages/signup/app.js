@@ -40,11 +40,8 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
       msg.textContent = 'Registered! Redirecting...';
 
       setTimeout(() => {
-<<<<<<< HEAD
-        window.location.href = 'dashboard.html';
-=======
+
         window.location.href = '../dashboard/index.html';
->>>>>>> de9ae684eb6a90327231c7ab537abdc9c9297107
       }, 1500);
 
     } else {
