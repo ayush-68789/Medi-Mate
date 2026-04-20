@@ -65,27 +65,6 @@
         chain.appendChild(el);   // ✅ only once
 }
 
-
-
-    /* ── STEP COUNTER roll-up ── */
-    const target = 7842;
-    let count = 0;
-    const stepEl = document.getElementById('steps-count');
-    const timer = setInterval(() => {
-      count = Math.min(count + 280, target);
-      stepEl.textContent = count.toLocaleString('en-IN');
-      if (count >= target) clearInterval(timer);
-    }, 35);
-
-
-    /* ── STAT CHIP TIPS ── */
-    const tips = {
-      steps: { icon: '👟', msg: '<strong>7,842 steps</strong> — you\'re 78% to your 10,000 step goal. A brisk 12-min walk will get you there!' },
-      water: { icon: '💧', msg: '<strong>6/8 glasses done.</strong> Try to drink 2 more glasses before 8 PM for optimal hydration.' },
-      meds:  { icon: '💊', msg: '<strong>Vitamin D</strong> is still pending. Best taken with your evening meal for better absorption.' },
-      cycle: { icon: '🌙', msg: '<strong>Day 14 — Ovulation window.</strong> Energy peaks now. Great day for exercise and high-focus tasks!' }
-    };
-
     let tipTimeout;
     function showTip(key) {
       clearTimeout(tipTimeout);

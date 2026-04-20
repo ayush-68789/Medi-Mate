@@ -61,6 +61,7 @@ em { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; }
     }
 
     .brand-name {
+      font-family: 'DM Serif Display', serif;
       font-size: 22px;
       font-weight: 700;
       color: #2e7d32;
