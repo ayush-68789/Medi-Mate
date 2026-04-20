@@ -1,30 +1,11 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const dotenv = require('dotenv');
 const Groq = require('groq-sdk');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth');
+const dotenv = require('dotenv');
 
 dotenv.config();
-connectDB();
-
-
-app.use(cors());
-app.use(express.json());
-
-app.use('/api/auth',authRoutes);
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
-
-const cycleRoutes = require('./routes/cycleRoutes');
-
-// add this line with your other app.use() route registrations
-app.use('/api/cycles', cycleRoutes);
-
-
 
 const SYSTEM_PROMPT = `
 You are a professional medical assistant AI. Analyze the provided symptoms along with their severity and duration.
@@ -39,13 +20,14 @@ Return ONLY a valid JSON object with the following keys:
 IMPORTANT: Respond ONLY with the JSON object. Do not include any conversational text.
 `;
 
-app.post('/api/analyze', async (req, res) => {
+exports.analyzeSymptoms = async (req, res) => {
   const { symptoms, severity, duration } = req.body;
 
   if (!symptoms) 
   {
     return res.status(400).json({ error: 'Symptoms are required' });
   }
+
   try {
     const userContext = `Symptoms: ${symptoms}, Severity (1-10): ${severity || 'Not specified'}, Duration: ${duration || 'Not specified'}`;
 
@@ -68,9 +50,4 @@ app.post('/api/analyze', async (req, res) => {
     console.error('Groq API Error:', error);
     res.status(500).json({ error: 'Failed to analyze symptoms. Please try again later.' });
   }
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Medi-Mate Backend listening at ${port}`);
-});
+};

@@ -175,3 +175,20 @@ async function runAnalysis(symptoms, severity, duration) {
         analyzeFinalBtn.disabled = false;
     }
 }
+
+/* ── PARTICLES (Bubbles) ── */
+const pContainer = document.getElementById('particles');
+if (pContainer) {
+    for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = 60 + Math.random() * 120;
+        p.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${Math.random()*100}%;
+            animation-duration:${8 + Math.random() * 14}s;
+            animation-delay:${Math.random() * 10}s;
+        `;
+        pContainer.appendChild(p);
+    }
+}
