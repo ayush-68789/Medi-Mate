@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const symptomRoutes = require('./routes/symptomRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const cycleRoutes = require('./routes/cycleRoutes');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api', symptomRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/cycles', cycleRoutes);  
 
 // Serve static files from the root directory
 const path = require('path');

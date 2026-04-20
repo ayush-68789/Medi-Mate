@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 const cycleLogSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',         // links to your existing users collection
+    ref: 'User',
     required: true
   },
   start: {
-    type: String,        // stored as "YYYY-MM-DD"
+    type: String,
     required: true
   },
   end: {
-    type: String,        // stored as "YYYY-MM-DD", can be null
+    type: String,
     default: null
   }
-}, { timestamps: true }); // adds createdAt & updatedAt automatically
+}, { timestamps: true });
 
 module.exports = mongoose.model('CycleLog', cycleLogSchema);

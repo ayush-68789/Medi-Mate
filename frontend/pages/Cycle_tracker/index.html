@@ -18,10 +18,11 @@
       <img src="../../assets/logo.jpeg" alt="logo" class="logo-icon">
       <span class="brand-name">Medi-Mate</span>
     </a>
-    <!-- username -->
+
+    <!-- username is filled by app.js — do NOT hardcode a name here -->
     <div class="profile" id="profile-trigger">
       <img src="../dashboard/assets/user.jpg" alt="user" class="avatar">
-      <span class="profile-name" id="username">Rahul K.</span>
+      <span class="profile-name" id="username">...</span>
       <div class="logout-dropdown" id="logout-menu">
         <button class="logout-btn" id="logout-link">
           <span>Log Out</span>
@@ -42,12 +43,12 @@
       <button class="btn-primary" id="logBtn">+ Log Period</button>
     </header>
 
-    <!-- Summary Cards Row -->
+    <!-- Summary Cards -->
     <div class="summary-row">
-      <div class="summary-card accent" id="currentPhaseCard">
+      <div class="summary-card accent">
         <p class="card-label">Current Phase</p>
         <p class="card-val" id="currentPhase">—</p>
-        <p class="card-sub" id="dayOfCycle">Day — of cycle</p>
+        <p class="card-sub" id="dayOfCycle">—</p>
       </div>
       <div class="summary-card">
         <p class="card-label">Cycle Length</p>
@@ -57,7 +58,7 @@
       <div class="summary-card">
         <p class="card-label">Next Period</p>
         <p class="card-val" id="nextPeriodVal">—</p>
-        <p class="card-sub" id="nextPeriodDays">— days away</p>
+        <p class="card-sub" id="nextPeriodDays">Log a period first</p>
       </div>
       <div class="summary-card">
         <p class="card-label">Period Duration</p>
@@ -93,7 +94,7 @@
       <!-- Right column -->
       <div class="right-col">
 
-        <!-- Log form -->
+        <!-- Log Period form (hidden by default, toggled by JS) -->
         <section class="card log-card" id="logCard">
           <h2>Log Period</h2>
           <div class="form-group">
@@ -110,20 +111,16 @@
           </div>
         </section>
 
-        <!-- Prediction card -->
+        <!-- Predictions -->
         <section class="card prediction-card">
           <h2>Upcoming</h2>
-          <div class="prediction-list" id="predictionList">
-            <!-- filled by JS -->
-          </div>
+          <div class="prediction-list" id="predictionList"></div>
         </section>
 
         <!-- History -->
         <section class="card history-card">
           <h2>Period History</h2>
-          <ul class="history-list" id="historyList">
-            <!-- filled by JS -->
-          </ul>
+          <ul class="history-list" id="historyList"></ul>
           <p class="empty-state" id="historyEmpty">No periods logged yet.</p>
         </section>
 
