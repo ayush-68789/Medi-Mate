@@ -6,6 +6,19 @@ if (!analysisData) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Update Profile Name
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            const firstName = user.username.split(' ')[0];
+            const usernameEl = document.getElementById('username');
+            if (usernameEl) usernameEl.textContent = firstName;
+        } catch (e) {
+            console.error("Error parsing user from localStorage", e);
+        }
+    }
+
     populateReport(analysisData);
     setupInitialAnimations();
 });
@@ -89,3 +102,28 @@ document.getElementById('new-analysis-btn').addEventListener('click', () => {
     sessionStorage.removeItem('latestAnalysis');
     window.location.href = '../symptom-analyzer/index.html';
 });
+
+// ── LOGOUT LOGIC ──
+const profileTrigger = document.getElementById('profile-trigger');
+const logoutMenu = document.getElementById('logout-menu');
+const logoutLink = document.getElementById('logout-link');
+
+if (profileTrigger && logoutMenu) {
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        logoutMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', () => {
+        logoutMenu.classList.remove('show');
+    });
+}
+
+if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = '../landing/index.html';
+    });
+}

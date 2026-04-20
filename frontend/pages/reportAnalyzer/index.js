@@ -308,4 +308,44 @@ logoclick.addEventListener("click", () => {
   window.location.href = "/frontend/pages/dashboard/index.html";
 });
 
+// Update Profile Name
+(function initProfile() {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            const firstName = user.username.split(' ')[0];
+            const usernameEl = document.getElementById('username');
+            if (usernameEl) usernameEl.textContent = firstName;
+        } catch (e) {
+            console.error("Error parsing user from localStorage", e);
+        }
+    }
+})();
+
+// ── LOGOUT LOGIC ──
+const profileTrigger = document.getElementById('profile-trigger');
+const logoutMenu = document.getElementById('logout-menu');
+const logoutLink = document.getElementById('logout-link');
+
+if (profileTrigger && logoutMenu) {
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        logoutMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', () => {
+        logoutMenu.classList.remove('show');
+    });
+}
+
+if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = '../landing/index.html';
+    });
+}
+
 

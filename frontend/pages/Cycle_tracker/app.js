@@ -384,5 +384,63 @@ function refresh() {
   buildCalendar();
 }
 
+// ── Profile Initialization ───────────────────
+function initProfile() {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            const firstName = user.username.split(' ')[0];
+            const usernameEl = document.getElementById('username');
+            if (usernameEl) usernameEl.textContent = firstName;
+        } catch (e) {
+            console.error("Error parsing user from localStorage", e);
+        }
+    }
+}
+
 // ── Init ─────────────────────────────────────
 refresh();
+initProfile();
+
+// ── LOGOUT LOGIC ──
+const profileTrigger = document.getElementById('profile-trigger');
+const logoutMenu = document.getElementById('logout-menu');
+const logoutLink = document.getElementById('logout-link');
+
+if (profileTrigger && logoutMenu) {
+    profileTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        logoutMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', () => {
+        logoutMenu.classList.remove('show');
+    });
+}
+
+if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = '../landing/index.html';
+    });
+}
+
+/* ── PARTICLES (Bubbles) ── */
+const pContainer = document.getElementById('particles');
+if (pContainer) {
+    for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = 60 + Math.random() * 120;
+        p.style.cssText = `
+            width:${size}px; height:${size}px;
+            left:${Math.random()*100}%;
+            animation-duration:${10 + Math.random() * 18}s;
+            animation-delay:${Math.random() * 10}s;
+        `;
+        pContainer.appendChild(p);
+    }
+}
