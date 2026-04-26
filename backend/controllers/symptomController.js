@@ -23,11 +23,17 @@ IMPORTANT: Respond ONLY with the JSON object. Do not include any conversational 
 exports.analyzeSymptoms = async (req, res) => {
   const { symptoms, severity, duration } = req.body;
 
-  if (!symptoms) 
-  {
+  if (!symptoms) {
     return res.status(400).json({ error: 'Symptoms are required' });
   }
 
+  if (!process.env.GROQ_API_KEY) {
+    console.error('CRITICAL: GROQ_API_KEY is missing from environment variables!');
+    return res.status(500).json({ 
+      error: 'Backend Configuration Error', 
+      details: 'GROQ_API_KEY is missing. Please check Render environment variables.' 
+    });
+  }
   try {
     const userContext = `Symptoms: ${symptoms}, Severity (1-10): ${severity || 'Not specified'}, Duration: ${duration || 'Not specified'}`;
 
