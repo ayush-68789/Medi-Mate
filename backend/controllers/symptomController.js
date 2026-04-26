@@ -36,7 +36,7 @@ exports.analyzeSymptoms = async (req, res) => {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `My health situation is: ${userContext}. Please analyze this and provide guidance.` },
       ],
-      model: 'llama-3.3-70b-versatile',
+      model: 'llama3-8b-8192', // More stable model for free tier
       temperature: 0.5,
       max_tokens: 1024,
       response_format: { type: 'json_object' },
@@ -47,7 +47,10 @@ exports.analyzeSymptoms = async (req, res) => {
 
     res.json(analysis);
   } catch (error) {
-    console.error('Groq API Error:', error);
-    res.status(500).json({ error: 'Failed to analyze symptoms. Please try again later.' });
+    console.error('Groq API Error Details:', error.message || error);
+    res.status(500).json({ 
+      error: 'Failed to analyze symptoms.', 
+      details: error.message 
+    });
   }
 };
