@@ -23,7 +23,6 @@ app.use('/api/cycles', cycleRoutes);
 // Serve static files from the root directory
 const path = require('path');
 app.use(express.static(path.join(__dirname, '../')));
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Medi-Mate Backend listening at ${port}`);
