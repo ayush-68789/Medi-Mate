@@ -163,7 +163,7 @@ async function runAnalysis(symptoms, severity, duration) {
     analyzeFinalBtn.disabled = true;
 
     try {
-        const response = await fetch('http://localhost:3000/api/analyze', {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/analyze`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ symptoms, severity, duration })

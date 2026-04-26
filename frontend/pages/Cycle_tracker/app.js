@@ -75,7 +75,7 @@ function getToken() {
 
 async function loadCycles() {
   try {
-    const res = await fetch('http://localhost:3000/api/cycles', {
+    const res = await fetch(`${window.CONFIG.API_BASE_URL}/api/cycles`, {
       headers: { 'Authorization': 'Bearer ' + getToken() }
     });
     cycles = await res.json();
@@ -89,7 +89,7 @@ async function loadCycles() {
 async function saveCycle(start, end) {
   try {
     console.log("TOKEN:", getToken());
-    const res = await fetch('http://localhost:3000/api/cycles', {
+    const res = await fetch(`${window.CONFIG.API_BASE_URL}/api/cycles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ async function saveCycle(start, end) {
 // ── Delete a cycle ────────────────────────────
 async function deleteCycleById(id) {
   try {
-    await fetch('http://localhost:3000/api/cycles/' + id, {
+    await fetch(`${window.CONFIG.API_BASE_URL}/api/cycles/` + id, {
       method: 'DELETE',
       headers: { 'Authorization': 'Bearer ' + getToken() }
     });

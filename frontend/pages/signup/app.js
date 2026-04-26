@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/auth';
+const API_URL = `${window.CONFIG.API_BASE_URL}/api/auth`;
 
 // ANIMATION FIX
 window.addEventListener('load', () => {

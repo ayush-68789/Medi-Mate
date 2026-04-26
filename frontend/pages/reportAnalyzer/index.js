@@ -82,7 +82,7 @@ async function startAnalysis(file) {
     const formData = new FormData();
     formData.append('report', file);
 
-    const response = await fetch('http://localhost:3000/api/report/analyze', {
+    const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/report/analyze`, {
       method: 'POST',
       body: formData,
     });
