@@ -18,7 +18,7 @@ app.use(express.json());
 app.use('/api', symptomRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/cycles', cycleRoutes);  
+app.use('/api/cycles', cycleRoutes);
 
 // Serve static files from the root directory
 const path = require('path');

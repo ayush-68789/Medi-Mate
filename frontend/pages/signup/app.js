@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
 });
 
 // FORM SUBMIT HANDLER
-document.getElementById('signUpForm').addEventListener('submit', async function(e) {
+document.getElementById('signUpForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const username = document.getElementById('username').value;

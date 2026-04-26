@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medi-Mate — Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../dashboard/style.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div id="heading">
@@ -37,7 +42,8 @@
         <div class="info-panel">
             <div class="floating-icon">🩺</div>
             <h1 class="hero-title">How are you<br>feeling today?</h1>
-            <p class="hero-subtitle" id="left-subtitle">Select all the symptoms you're currently experiencing. Our AI will analyze them and provide tailored health guidance.</p>
+            <p class="hero-subtitle" id="left-subtitle">Select all the symptoms you're currently experiencing. Our AI
+                will analyze them and provide tailored health guidance.</p>
             <button id="back-btn" class="modern-back-btn">← Back to Dashboard</button>
         </div>
 
@@ -71,14 +77,15 @@
                 </div>
             </div>
 
-        
+
             <div id="text-section" class="hidden">
                 <button class="back-to-chips-btn" id="back-to-chips">← Back to options</button>
                 <div class="section-header">
                     <p class="chip-label">Describe your symptoms</p>
                 </div>
                 <div class="input-glow-wrapper">
-                    <textarea id="symptom-input" class="modern-textarea" placeholder="E.g., I've had a persistent headache for two days with a slight fever and fatigue..."></textarea>
+                    <textarea id="symptom-input" class="modern-textarea"
+                        placeholder="E.g., I've had a persistent headache for two days with a slight fever and fatigue..."></textarea>
                 </div>
                 <button class="analyze-btn" id="to-details-btn-text">Continue to Details →</button>
             </div>
@@ -89,7 +96,7 @@
                     <p class="chip-label">Final Details</p>
                     <h2 class="sub-step-title">How intense is the discomfort?</h2>
                 </div>
-                
+
                 <div class="detail-group">
                     <div class="slider-header">
                         <span>Intensity: <strong id="severity-val">5</strong>/10</span>
@@ -109,7 +116,8 @@
                     </div>
                 </div>
 
-                <button class="analyze-btn" id="analyze-final-btn" style="margin-top: 35px;">Complete Analysis ✨</button>
+                <button class="analyze-btn" id="analyze-final-btn" style="margin-top: 35px;">Complete Analysis
+                    ✨</button>
             </div>
 
             <!-- Results will now be displayed on a separate page -->
@@ -120,4 +128,5 @@
     <script src="app.js" defer></script>
 
 </body>
+
 </html>

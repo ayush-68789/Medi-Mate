@@ -1,187 +1,198 @@
 <!DOCTYPE html>
 <!-- saved from url=(0045)file:///C:/Users/yashi/Downloads/reports.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Medi-Mate — Report Analyzer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="index.css">
-  
+
 </head>
+
 <body>
 
-<!-- BACKGROUND PARTICLES -->
-<div id="particles"></div>
+  <!-- BACKGROUND PARTICLES -->
+  <div id="particles"></div>
 
-<!-- HEADER -->
-<div id="heading">
-  <a href="/frontend/pages/dashboard/index.html" class="logo-brand" style="text-decoration:none; color:inherit;">
+  <!-- HEADER -->
+  <div id="heading">
+    <a href="/frontend/pages/dashboard/index.html" class="logo-brand" style="text-decoration:none; color:inherit;">
       <img src="/frontend/assets/logo.jpeg" alt="logo" class="logo-icon">
       <span class="brand-name">Medi-Mate</span>
-  </a>
-  <div class="profile" id="profile-trigger">
+    </a>
+    <div class="profile" id="profile-trigger">
       <img src="/frontend/pages/dashboard/assets/user.jpg" alt="user" class="avatar">
       <span class="profile-name" id="username">Rahul K.</span>
       <div class="logout-dropdown" id="logout-menu">
-          <button class="logout-btn" id="logout-link">
-              <span>Log Out</span>
-              <span class="icon">🚪</span>
-          </button>
-      </div>
-  </div>
-</div>
-
-<main>
-
-  <!-- PAGE HERO -->
-  <div class="page-hero">
-    <div class="page-tag"><span class="dot"></span> AI-Powered Analysis</div>
-    <h1>Report <em>Analyzer</em></h1>
-    <p>Upload any medical document and our AI will decode it into clear, plain-language insights in seconds.</p>
-  </div>
-
-  <!-- UPLOAD ZONE -->
-  <div class="upload-zone" id="upload-zone">
-
-    <div class="upload-icon-wrap">📋</div>
-    <h2>Drop your medical report here</h2>
-    <p>Drag &amp; drop or click to browse.<br>We'll read it so you don't have to decode the jargon.</p>
-
-    <div class="file-types">
-      <span class="file-type-pill">📄 PDF</span>
-      <span class="file-type-pill">🖼️ JPG / PNG</span>
-      <span class="file-type-pill">📝 DOCX</span>
-      <span class="file-type-pill">📊 Lab Reports</span>
-      <span class="file-type-pill">🩻 Radiology</span>
-    </div>
-
-    <button class="upload-btn" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
-      📂 Choose File
-    </button>
-    <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.docx" style="display:none;">
-  </div>
-
-  <!-- PROGRESS BAR -->
-  <div class="progress-wrap" id="progress-wrap">
-    <div class="progress-header">
-      <span class="progress-filename" id="progress-filename">bloodtest.pdf</span>
-      <span class="progress-pct" id="progress-pct">0%</span>
-    </div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" id="progress-bar"></div>
-    </div>
-    <div class="progress-steps">
-      <div class="p-step" id="step-upload">
-        <div class="p-step-dot">📤</div>
-        <span>Uploading</span>
-      </div>
-      <div class="p-step" id="step-read">
-        <div class="p-step-dot">👁️</div>
-        <span>Reading</span>
-      </div>
-      <div class="p-step" id="step-ai">
-        <div class="p-step-dot">🤖</div>
-        <span>AI Analysis</span>
-      </div>
-      <div class="p-step" id="step-done">
-        <div class="p-step-dot">✅</div>
-        <span>Done</span>
+        <button class="logout-btn" id="logout-link">
+          <span>Log Out</span>
+          <span class="icon">🚪</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- SCANNING ANIMATION (shown between upload and results) -->
-  <div class="scan-animation" id="scan-anim">
-    <div class="scan-ring"></div>
-    <div class="scan-text" id="scan-text">Reading your report...</div>
-    <div class="scan-subtext">Extracting values and cross-referencing medical data</div>
-    <div class="scan-dots">
-      <div class="scan-dot"></div>
-      <div class="scan-dot"></div>
-      <div class="scan-dot"></div>
+  <main>
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <div class="page-tag"><span class="dot"></span> AI-Powered Analysis</div>
+      <h1>Report <em>Analyzer</em></h1>
+      <p>Upload any medical document and our AI will decode it into clear, plain-language insights in seconds.</p>
     </div>
-  </div>
 
-  <!-- RESULTS PANEL -->
-  <div id="results">
+    <!-- UPLOAD ZONE -->
+    <div class="upload-zone" id="upload-zone">
 
-    <div class="results-header">
-      <div>
-        <div class="results-title">Your Report Summary</div>
-        <div class="results-meta" id="results-meta">Analysed just now · Complete Blood Count</div>
+      <div class="upload-icon-wrap">📋</div>
+      <h2>Drop your medical report here</h2>
+      <p>Drag &amp; drop or click to browse.<br>We'll read it so you don't have to decode the jargon.</p>
+
+      <div class="file-types">
+        <span class="file-type-pill">📄 PDF</span>
+        <span class="file-type-pill">🖼️ JPG / PNG</span>
+        <span class="file-type-pill">📝 DOCX</span>
+        <span class="file-type-pill">📊 Lab Reports</span>
+        <span class="file-type-pill">🩻 Radiology</span>
       </div>
-      <div class="results-actions">
-        <button class="action-btn" onclick="copyResults()">📋 Copy</button>
-        <button class="action-btn" onclick="downloadResults()">⬇️ Download</button>
-        <button class="action-btn primary" onclick="resetPage()">+ New Report</button>
+
+      <button class="upload-btn" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
+        📂 Choose File
+      </button>
+      <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png,.docx" style="display:none;">
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-header">
+        <span class="progress-filename" id="progress-filename">bloodtest.pdf</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="p-step" id="step-upload">
+          <div class="p-step-dot">📤</div>
+          <span>Uploading</span>
+        </div>
+        <div class="p-step" id="step-read">
+          <div class="p-step-dot">👁️</div>
+          <span>Reading</span>
+        </div>
+        <div class="p-step" id="step-ai">
+          <div class="p-step-dot">🤖</div>
+          <span>AI Analysis</span>
+        </div>
+        <div class="p-step" id="step-done">
+          <div class="p-step-dot">✅</div>
+          <span>Done</span>
+        </div>
       </div>
     </div>
 
-    <!-- SUMMARY CARD -->
-    <div class="summary-card" id="summary-card">
-      <div class="summary-label">Overall Assessment</div>
-      <div class="summary-verdict" id="summary-verdict">Mostly Normal — Minor Attention Needed</div>
-      <p class="summary-desc" id="summary-desc">
-        Your report is largely within healthy ranges. Haemoglobin and WBC levels are normal. 
-        Vitamin D and Iron are mildly low — manageable with dietary adjustments. 
-        No critical values detected.
-      </p>
-      <div class="summary-chips" id="summary-chips">
-        <span class="summary-chip">✓ Normal CBC</span>
-        <span class="summary-chip">⚠️ Low Vitamin D</span>
-        <span class="summary-chip">⚠️ Low Iron</span>
-        <span class="summary-chip">✓ Normal Glucose</span>
-      </div>
-      <div class="summary-score">
-        <div class="score-big" id="health-score-num">78</div>
-        <div class="score-sub">Health Score</div>
+    <!-- SCANNING ANIMATION (shown between upload and results) -->
+    <div class="scan-animation" id="scan-anim">
+      <div class="scan-ring"></div>
+      <div class="scan-text" id="scan-text">Reading your report...</div>
+      <div class="scan-subtext">Extracting values and cross-referencing medical data</div>
+      <div class="scan-dots">
+        <div class="scan-dot"></div>
+        <div class="scan-dot"></div>
+        <div class="scan-dot"></div>
       </div>
     </div>
 
-    <!-- METRICS GRID -->
-    <div class="section-title-row">
-      <h3>Key Values</h3>
-      <span class="section-badge" id="metric-count-badge" style="background:#e8f5e9;color:#2e7d32;">0 parameters</span>
-    </div>
-    <div class="metrics-grid" id="metrics-grid"></div>
+    <!-- RESULTS PANEL -->
+    <div id="results">
 
-    <!-- FINDINGS -->
-    <div class="section-title-row">
-      <h3>Findings</h3>
-      <span class="section-badge" id="finding-count-badge" style="background:#fff3e0;color:#e65100;">0 flagged</span>
-    </div>
-    <div class="findings-list" id="findings-list"></div>
-
-    <!-- RECOMMENDATIONS -->
-    <div class="section-title-row" style="margin-top:8px;">
-      <h3>Recommendations</h3>
-    </div>
-    <div class="rec-grid" id="rec-grid"></div>
-
-    <!-- NEXT STEPS -->
-    <div class="next-steps">
-      <div class="section-title-row" style="margin-bottom:0;">
-        <h3>Next Steps</h3>
+      <div class="results-header">
+        <div>
+          <div class="results-title">Your Report Summary</div>
+          <div class="results-meta" id="results-meta">Analysed just now · Complete Blood Count</div>
+        </div>
+        <div class="results-actions">
+          <button class="action-btn" onclick="copyResults()">📋 Copy</button>
+          <button class="action-btn" onclick="downloadResults()">⬇️ Download</button>
+          <button class="action-btn primary" onclick="resetPage()">+ New Report</button>
+        </div>
       </div>
-      <div class="step-list" id="step-list"></div>
+
+      <!-- SUMMARY CARD -->
+      <div class="summary-card" id="summary-card">
+        <div class="summary-label">Overall Assessment</div>
+        <div class="summary-verdict" id="summary-verdict">Mostly Normal — Minor Attention Needed</div>
+        <p class="summary-desc" id="summary-desc">
+          Your report is largely within healthy ranges. Haemoglobin and WBC levels are normal.
+          Vitamin D and Iron are mildly low — manageable with dietary adjustments.
+          No critical values detected.
+        </p>
+        <div class="summary-chips" id="summary-chips">
+          <span class="summary-chip">✓ Normal CBC</span>
+          <span class="summary-chip">⚠️ Low Vitamin D</span>
+          <span class="summary-chip">⚠️ Low Iron</span>
+          <span class="summary-chip">✓ Normal Glucose</span>
+        </div>
+        <div class="summary-score">
+          <div class="score-big" id="health-score-num">78</div>
+          <div class="score-sub">Health Score</div>
+        </div>
+      </div>
+
+      <!-- METRICS GRID -->
+      <div class="section-title-row">
+        <h3>Key Values</h3>
+        <span class="section-badge" id="metric-count-badge" style="background:#e8f5e9;color:#2e7d32;">0
+          parameters</span>
+      </div>
+      <div class="metrics-grid" id="metrics-grid"></div>
+
+      <!-- FINDINGS -->
+      <div class="section-title-row">
+        <h3>Findings</h3>
+        <span class="section-badge" id="finding-count-badge" style="background:#fff3e0;color:#e65100;">0 flagged</span>
+      </div>
+      <div class="findings-list" id="findings-list"></div>
+
+      <!-- RECOMMENDATIONS -->
+      <div class="section-title-row" style="margin-top:8px;">
+        <h3>Recommendations</h3>
+      </div>
+      <div class="rec-grid" id="rec-grid"></div>
+
+      <!-- NEXT STEPS -->
+      <div class="next-steps">
+        <div class="section-title-row" style="margin-bottom:0;">
+          <h3>Next Steps</h3>
+        </div>
+        <div class="step-list" id="step-list"></div>
+      </div>
+
+      <!-- DISCLAIMER -->
+      <div class="disclaimer">
+        <span class="disclaimer-icon">⚠️</span>
+        <span><strong>Medical Disclaimer:</strong> This analysis is generated by AI for informational purposes only and
+          is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified
+          healthcare provider before making any health decisions based on this report.</span>
+      </div>
+
     </div>
+    <!-- /results -->
 
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-      <span class="disclaimer-icon">⚠️</span>
-      <span><strong>Medical Disclaimer:</strong> This analysis is generated by AI for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before making any health decisions based on this report.</span>
-    </div>
+  </main>
 
-  </div>
-  <!-- /results -->
+  <div id="toast">✅ Done!</div>
 
-</main>
-
-<div id="toast">✅ Done!</div>
-
-<script src="index.js"></script>
+  <script src="index.js"></script>
 
 
-</body></html>
+</body>
+
+</html>
