@@ -106,7 +106,7 @@ exports.analyzeReport = async (req, res) => {
             ],
           },
         ],
-        model: 'llama-3.2-11b-vision-preview',
+        model: 'meta-llama/llama-4-scout-17b-16e-instruct', // Official replacement for llama-3.2-11b-vision-preview
         temperature: 0.2,
         max_tokens: 2048,
         // Note: response_format not supported for vision models
