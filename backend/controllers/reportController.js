@@ -109,7 +109,7 @@ exports.analyzeReport = async (req, res) => {
         model: 'llama-3.2-11b-vision-preview',
         temperature: 0.2,
         max_tokens: 2048,
-        response_format: { type: 'json_object' },
+        // Note: response_format not supported for vision models
       });
     } else {
       chatCompletion = await groq.chat.completions.create({
