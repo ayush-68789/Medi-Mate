@@ -305,7 +305,7 @@ const logoclick = document.querySelector(".logo-brand");
 console.log(logoclick); // should NOT be null
 
 logoclick.addEventListener("click", () => {
-  window.location.href = "/frontend/pages/dashboard/index.html";
+  window.location.href = "../home_page/index.html";
 });
 
 // Update Profile Name
