@@ -42,7 +42,7 @@ exports.analyzeSymptoms = async (req, res) => {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `My health situation is: ${userContext}. Please analyze this and provide guidance.` },
       ],
-      model: 'llama3-8b-8192', // More stable model for free tier
+      model: 'llama-3.1-8b-instant', // Latest supported stable model
       temperature: 0.5,
       max_tokens: 1024,
       response_format: { type: 'json_object' },

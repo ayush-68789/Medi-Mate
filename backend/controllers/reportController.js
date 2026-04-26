@@ -117,7 +117,7 @@ exports.analyzeReport = async (req, res) => {
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: `Here is the text extracted from a medical report. Analyze it and provide the summary in JSON format:\n\n${content}` },
         ],
-        model: 'llama3-8b-8192',
+        model: 'llama-3.1-8b-instant',
         temperature: 0.2,
         max_tokens: 2048,
         response_format: { type: 'json_object' },
