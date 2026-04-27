@@ -273,7 +273,7 @@
     if (uploadBtn) {
       uploadBtn.addEventListener("click", () => {
         // Redirect to report analyzer (placeholder for now as the page doesn't exist)
-        window.location.href = "/frontend/pages/reportAnalyzer/index.html";
+        window.location.href = "../reportAnalyzer/index.html";
       });
     }
 

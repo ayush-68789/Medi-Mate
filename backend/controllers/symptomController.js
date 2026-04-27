@@ -23,11 +23,17 @@ IMPORTANT: Respond ONLY with the JSON object. Do not include any conversational 
 exports.analyzeSymptoms = async (req, res) => {
   const { symptoms, severity, duration } = req.body;
 
-  if (!symptoms) 
-  {
+  if (!symptoms) {
     return res.status(400).json({ error: 'Symptoms are required' });
   }
 
+  if (!process.env.GROQ_API_KEY) {
+    console.error('CRITICAL: GROQ_API_KEY is missing from environment variables!');
+    return res.status(500).json({ 
+      error: 'Backend Configuration Error', 
+      details: 'GROQ_API_KEY is missing. Please check Render environment variables.' 
+    });
+  }
   try {
     const userContext = `Symptoms: ${symptoms}, Severity (1-10): ${severity || 'Not specified'}, Duration: ${duration || 'Not specified'}`;
 
@@ -36,7 +42,7 @@ exports.analyzeSymptoms = async (req, res) => {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `My health situation is: ${userContext}. Please analyze this and provide guidance.` },
       ],
-      model: 'llama-3.3-70b-versatile',
+      model: 'llama-3.1-8b-instant', // Latest supported stable model
       temperature: 0.5,
       max_tokens: 1024,
       response_format: { type: 'json_object' },
@@ -47,7 +53,10 @@ exports.analyzeSymptoms = async (req, res) => {
 
     res.json(analysis);
   } catch (error) {
-    console.error('Groq API Error:', error);
-    res.status(500).json({ error: 'Failed to analyze symptoms. Please try again later.' });
+    console.error('Groq API Error Details:', error.message || error);
+    res.status(500).json({ 
+      error: 'Failed to analyze symptoms.', 
+      details: error.message 
+    });
   }
 };

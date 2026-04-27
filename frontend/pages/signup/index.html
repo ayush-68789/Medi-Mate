@@ -1,60 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Medi-Mate — Home</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="modal-overlay">
-    <div class="signin-card">
+    <div class="modal-overlay">
+        <div class="signin-card">
 
-        <!-- LOGO -->
-        <a href="../home_page/index.html" class="logo-brand">
-            <div class="logo-icon">
-                <img src="../../assets/logo.jpeg" alt="logo">
-            </div>
-            <span class="brand-name">Medi-Mate</span>
-        </a>
+            <!-- LOGO -->
+            <a href="../home_page/index.html" class="logo-brand">
+                <div class="logo-icon">
+                    <img src="../../assets/logo.jpeg" alt="logo">
+                </div>
+                <span class="brand-name">Medi-Mate</span>
+            </a>
 
-        <h1 class="signin-title">Sign up</h1>
-        <p class="account-prompt">
-            or <a href="../signin/index.html">sign in to your account</a>
-        </p>
+            <h1 class="signin-title">Sign up</h1>
+            <p class="account-prompt">
+                or <a href="../signin/index.html">sign in to your account</a>
+            </p>
 
-        <!-- FORM -->
-        <form id="signUpForm">
+            <!-- FORM -->
+            <form id="signUpForm">
 
-            <div class="input-container">
-                <input id="username" type="text" placeholder="Full Name" required>
-            </div>
+                <div class="input-container">
+                    <input id="username" type="text" placeholder="Full Name" required>
+                </div>
 
-            <div class="input-container">
-                <input id="email" type="email" placeholder="Email" required>
-            </div>
+                <div class="input-container">
+                    <input id="email" type="email" placeholder="Email" required>
+                </div>
 
-            <div class="input-container">
-                <input id="password" type="password" placeholder="Password" required>
-            </div>
+                <div class="input-container">
+                    <input id="password" type="password" placeholder="Password" required>
+                </div>
 
-            <div class="input-container">
-                <input id="confirmPassword" type="password" placeholder="Confirm Password" required>
-            </div>
+                <div class="input-container">
+                    <input id="confirmPassword" type="password" placeholder="Confirm Password" required>
+                </div>
 
-            <!-- FIXED BUTTON -->
-            <button type="submit" class="btn-primary">Register</button>
+                <!-- FIXED BUTTON -->
+                <button type="submit" class="btn-primary">Register</button>
 
-            <!-- MESSAGE -->
-            <p id="msg"></p>
+                <!-- MESSAGE -->
+                <p id="msg"></p>
 
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<script src="app.js"></script>
+    <script src="../../assets/config.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>

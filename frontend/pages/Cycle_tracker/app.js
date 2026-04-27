@@ -1,10 +1,10 @@
-const AVG_CYCLE   = 28;   // days
-const AVG_PERIOD  = 5;    // days
+const AVG_CYCLE = 28;   // days
+const AVG_PERIOD = 5;    // days
 const FERTILE_BEFORE_OVULATION = 5;
 const OVULATION_DAY = 14; // days before next period
 
 let viewDate = new Date();
-let cycles   = [];
+let cycles = [];
 
 /* ── BACKGROUND PARTICLES ── */
 (function initParticles() {
@@ -16,9 +16,9 @@ let cycles   = [];
     const size = 60 + Math.random() * 120;
     p.style.cssText = `
       width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      animation-duration:${10 + Math.random()*15}s;
-      animation-delay:${Math.random()*10}s;
+      left:${Math.random() * 100}%;
+      animation-duration:${10 + Math.random() * 15}s;
+      animation-delay:${Math.random() * 10}s;
     `;
     pContainer.appendChild(p);
   }
@@ -47,19 +47,19 @@ const logoutMenu = document.getElementById('logout-menu');
 const logoutLink = document.getElementById('logout-link');
 
 if (profileTrigger && logoutMenu) {
-  profileTrigger.addEventListener('click', function(e) {
+  profileTrigger.addEventListener('click', function (e) {
     e.stopPropagation();
     logoutMenu.classList.toggle('show');
   });
 
   // Click anywhere else to close
-  document.addEventListener('click', function() {
+  document.addEventListener('click', function () {
     logoutMenu.classList.remove('show');
   });
 }
 
 if (logoutLink) {
-  logoutLink.addEventListener('click', function(e) {
+  logoutLink.addEventListener('click', function (e) {
     e.stopPropagation();
     localStorage.clear();
     sessionStorage.clear();
@@ -75,7 +75,7 @@ function getToken() {
 
 async function loadCycles() {
   try {
-    const res = await fetch('http://localhost:3000/api/cycles', {
+    const res = await fetch(`${window.CONFIG.API_BASE_URL}/api/cycles`, {
       headers: { 'Authorization': 'Bearer ' + getToken() }
     });
     cycles = await res.json();
@@ -88,8 +88,8 @@ async function loadCycles() {
 
 async function saveCycle(start, end) {
   try {
-        console.log("TOKEN:", getToken());
-    const res = await fetch('http://localhost:3000/api/cycles', {
+    console.log("TOKEN:", getToken());
+    const res = await fetch(`${window.CONFIG.API_BASE_URL}/api/cycles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ async function saveCycle(start, end) {
       },
       body: JSON.stringify({ start: start, end: end || null })
     });
-        if (!res.ok) {
+    if (!res.ok) {
       throw new Error('Failed to save');
     }
     const saved = await res.json();
@@ -113,11 +113,11 @@ async function saveCycle(start, end) {
 // ── Delete a cycle ────────────────────────────
 async function deleteCycleById(id) {
   try {
-    await fetch('http://localhost:3000/api/cycles/' + id, {
+    await fetch(`${window.CONFIG.API_BASE_URL}/api/cycles/` + id, {
       method: 'DELETE',
       headers: { 'Authorization': 'Bearer ' + getToken() }
     });
-    cycles = cycles.filter(function(c) { return c._id !== id; });
+    cycles = cycles.filter(function (c) { return c._id !== id; });
   } catch (err) {
     console.error('Could not delete cycle:', err);
     showToast('Error deleting. Please try again.');
@@ -155,7 +155,7 @@ function monthName(date) {
 
 function getLastCycle() {
   if (!cycles.length) return null;
-  return cycles.slice().sort(function(a, b) {
+  return cycles.slice().sort(function (a, b) {
     return b.start.localeCompare(a.start);
   })[0];
 }
@@ -170,7 +170,7 @@ function getNextPeriodDate() {
 
 function getActualPeriodDates() {
   const dates = new Set();
-  cycles.forEach(function(cycle) {
+  cycles.forEach(function (cycle) {
     const s = parseDate(cycle.start);
     const e = cycle.end ? parseDate(cycle.end) : addDays(s, AVG_PERIOD - 1);
     let cur = new Date(s);
@@ -188,13 +188,13 @@ function updateSummary() {
 
   if (!last) {
     document.getElementById('currentPhase').textContent = 'Unknown';
-    document.getElementById('dayOfCycle').textContent   = '—';
+    document.getElementById('dayOfCycle').textContent = '—';
   } else {
-    const today     = new Date();
+    const today = new Date();
     today.setHours(0, 0, 0, 0);
     const startDate = parseDate(last.start);
-    const endDate   = last.end ? parseDate(last.end) : addDays(startDate, AVG_PERIOD - 1);
-    const dayNum    = diffDays(startDate, today) + 1;
+    const endDate = last.end ? parseDate(last.end) : addDays(startDate, AVG_PERIOD - 1);
+    const dayNum = diffDays(startDate, today) + 1;
 
     let phase = 'Luteal';
     if (today >= startDate && today <= endDate) phase = 'Menstruation';
@@ -202,33 +202,33 @@ function updateSummary() {
     else if (dayNum === 14) phase = 'Ovulation';
 
     document.getElementById('currentPhase').textContent = phase;
-    document.getElementById('dayOfCycle').textContent   = dayNum > 0 ? 'Day ' + dayNum + ' of cycle' : '—';
+    document.getElementById('dayOfCycle').textContent = dayNum > 0 ? 'Day ' + dayNum + ' of cycle' : '—';
   }
 
   // Next period
   const nextDate = getNextPeriodDate();
   if (nextDate) {
-    const today    = new Date();
+    const today = new Date();
     today.setHours(0, 0, 0, 0);
     const daysAway = diffDays(today, nextDate);
-    document.getElementById('nextPeriodVal').textContent  = formatShort(nextDate);
+    document.getElementById('nextPeriodVal').textContent = formatShort(nextDate);
     document.getElementById('nextPeriodDays').textContent = daysAway >= 0
       ? daysAway + ' days away'
       : 'Overdue';
   } else {
-    document.getElementById('nextPeriodVal').textContent  = '—';
+    document.getElementById('nextPeriodVal').textContent = '—';
     document.getElementById('nextPeriodDays').textContent = 'Log a period first';
   }
 
   // Cycle length & period duration averages
   if (cycles.length >= 2) {
-    const sorted = cycles.slice().sort(function(a, b) { return a.start.localeCompare(b.start); });
+    const sorted = cycles.slice().sort(function (a, b) { return a.start.localeCompare(b.start); });
     let totalCycle = 0, totalDur = 0;
 
     for (let i = 1; i < sorted.length; i++) {
-      totalCycle += diffDays(parseDate(sorted[i-1].start), parseDate(sorted[i].start));
+      totalCycle += diffDays(parseDate(sorted[i - 1].start), parseDate(sorted[i].start));
     }
-    sorted.forEach(function(c) {
+    sorted.forEach(function (c) {
       const s = parseDate(c.start);
       const e = c.end ? parseDate(c.end) : addDays(s, AVG_PERIOD - 1);
       totalDur += diffDays(s, e) + 1;
@@ -236,14 +236,14 @@ function updateSummary() {
 
     const avgC = Math.round(totalCycle / (sorted.length - 1));
     const avgD = Math.round(totalDur / sorted.length);
-    document.getElementById('cycleLength').innerHTML   = avgC + ' <span>days</span>';
+    document.getElementById('cycleLength').innerHTML = avgC + ' <span>days</span>';
     document.getElementById('periodDuration').innerHTML = avgD + ' <span>days</span>';
   }
 }
 
 // ── Update predictions panel ──────────────────
 function updatePredictions() {
-  const list     = document.getElementById('predictionList');
+  const list = document.getElementById('predictionList');
   list.innerHTML = '';
 
   const nextDate = getNextPeriodDate();
@@ -252,37 +252,37 @@ function updatePredictions() {
     return;
   }
 
-  const today    = new Date();
+  const today = new Date();
   today.setHours(0, 0, 0, 0);
   const daysAway = diffDays(today, nextDate);
 
-  const ovulation    = addDays(nextDate, -OVULATION_DAY);
+  const ovulation = addDays(nextDate, -OVULATION_DAY);
   const fertileStart = addDays(ovulation, -FERTILE_BEFORE_OVULATION);
-  const fertileEnd   = addDays(ovulation, 1);
+  const fertileEnd = addDays(ovulation, 1);
 
   const items = [
     {
       icon: '🩸', iconClass: 'period-icon',
       label: 'Next Period',
-      date:  formatShort(nextDate) + ' — ' + formatShort(addDays(nextDate, AVG_PERIOD - 1)),
+      date: formatShort(nextDate) + ' — ' + formatShort(addDays(nextDate, AVG_PERIOD - 1)),
       badge: daysAway >= 0 ? 'in ' + daysAway + 'd' : 'Overdue'
     },
     {
       icon: '🌸', iconClass: 'fertile-icon',
       label: 'Fertile Window',
-      date:  formatShort(fertileStart) + ' — ' + formatShort(fertileEnd),
+      date: formatShort(fertileStart) + ' — ' + formatShort(fertileEnd),
       badge: 'Est.'
     }
   ];
 
-  items.forEach(function(item) {
+  items.forEach(function (item) {
     const el = document.createElement('div');
     el.className = 'pred-item';
     el.innerHTML =
       '<div class="pred-icon ' + item.iconClass + '">' + item.icon + '</div>' +
       '<div class="pred-info">' +
-        '<p class="pred-label">' + item.label + '</p>' +
-        '<p class="pred-date">'  + item.date  + '</p>' +
+      '<p class="pred-label">' + item.label + '</p>' +
+      '<p class="pred-date">' + item.date + '</p>' +
       '</div>' +
       '<span class="pred-badge">' + item.badge + '</span>';
     list.appendChild(el);
@@ -291,11 +291,11 @@ function updatePredictions() {
 
 // ── Update period history list ────────────────
 function updateHistory() {
-  const historyList  = document.getElementById('historyList');
+  const historyList = document.getElementById('historyList');
   const historyEmpty = document.getElementById('historyEmpty');
   historyList.innerHTML = '';
 
-  const sorted = cycles.slice().sort(function(a, b) { return b.start.localeCompare(a.start); });
+  const sorted = cycles.slice().sort(function (a, b) { return b.start.localeCompare(a.start); });
 
   if (!sorted.length) {
     historyEmpty.style.display = 'block';
@@ -303,16 +303,16 @@ function updateHistory() {
   }
   historyEmpty.style.display = 'none';
 
-  sorted.forEach(function(cycle) {
-    const s   = parseDate(cycle.start);
-    const e   = cycle.end ? parseDate(cycle.end) : addDays(s, AVG_PERIOD - 1);
+  sorted.forEach(function (cycle) {
+    const s = parseDate(cycle.start);
+    const e = cycle.end ? parseDate(cycle.end) : addDays(s, AVG_PERIOD - 1);
     const dur = diffDays(s, e) + 1;
 
     const li = document.createElement('li');
     li.className = 'history-item';
     li.innerHTML =
       '<div class="history-dates">' +
-        '<strong>' + formatShort(s) + '</strong> → ' + formatShort(e) +
+      '<strong>' + formatShort(s) + '</strong> → ' + formatShort(e) +
       '</div>' +
       '<span class="history-duration">' + dur + 'd</span>' +
       '<button class="history-del" data-id="' + cycle._id + '" title="Delete">×</button>';
@@ -320,8 +320,8 @@ function updateHistory() {
   });
 
   // Delete buttons
-  historyList.querySelectorAll('.history-del').forEach(function(btn) {
-    btn.addEventListener('click', async function() {
+  historyList.querySelectorAll('.history-del').forEach(function (btn) {
+    btn.addEventListener('click', async function () {
       await deleteCycleById(btn.dataset.id);
       refresh();
       showToast('Period entry removed.');
@@ -333,19 +333,19 @@ function updateHistory() {
 function buildCalendar() {
   document.getElementById('calMonthLabel').textContent = monthName(viewDate);
 
-  const calGrid     = document.getElementById('calGrid');
+  const calGrid = document.getElementById('calGrid');
   calGrid.innerHTML = '';
 
-  const year        = viewDate.getFullYear();
-  const month       = viewDate.getMonth();
-  const firstDay    = new Date(year, month, 1).getDay();
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const actualDates = getActualPeriodDates();
-  const nextDate    = getNextPeriodDate();
+  const nextDate = getNextPeriodDate();
 
   // Predicted period dates
   const predictedDates = new Set();
@@ -373,50 +373,50 @@ function buildCalendar() {
 
   // Day cells
   for (let d = 1; d <= daysInMonth; d++) {
-    const date    = new Date(year, month, d);
+    const date = new Date(year, month, d);
     const dateISO = toISO(date);
-    const div     = document.createElement('div');
+    const div = document.createElement('div');
 
     let classes = 'cal-day';
     if (date.getTime() === today.getTime()) classes += ' today';
-    if (actualDates.has(dateISO))           classes += ' period';
-    else if (predictedDates.has(dateISO))   classes += ' predicted';
-    else if (fertileDates.has(dateISO))     classes += ' fertile';
+    if (actualDates.has(dateISO)) classes += ' period';
+    else if (predictedDates.has(dateISO)) classes += ' predicted';
+    else if (fertileDates.has(dateISO)) classes += ' fertile';
 
-    div.className   = classes;
+    div.className = classes;
     div.textContent = d;
     calGrid.appendChild(div);
   }
 }
 
 // ── Log Period form ───────────────────────────
-document.getElementById('logBtn').addEventListener('click', function() {
+document.getElementById('logBtn').addEventListener('click', function () {
   const logCard = document.getElementById('logCard');
   logCard.classList.toggle('visible');
   if (logCard.classList.contains('visible')) {
     document.getElementById('startDate').value = toISO(new Date());
-    document.getElementById('endDate').value   = toISO(addDays(new Date(), AVG_PERIOD - 1));
+    document.getElementById('endDate').value = toISO(addDays(new Date(), AVG_PERIOD - 1));
   }
 });
 
-document.getElementById('cancelLog').addEventListener('click', function() {
+document.getElementById('cancelLog').addEventListener('click', function () {
   document.getElementById('logCard').classList.remove('visible');
 });
 
-document.getElementById('savePeriod').addEventListener('click', async function() {
+document.getElementById('savePeriod').addEventListener('click', async function () {
   const start = document.getElementById('startDate').value;
-  const end   = document.getElementById('endDate').value;
+  const end = document.getElementById('endDate').value;
 
   if (!start) { showToast('Please enter a start date.'); return; }
   if (end && end < start) { showToast('End date must be after start date.'); return; }
 
-  const btn       = document.getElementById('savePeriod');
-  btn.disabled    = true;
+  const btn = document.getElementById('savePeriod');
+  btn.disabled = true;
   btn.textContent = 'Saving…';
 
   const ok = await saveCycle(start, end);
 
-  btn.disabled    = false;
+  btn.disabled = false;
   btn.textContent = 'Save';
 
   if (ok) {
@@ -427,12 +427,12 @@ document.getElementById('savePeriod').addEventListener('click', async function()
 });
 
 // ── Calendar navigation ───────────────────────
-document.getElementById('prevMonth').addEventListener('click', function() {
+document.getElementById('prevMonth').addEventListener('click', function () {
   viewDate.setMonth(viewDate.getMonth() - 1);
   buildCalendar();
 });
 
-document.getElementById('nextMonth').addEventListener('click', function() {
+document.getElementById('nextMonth').addEventListener('click', function () {
   viewDate.setMonth(viewDate.getMonth() + 1);
   buildCalendar();
 });
@@ -444,7 +444,7 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(function() {
+  toastTimer = setTimeout(function () {
     toast.classList.remove('show');
   }, 3000);
 }

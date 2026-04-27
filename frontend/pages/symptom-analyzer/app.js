@@ -163,7 +163,7 @@ async function runAnalysis(symptoms, severity, duration) {
     analyzeFinalBtn.disabled = true;
 
     try {
-        const response = await fetch('http://localhost:3000/api/analyze', {
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/api/analyze`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ symptoms, severity, duration })
@@ -172,7 +172,7 @@ async function runAnalysis(symptoms, severity, duration) {
         if (!response.ok) throw new Error('Failed to fetch analysis');
 
         const data = await response.json();
-        
+
         // Store data including inputs for the results page
         sessionStorage.setItem('latestAnalysis', JSON.stringify({
             ...data,
@@ -201,7 +201,7 @@ if (pContainer) {
         const size = 60 + Math.random() * 120;
         p.style.cssText = `
             width:${size}px; height:${size}px;
-            left:${Math.random()*100}%;
+            left:${Math.random() * 100}%;
             animation-duration:${8 + Math.random() * 14}s;
             animation-delay:${Math.random() * 10}s;
         `;

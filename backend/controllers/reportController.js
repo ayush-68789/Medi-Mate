@@ -106,10 +106,10 @@ exports.analyzeReport = async (req, res) => {
             ],
           },
         ],
-        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+        model: 'meta-llama/llama-4-scout-17b-16e-instruct', // Official replacement for llama-3.2-11b-vision-preview
         temperature: 0.2,
         max_tokens: 2048,
-        response_format: { type: 'json_object' },
+        // Note: response_format not supported for vision models
       });
     } else {
       chatCompletion = await groq.chat.completions.create({
@@ -117,7 +117,7 @@ exports.analyzeReport = async (req, res) => {
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: `Here is the text extracted from a medical report. Analyze it and provide the summary in JSON format:\n\n${content}` },
         ],
-        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+        model: 'llama-3.1-8b-instant',
         temperature: 0.2,
         max_tokens: 2048,
         response_format: { type: 'json_object' },
@@ -128,20 +128,22 @@ exports.analyzeReport = async (req, res) => {
     
     let analysis;
     try {
-      // Clean potential markdown backticks from AI response
       const cleanedJSON = responseContent.replace(/```json\n?|```/g, '').trim();
       analysis = JSON.parse(cleanedJSON);
     } catch (parseError) {
       console.error('AI Response Parsing Error:', parseError);
-      console.error('Raw AI Response:', responseContent);
       return res.status(500).json({ 
-        error: 'AI returned an unreadable report format. Please ensure your upload is clear or try again.' 
+        error: 'AI returned an unreadable report format.',
+        details: parseError.message
       });
     }
 
     res.json(analysis);
   } catch (error) {
-    console.error('Report Analysis Error:', error);
-    res.status(500).json({ error: 'Failed to analyze the report. Please ensure the file is clear and try again.' });
+    console.error('Report Analysis Error Details:', error.message || error);
+    res.status(500).json({ 
+      error: 'Failed to analyze the report.',
+      details: error.message 
+    });
   }
 };

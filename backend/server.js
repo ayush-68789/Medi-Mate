@@ -11,19 +11,24 @@ const authRoutes = require('./routes/auth');
 dotenv.config();
 connectDB();
 
+// Handle CORS
 app.use(cors());
 app.use(express.json());
+
+// Root URL check
+app.get('/', (req, res) => {
+  res.send('Medi-Mate API is running...');
+});
 
 // Routes
 app.use('/api', symptomRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/cycles', cycleRoutes);  
+app.use('/api/cycles', cycleRoutes);
 
-// Serve static files from the root directory
+// Serve static files
 const path = require('path');
 app.use(express.static(path.join(__dirname, '../')));
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Medi-Mate Backend listening at ${port}`);
